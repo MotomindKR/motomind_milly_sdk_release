@@ -1,0 +1,1430 @@
+<?xml version="1.0" ?>
+<robot name="MILLY">
+  <material name="default_material">
+    <color rgba="0.7 0.7 0.72 1"/>
+  </material>
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-1.8874202e-06 -0.052548197 0.049750702" rpy="0 0 0"/>
+      <mass value="0.41430094"/>
+      <inertia ixx="0.00091328113" ixy="-3.3016852e-08" ixz="1.6326392e-08" iyy="0.00066973613" iyz="-1.3947945e-05" izz="0.0012486106"/>
+    </inertial>
+    <visual name="Base_Mount.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/base_link__000__Base_Mount.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Connector Cnlinko LP-20 4 poles.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/base_link__001__Connector_Cnlinko_LP-20_4_poles.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="bello_arm_entry_PCB_L2(101).1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/base_link__002__bello_arm_entry_PCB_L2_101_.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/collision/base_link.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="link_1">
+    <inertial>
+      <origin xyz="0.001219 2.2e-05 0.011275" rpy="0 0 0"/>
+      <mass value="1.1339212"/>
+      <inertia ixx="0.001697409" ixy="9.1974456e-07" ixz="0.00011738059" iyy="0.0017432771" iyz="1.0021562e-06" izz="0.0010438341"/>
+    </inertial>
+    <visual name="AL5_J2_INNER_FRAME.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_1__000__AL5_J2_INNER_FRAME.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="RS06.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_1__001__RS06.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL1_J1_TOP_BRKT.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_1__002__AL1_J1_TOP_BRKT.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/collision/link_1.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="link_2">
+    <inertial>
+      <origin xyz="0.061828 0.022704 0.102155" rpy="0 0 0"/>
+      <mass value="2.3172244"/>
+      <inertia ixx="0.0034679974" ixy="-0.0035676555" ixz="-0.00057045639" iyy="0.027820779" iyz="-7.3794509e-05" izz="0.028739723"/>
+    </inertial>
+    <visual name="=&gt;[0:1:1:8]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__000_____0_1_1_8_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:9]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__001_____0_1_1_9_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_2_04_680902_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__002__1_2_04_680902_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_2_04_635000">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__003__1_2_04_635000.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_3_03_000357">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__004__1_3_03_000357.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:30]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__005_____0_1_1_30_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:31]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__006_____0_1_1_31_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_2_06_000004">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__007__1_2_06_000004.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_2_04_690008">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__008__1_2_04_690008.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:35]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__009_____0_1_1_35_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:36]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__010_____0_1_1_36_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:38]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__011_____0_1_1_38_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:39]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__012_____0_1_1_39_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:38]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__013_____0_1_1_38_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:39]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__014_____0_1_1_39_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:38]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__015_____0_1_1_38_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:39]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__016_____0_1_1_39_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:38]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__017_____0_1_1_38_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:39]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__018_____0_1_1_39_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_2_04_694000">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__019__1_2_04_694000.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_1_11_MG80-S003">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__020__1_1_11_MG80-S003.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_1_11_MG80-S003_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__021__1_1_11_MG80-S003_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:43]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__022_____0_1_1_43_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:44]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__023_____0_1_1_44_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:43]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__024_____0_1_1_43_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:44]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__025_____0_1_1_44_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:43]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__026_____0_1_1_43_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:44]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__027_____0_1_1_44_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_1_06_EB903-538">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__028__1_1_06_EB903-538.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_2_05_020108">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__029__1_2_05_020108.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_2_05_020108_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__030__1_2_05_020108_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_2_05_020108_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__031__1_2_05_020108_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="1_2_05_020108_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__032__1_2_05_020108_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="PLA1_RS03_SPACER.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__033__PLA1_RS03_SPACER.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL4_J2_TOP_BRKT.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__034__AL4_J2_TOP_BRKT.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="6705_Bearing.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__035__6705_Bearing.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL3_J2_J3_BTM_BRKT.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__036__AL3_J2_J3_BTM_BRKT.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL6_J2_OUTER_FRAME_R.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__037__AL6_J2_OUTER_FRAME_R.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL7_J2_OUTER_FRAME_L.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__038__AL7_J2_OUTER_FRAME_L.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Part1.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__039__Part1.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Axis1_Cover_R.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_2__040__Axis1_Cover_R.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/collision/link_2.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="link_3">
+    <inertial>
+      <origin xyz="-0.016592 -0.002479 0.028597" rpy="0 0 0"/>
+      <mass value="1.3607867"/>
+      <inertia ixx="0.0031294059" ixy="-0.00061818167" ixz="6.6736715e-06" iyy="0.0012291329" iyz="1.5809403e-05" izz="0.0034888352"/>
+    </inertial>
+    <visual name="PLA2_RS06_SPACER.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_3__000__PLA2_RS06_SPACER.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="RS06.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_3__001__RS06.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL_BEARING_B_MOUNT.2">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_3__002__AL_BEARING_B_MOUNT.2.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL8_J3_TOP_BRKT.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_3__003__AL8_J3_TOP_BRKT.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="6705_Bearing.2">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_3__004__6705_Bearing.2.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL9_J2_INNER_FRAME_R.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_3__005__AL9_J2_INNER_FRAME_R.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL10_J2_INNER_FRAME_L.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_3__006__AL10_J2_INNER_FRAME_L.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Part2.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_3__007__Part2.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Part2.2">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_3__008__Part2.2.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/collision/link_3.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="link_4">
+    <inertial>
+      <origin xyz="-0.008857 0.013384 0.038717" rpy="0 0 0"/>
+      <mass value="0.49946308"/>
+      <inertia ixx="0.00038978018" ixy="2.1808617e-08" ixz="1.0912492e-05" iyy="0.00041075775" iyz="3.1728652e-07" izz="0.00025833691"/>
+    </inertial>
+    <visual name="RS00.2">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_4__000__RS00.2.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL12_J4_BTM_OUTER_LIMITER.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_4__001__AL12_J4_BTM_OUTER_LIMITER.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL13_J4_TOP_BRKT.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_4__002__AL13_J4_TOP_BRKT.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL14_J5_OUTER_FRAME.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_4__003__AL14_J5_OUTER_FRAME.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL11_J4_BTM_BRTKT.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_4__004__AL11_J4_BTM_BRTKT.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/collision/link_4.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="link_5">
+    <inertial>
+      <origin xyz="-0.031198 0.006401 0.018406" rpy="0 0 0"/>
+      <mass value="0.76289173"/>
+      <inertia ixx="0.00053205933" ixy="-5.0721736e-07" ixz="1.8181596e-05" iyy="0.0013667981" iyz="8.0608112e-07" izz="0.0011923774"/>
+    </inertial>
+    <visual name="RS00.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__000__RS00.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="C-E6704ZZ.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__001__C-E6704ZZ.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="PLA3_RS00_SPACER.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__002__PLA3_RS00_SPACER.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL19_J5_TOP_BRKT.1.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__003__AL19_J5_TOP_BRKT.1.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL18_J5_BTM_BRKT.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__004__AL18_J5_BTM_BRKT.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="_X2_9F7F5708_X0_">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__005___X2_9F7F5708_X0_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="_X2_8F74627F_X0_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__006___X2_8F74627F_X0_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="_X2_8F9351FA8F74_X0_">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__007___X2_8F9351FA8F74_X0_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="_X2_8F749500_X0_">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__008___X2_8F749500_X0_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="00_1-4459">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__009__00_1-4459.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="00_1-4459_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__010__00_1-4459_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="_X2_8F74627F_X0_2">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__011___X2_8F74627F_X0_2.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="_X2_57AB7247_X0_">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__012___X2_57AB7247_X0_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="00_1-5178">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__013__00_1-5178.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="00_1-5178_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__014__00_1-5178_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="_X2_53617C27_X0_">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__015___X2_53617C27_X0_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="_X2_673A58F3_X0_">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__016___X2_673A58F3_X0_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="_X2_540E76D6677F_X0_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__017___X2_540E76D6677F_X0_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="PRT0001">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__018__PRT0001.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="LUOSI_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__019__LUOSI_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="LUOSI_1_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__020__LUOSI_1_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="LUOSI_1_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__021__LUOSI_1_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="LUOSI_1_1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__022__LUOSI_1_1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="AL15_J5_OUTER_FRAME.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__023__AL15_J5_OUTER_FRAME.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Axis6_Limit_Frame.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__024__Axis6_Limit_Frame.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Arm_End_Plate.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__025__Arm_End_Plate.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Part3.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__026__Part3.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:139]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__027_____0_1_1_139_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:140]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__028_____0_1_1_140_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Axis5_Cover_R.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__029__Axis5_Cover_R.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Part89.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_5__030__Part89.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/collision/link_5.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="link_6">
+    <inertial>
+      <origin xyz="-0.002662 -0.026948 -0.13274" rpy="0 0 0"/>
+      <mass value="0.25140424"/>
+      <inertia ixx="0.00068524091" ixy="2.3020303e-05" ixz="-1.0620021e-05" iyy="0.0004424456" iyz="0.00011231213" izz="0.00072672297"/>
+    </inertial>
+    <visual name="NAUO14">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__000__NAUO14.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO16">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__001__NAUO16.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO22">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__002__NAUO22.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO19">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__003__NAUO19.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO20">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__004__NAUO20.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO17">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__005__NAUO17.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO6">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__006__NAUO6.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO8">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__007__NAUO8.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO23">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__008__NAUO23.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO11">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__009__NAUO11.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO15">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__010__NAUO15.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO29">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__011__NAUO29.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO21">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__012__NAUO21.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO30">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__013__NAUO30.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO12">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__014__NAUO12.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO9">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__015__NAUO9.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO26">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__016__NAUO26.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO10">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__017__NAUO10.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO28">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__018__NAUO28.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO3">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__019__NAUO3.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO18">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__020__NAUO18.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO34">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__021__NAUO34.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO33">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__022__NAUO33.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO39">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__023__NAUO39.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO38">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__024__NAUO38.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO36">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__025__NAUO36.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO37">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__026__NAUO37.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO4">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__027__NAUO4.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO25">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__028__NAUO25.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO24">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__029__NAUO24.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO5">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__030__NAUO5.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO7">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__031__NAUO7.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO27">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__032__NAUO27.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="NAUO13">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__033__NAUO13.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Part1.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__034__Part1.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Instance_1.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__035__Instance_1.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Instance_2.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__036__Instance_2.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Instance_3.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__037__Instance_3.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Part1.2">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__038__Part1.2.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Gripper_SwingArm.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__039__Gripper_SwingArm.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Gripper_SwingArm.2">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__040__Gripper_SwingArm.2.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:129]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__041_____0_1_1_129_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="=&gt;[0:1:1:130]">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__042_____0_1_1_130_.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="USB_CAMERA_BRACKET.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__043__USB_CAMERA_BRACKET.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <visual name="Part1.3">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/link_6__044__Part1.3.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/collision/link_6.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="finger_1">
+    <inertial>
+      <origin xyz="-0.005194708 -0.00075891759 -0.037183623" rpy="0 0 0"/>
+      <mass value="0.057499098"/>
+      <inertia ixx="4.0813076e-05" ixy="4.3352204e-07" ixz="-4.2725828e-06" iyy="3.7529256e-05" iyz="2.1728211e-07" izz="6.4511331e-06"/>
+    </inertial>
+    <visual name="Gripper_Finger.1">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/finger_1__000__Gripper_Finger.1.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/collision/finger_1.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <link name="finger_2">
+    <inertial>
+      <origin xyz="0.005194708 0.00075891759 -0.037183623" rpy="0 0 0"/>
+      <mass value="0.057499098"/>
+      <inertia ixx="4.0813076e-05" ixy="4.3352204e-07" ixz="4.2725828e-06" iyy="3.7529256e-05" iyz="-2.1728211e-07" izz="6.4511331e-06"/>
+    </inertial>
+    <visual name="Gripper_Finger.2">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/visual/parts/finger_2__000__Gripper_Finger.2.stl"/>
+      </geometry>
+      <material name="default_material">
+        <color rgba="0.7 0.7 0.72 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://milly_description/meshes/collision/finger_2.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="joint_1" type="revolute">
+    <parent link="base_link"/>
+    <child link="link_1"/>
+    <origin xyz="0 -0.0375 0.072" rpy="3.1415927 -0 3.3306691e-16"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-2.72" upper="2.72" effort="100" velocity="3.1416"/>
+  </joint>
+  <joint name="joint_2" type="revolute">
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <origin xyz="0.097892511 3.9308472e-07 -0.066000163" rpy="1.5707963 1.725559e-06 -1.5707963"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.10" upper="3.24" effort="100" velocity="3.1416"/>
+  </joint>
+  <joint name="joint_3" type="revolute">
+    <parent link="link_2"/>
+    <child link="link_3"/>
+    <origin xyz="-0.2908564 -0.073500339 0.12589251" rpy="-3.1415927 1.5446581e-15 -2.0943934"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.10" upper="3.07" effort="80" velocity="3.1416"/>
+  </joint>
+  <joint name="joint_4" type="revolute">
+    <parent link="link_3"/>
+    <child link="link_4"/>
+    <origin xyz="-0.081458652 -0.19444951 0.028" rpy="-1.5707963 -1.5266166 -0.52359878"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.85" upper="1.85" effort="50" velocity="3.1416"/>
+  </joint>
+  <joint name="joint_5" type="revolute">
+    <parent link="link_4"/>
+    <child link="link_5"/>
+    <origin xyz="-0.0235 1.4210855e-16 -0.0495" rpy="3.1415927 -1.5707963 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.87" upper="1.92" effort="30" velocity="3.1416"/>
+  </joint>
+  <joint name="joint_6" type="revolute">
+    <parent link="link_5"/>
+    <child link="link_6"/>
+    <origin xyz="-0.068805556 -0.0019338747 0.023565267" rpy="-1.5707963 1.4354332 -1.5707963"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.60" upper="1.60" effort="20" velocity="3.1416"/>
+  </joint>
+  <joint name="finger_1_joint" type="prismatic">
+    <parent link="link_6"/>
+    <child link="finger_1"/>
+    <origin xyz="0.06552811 0.0081136605 -0.11519444" rpy="0 -0 6.0247715e-18"/>
+    <axis xyz="0.99584567 0.091057081 0"/>
+    <limit lower="-0.02" upper="0.03" effort="20" velocity="0.1"/>
+  </joint>
+  <joint name="finger_2_joint" type="prismatic">
+    <parent link="link_6"/>
+    <child link="finger_2"/>
+    <origin xyz="-0.065921114 -0.0042637112 -0.11519444" rpy="0 -0 6.0247715e-18"/>
+    <axis xyz="-0.99584567 -0.091057081 0"/>
+    <limit lower="-0.02" upper="0.03" effort="20" velocity="0.1"/>
+  </joint>
+</robot>

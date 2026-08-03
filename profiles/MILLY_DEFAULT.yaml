@@ -1,0 +1,82 @@
+# Bundled DEFAULT tuning — the BASE layer that EVERY robot inherits.
+#
+# Each robot's <PRODUCT_ID>.yaml is overlaid on top of this file key-by-key, so
+# a robot file only lists what DIFFERS from here; any key or section it omits is
+# inherited from this file (so a safety feature can't go silently missing). A
+# robot with no file of its own uses these defaults as-is.
+#
+#   1. find the ID:   .venv/bin/motomind-milly-robots   ->  e.g. MILLY_6TG5
+#   2. create it:     <this profiles dir>/MILLY_6TG5.yaml  with ONLY the keys
+#                     you want to change from the defaults below
+#   3. open in code:  arm = motomind_milly.create_arm("MILLY_6TG5")
+#
+# More robots = more files (MILLY_A1B2.yaml, ...) in this same profiles dir.
+# A different location can be set with the MOTOMIND_CONFIG_DIR env var.
+#
+# Only the keys below may be set. Anything else (motor ids, directions,
+# limits, safety values) lives in the SDK's bundled canonical config and is
+# rejected here at load time.
+
+motion:
+  # Per-joint position gains for planned moves (move_j / move_p), base -> wrist.
+  # Canonical ranges: joint_1..3 = 0..200, joint_4..6 = 0..100.
+  kp: [30, 30, 30, 15, 15, 5]
+
+  # Per-joint damping gains, base -> wrist.
+  # Canonical ranges: joint_1..3 = 0..20, joint_4..6 = 0..10.
+  kd: [1.5, 1.5, 1.5, 1.0, 1.0, 0.5]
+
+  # Default peak joint velocity for planned moves [rad/s]. Range (0, 2].
+  max_vel: 0.5
+
+# Gripper hold gains (single motor, impedance/position control). The gripper
+# holds its target at this stiffness; lower kp = softer grip. init_effector()
+# uses these; Gripper.move(kp=/kd=) still overrides per call.
+gripper:
+  kp: 5.0    # 0 .. 50   (stiffness of the position hold)
+  kd: 0.5    # 0 .. 5    (damping)
+
+# STM button actions are disabled for this release. Keep this explicit false
+# marker in every merged robot profile; setting it true is rejected at load time.
+button:
+  enabled: false
+  poll_ms: 200
+  on_toggle: damping_latch
+
+# --------------------------------------------------------------------------
+# Safety overrides (optional). Only the plugins/keys listed below can be
+# changed; safe_position, motor_fault, limit values and actions are fixed in
+# the bundled canonical config. Values shown are the shipped defaults.
+#
+#   severity:        what a violation counts as
+#                      warning - logged, command still handled per its action
+#                      fault   - trips the manager -> fault_reaction runs
+#                      (disabling a check entirely is not offered)
+#   fault_reaction:  what happens when severity=fault trips
+#                      freeze_command_stream - hold last command, no new ones
+#                      damping_latch         - kp=0 damped stop, stays latched
+#                                              (default; the arm sinks slowly)
+#                      hard_disable          - motors off instantly
+#                                              (arm DROPS - know what you do)
+#                      (a no-op reaction is not offered)
+
+safety:
+  command_limit:                # kp/kd/torque/position clamped to motor limits
+    severity: warning           # warning | fault
+    fault_reaction: damping_latch
+
+  command_position_step_limit:  # command jumping > 3 rad from the actual position
+    severity: fault
+    fault_reaction: damping_latch
+
+  command_update_timeout:       # dead-man: no fresh command from the host
+    timeout_ms: 100             # 50 ~ 500
+
+  stale_feedback:               # motor stopped reporting (power/wiring loss)
+    timeout_ms: 250             # 50 ~ 500
+
+  temperature_warning:          # first temperature line (log only by default)
+    threshold_c: 70             # 40 ~ 100, must stay BELOW temperature_fault
+
+  temperature_fault:            # hard temperature line
+    threshold_c: 90             # 60 ~ 100

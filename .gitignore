@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+# dist/*.whl IS tracked — it is the deliverable.
