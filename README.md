@@ -1,7 +1,7 @@
 # Motomind Milly SDK
 
-Python SDK for the **Milly** 6-DOF robot arm (+ gripper), built on Robstride CAN
-motors. Discover a robot by its engraved product ID, then move it, hold it,
+Python SDK for the **Milly** 6-DOF robot arm (+ gripper). 
+Discover a robot by its engraved product ID, then move it, hold it,
 gravity-compensate (drag/teach), and drive the gripper — all through one Python
 API over a frozen, safety-checked C++ core.
 
