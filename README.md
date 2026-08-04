@@ -9,7 +9,7 @@ API over a frozen, safety-checked C++ core.
 
 ## Install
 
-See [INSTALL.md](INSTALL.md) (Linux x86_64; Windows not yet). Wheels are per Python version (3.10 / 3.11 / 3.12):
+See [INSTALL.md](INSTALL.md) (Linux 22.04+ (x86_64); Windows not yet). Wheels are per Python version (3.10 / 3.11 / 3.12):
 
 ```bash
 python -m pip install dist/linux_x86_64/python3.X/*.whl   # <- your Python version (SDK + robot model)
@@ -104,3 +104,9 @@ finally:
 ## Platforms
 
 Linux (SocketCAN) is supported today. Windows (gs_usb / USB-CAN) is in progress.
+
+## Contact
+
+For further questions, feel free to contact us.
+- https://www.motomind.co.kr/ko
+- contact@motomind.co.kr

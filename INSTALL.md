@@ -4,14 +4,13 @@ Linux and Windows install differently — follow the section for your OS.
 
 ---
 
-## Linux (x86_64) — fully supported
-
 ### 1. Prerequisites
+- Supported OS: Linux (x86_64) — Ubuntu 22.04 +
 - Linux with SocketCAN (Jetson, or a PC with a CAN interface).
 - Python **3.10, 3.11, or 3.12**.
 - Bring the USB-to-CAN adapter up as a CAN interface (bitrate must match the motors):
   ```bash
-  sudo ip link set can0 up type can bitrate 1000000
+  bash scripts/set_can_interface.sh
   ```
 
 ### 2. Install
