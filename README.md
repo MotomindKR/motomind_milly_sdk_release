@@ -1,19 +1,18 @@
 # Motomind Milly SDK
 
-Python SDK for the **Milly** 6-DOF robot arm (+ gripper), built on Robstride CAN
-motors. Discover a robot by its engraved product ID, then move it, hold it,
-gravity-compensate (drag/teach), and drive the gripper — all through one Python
+Python SDK for the **Milly** 6-DOF robot arm (+ gripper), **developed in-house by Motomind(HW/SW)**.
+
+Discover a robot by its engraved product ID, then move it, hold it, gravity-compensate (drag/teach), and drive the gripper — all through one Python
 API over a frozen, safety-checked C++ core.
 
 > **MIT licensed** — see [LICENSE](LICENSE). Free to use, modify, and redistribute.
 
+## Gitbook URL
+https://motomind.gitbook.io/motomind-dev
+
 ## Install
 
-See [INSTALL.md](INSTALL.md) (Linux x86_64; Windows not yet). Wheels are per Python version (3.10 / 3.11 / 3.12):
-
-```bash
-python -m pip install dist/linux_x86_64/python3.X/*.whl   # <- your Python version (SDK + robot model)
-```
+See [INSTALL.md](INSTALL.md) (Linux 22.04+ (x86_64); Windows not yet). Wheels are per Python version (3.10 / 3.11 / 3.12):
 
 ## CAN interface setup (Linux)
 
@@ -104,3 +103,9 @@ finally:
 ## Platforms
 
 Linux (SocketCAN) is supported today. Windows (gs_usb / USB-CAN) is in progress.
+
+## Contact
+
+For further questions, feel free to contact us.
+- https://www.motomind.co.kr/ko
+- contact@motomind.co.kr

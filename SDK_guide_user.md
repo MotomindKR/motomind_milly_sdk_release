@@ -1,16 +1,11 @@
 # Motomind Milly SDK 정리
 
-상세 설치·예제는 [INSTALL.md](INSTALL.md), [README.md](README.md) 참고.
+`motomind_milly`는 Milly 6축 팔+ 그리퍼 전용 Python SDK.
+C++ 코어(pybind11) 위에서 CAN 통신, 상태 읽기, 모션 제어(임피던스 제어(MIT)/IK)를 지원.
 
 ## 0. 설치 / 실행 전제
 
-`motomind_milly`는 Milly 6축 팔(+그리퍼 모터, Robstride CAN)용 Python SDK.
-C++ 코어(pybind11) 위에서 CAN 통신, 상태 읽기, 모션 제어(호스트측 계획/IK)를 지원.
-Python 3.10+.
-
-```bash
-python -m pip install dist/linux_x86_64/python3.X/*.whl   # 파이썬 버전 폴더 선택 (Linux, 3.10/3.11/3.12)
-```
+상세 설치·예제는 [INSTALL.md](INSTALL.md), [README.md](README.md) 참고.
 
 Linux에서는 CAN을 먼저 올린다 (bitrate는 모터와 일치, 1 Mbit/s):
 
@@ -96,9 +91,6 @@ print(arm.manager.fault_reason())   # fault 사유 (예: 'electronic_emergency_s
 arm.disconnect()
 ```
 
-모든 상태 전이와 fault는 백그라운드 watcher가 **자동으로 로그**하므로
-(`enable_logging()` 시) 별도 폴링 없이도 놓치지 않는다.
-
 ## 4. 상태 읽기 API
 
 ```python
@@ -118,8 +110,7 @@ arm.set_robot_model(RobotModel(mm.milly_urdf()))
 arm.set_max_vel(0.5)                # move_j/p 기본 피크 속도 [rad/s]
 ```
 
-- speed percent(0~100)는 **의도적으로 없음** — 속도는 rad/s로 직접 지정,
-  사용자 프로파일 `motion.max_vel`은 최대 `2.0 rad/s`이다.
+- 속도는 rad/s로 직접 지정, 사용자 프로파일 `motion.max_vel`은 최대 `2.0 rad/s`이다.
 - `create_arm()`으로 열면 로봇 튜닝 파일의 `motion.kp/kd/max_vel`이
   자동으로 이 기본값들에 적용된다 (호출 시 명시한 인자가 우선).
 
@@ -128,8 +119,7 @@ arm.set_max_vel(0.5)                # move_j/p 기본 피크 속도 [rad/s]
 ### Enable / Disable / E-stop
 
 ```python
-arm.enable()                        # 전체 모터 enable (FsmResult 반환)
-arm.start_control_loop(100.0)       # 제어루프 시작 — move_* 전에 필수
+arm.enable()                        # 전체 모터 enable + 제어루프/supervisor 자동 시작
 
 arm.electronic_emergency_stop()     # yaml manual_fault 규칙(감쇠 정지) — 천천히 내려감
 arm.shutdown()                      # ★ 안전한 종료 — yaml exit 규칙(damping latch) 실행
@@ -148,17 +138,22 @@ arm.disable()                       # ⚠ 토크 즉시 차단 → 팔이 낙하
 supervisor는 **유일한 명령 전송자**로서 이동 후에도 목표 자세를 계속 HOLD한다:
 
 ```python
-arm.enable()
-arm.start_control_loop(100.0)       # CAN 송신 주기 [Hz]
-arm.start_supervisor(rate_hz=100.0) # 명령 갱신 주기 [Hz], 기본 100, 범위 [20, 500]
+arm.enable()                  # 제어루프 + supervisor를 자동 시작하고 현재 자세 HOLD
 
 arm.move_j([...])             # supervisor 경유 — 끝나면 목표 자세를 계속 HOLD
 arm.float_mode()              # 중력보상 ON — 팔이 back-drivable(손으로 끌기), robot model 필요
 arm.hold_mode()               # 중력보상 OFF — 현재 자세 강성 HOLD
 ```
 
-`start_control_loop(rate)`(CAN 송신 주기)와 `start_supervisor(rate_hz)`(명령
-갱신 주기)는 별개의 설정이다. supervisor rate는 [20, 500] Hz로 제한된다.
+제품 경로에서는 `start_control_loop()`와 `start_supervisor()`를 직접 호출하지 않는다.
+CAN 송신과 supervisor 갱신은 제품 기본 설정(현재 100 Hz)으로 `enable()`이 함께 시작한다.
+supervisor 갱신 rate만 의도적으로 낮춰야 한다면 Arm 생성 시에 지정한다. CAN 송신 rate는
+계속 100 Hz이며, supervisor rate는 20~100 Hz 범위에서만 허용된다.
+
+```python
+arm = mm.create_arm("MILLY_ABCD", supervisor_rate_hz=100.0)
+arm.enable()  # CAN 100 Hz + supervisor 100 Hz를 함께 시작
+```
 
 `set_robot_model()`은 사전 세팅된 calibration 파일 `milly_cal.yaml`을 자동 적용한다.
 
@@ -201,7 +196,7 @@ pose 기준은 **link_6(팔 끝 장착면)**이라 그리퍼 끝은 포함하지
 ## 8. Teaching (드래그)
 
 **중력보상 FLOAT**로 팔을 손으로 끌어 자세를 잡는 back-drivable 드래그가 가능하다
-(§6 supervisor의 `arm.float_mode()` ON / `arm.hold_mode()` OFF). 물리 버튼 토글은 §12.
+(§6 supervisor의 `arm.float_mode()` ON / `arm.hold_mode()` OFF).
 
 ## 9. 저수준 제어 API
 
@@ -300,7 +295,7 @@ grip.range                         # (lo, hi) — 정본 config의 위치 한계
 
 | 함수 | 반환 타입 | 예시 |
 | --- | --- | --- |
-| `create_arm(id)` | `Arm` | 연결까지 완료된 Arm 객체 |
+| `create_arm(id, supervisor_rate_hz=...)` | `Arm` | 연결까지 완료된 Arm 객체 (supervisor 20~100 Hz 선택) |
 | `list_robots()` | `List[RobotId]` | `[RobotId(interface='can0', name='MILLY_ABCD', button_state=0, led_fault=0)]` |
 | `arm.init_effector()` | `Gripper` | 그리퍼 핸들 객체 |
 
@@ -319,7 +314,6 @@ grip.range                         # (lo, hi) — 정본 config의 위치 한계
 | 함수 | 반환 타입 | 예시 |
 | --- | --- | --- |
 | `enable()` `disable()` `shutdown()` `recover()` `electronic_emergency_stop()` | `FsmResult` | `FsmResult(ok=True, message='enabled')` → `res.ok` / `res.message` |
-| `start_control_loop()` `stop_control_loop()` | `FsmResult` | `FsmResult(ok=True, …)` |
 | `move_j(...)` | `float` | `2.34` — 이동 소요 시간 [s] |
 | `move_p(...)` | `float` | `1.80` — 이동 소요 시간 [s] (내부 IK 후 move_j) |
 | `float_mode()` `hold_mode()` | `None` | — (모드 전환만) |
@@ -367,4 +361,4 @@ GUI는 같은 Arm/manager를 사용하며 모터 상태와 E-STOP을 제공한�
 | `examples/move_mit_test.py` | 6축과 gripper를 3초간 0 rad로 MIT warm-up 후 damping latch (GUI 기본, `--gui=false`로 해제) |
 | `examples/gripper_test.py` | 그리퍼 위치제어 실기 테스트 |
 | `examples/gravity_float.py` | 중력보상 FLOAT 드래그 데모 (GUI 기본, `--gui=false`로 해제) |
-| `examples/button_test.py` | 버튼/LED 토글 + 신뢰성(miss율) 소크 (`--with-arm`) |
+| `examples/button_test.py` | 버튼/LED read-only 통신 신뢰성(miss율) 소크 (`--with-arm`) |

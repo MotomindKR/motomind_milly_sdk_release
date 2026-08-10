@@ -4,14 +4,14 @@ Linux and Windows install differently — follow the section for your OS.
 
 ---
 
-## Linux (x86_64) — fully supported
-
 ### 1. Prerequisites
+- Supported OS: Linux (x86_64) — Ubuntu 22.04 +
+- Planned Support OS - Windows
 - Linux with SocketCAN (Jetson, or a PC with a CAN interface).
 - Python **3.10, 3.11, or 3.12**.
 - Bring the USB-to-CAN adapter up as a CAN interface (bitrate must match the motors):
   ```bash
-  sudo ip link set can0 up type can bitrate 1000000
+  bash scripts/set_can_interface.sh
   ```
 
 ### 2. Install
@@ -40,19 +40,7 @@ Then follow the Quick start in [README.md](README.md) and the full
 
 ---
 
-## Windows — not in this release yet
-
-There is **no Windows wheel** in this bundle. Motor control is compiled against
-Linux SocketCAN, and the Windows path (robot discovery + control over a USB-CAN
-gs_usb adapter) still needs the core to build and be verified on Windows.
-
-When it is ready, Windows wheels will ship under `dist/windows/python3.X/` and
-this section will carry the steps. For now, run the SDK on the **Linux** machine
-that talks to the arm.
-
----
-
-## Register your robot (tuning profile)
+## Register your robot (tuning profile) - Optional
 
 Each robot is opened by the product ID engraved on it (e.g. `MILLY_ABCD`). The
 SDK ships canonical + default tuning inside the wheel; to customise one robot,
