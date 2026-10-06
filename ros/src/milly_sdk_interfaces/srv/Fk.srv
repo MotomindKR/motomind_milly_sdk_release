@@ -1,0 +1,6 @@
+# [] uses fresh measured arm joints; otherwise exactly six angles, rad.
+float64[] joints
+---
+bool success
+string message
+float64[6] pose

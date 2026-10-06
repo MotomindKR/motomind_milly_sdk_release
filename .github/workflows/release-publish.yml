@@ -1,0 +1,57 @@
+name: Publish release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Approved SDK version on main, for example 1.0.0'
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: publish-release
+  cancel-in-progress: false
+jobs:
+  validate:
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/release-ci.yml
+  publish:
+    if: github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python -m pip install pyyaml
+      - name: Verify the requested version and exact files
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          python scripts/ci/verify_release.py
+          python -c 'import json,os; assert json.load(open(".github/release_manifest.json"))["sdk_version"] == os.environ["RELEASE_VERSION"], "requested version differs from main"'
+          if git rev-parse --verify "refs/tags/v$RELEASE_VERSION" >/dev/null 2>&1; then
+            echo "Tag already exists; published versions are never overwritten." >&2
+            exit 1
+          fi
+      - name: Package only the verified release inventory
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          python scripts/ci/package_release.py --out "$RUNNER_TEMP"
+      - name: Publish approved main commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          gh release create "v$RELEASE_VERSION" \
+            "$RUNNER_TEMP/motomind-milly-sdk-$RELEASE_VERSION-linux-x86_64.tar.gz" \
+            "$RUNNER_TEMP/SHA256SUMS" \
+            --target "$GITHUB_SHA" --title "Milly SDK $RELEASE_VERSION" --generate-notes

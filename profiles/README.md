@@ -1,40 +1,17 @@
-# Robot profiles
+# 제품별 설정
 
-Per-robot tuning (gains / limits / button). The SDK ships sensible defaults
-**inside the installed package** — you only add a file when a specific robot
-needs something different.
-
-## Files here
-
-- **`MILLY_SAMPLE.yaml`** — template. Copy it to `<YOUR_PRODUCT_ID>.yaml` (the ID
-  engraved on the arm, e.g. `MILLY_A1B2`) and edit only the keys you want to
-  change. Everything you omit is inherited.
-- **`MILLY_DEFAULT.yaml`** — the base values every robot inherits, for reference.
-  ⚠️ **Editing this copy has no effect** — the real default is loaded from the
-  installed package. It's here so you can see what you're overriding.
-
-The safety/gravity "canonical" profile is **locked inside the package** and is
-not user-editable.
-
-## How tuning resolves (3-tier, key-by-key merge)
-
-```
-canonical (package, locked)  +  MILLY_DEFAULT (package)  +  <YOUR_ID>.yaml (yours)
-```
-
-A key you omit in your file is **inherited**, not dropped — so safety features
-never silently disappear. Only whitelisted keys are allowed; a typo or an
-out-of-range value is a load-time error.
-
-## Where to put your `<YOUR_ID>.yaml`
-
-Point the SDK at a directory of your robot files with `MOTOMIND_CONFIG_DIR`:
+release 루트에서 `MILLY_ABCD`를 실제 제품 ID로 바꾸세요.
 
 ```bash
-export MOTOMIND_CONFIG_DIR=~/.config/motomind/robots
-mkdir -p "$MOTOMIND_CONFIG_DIR"
-cp MILLY_SAMPLE.yaml "$MOTOMIND_CONFIG_DIR/MILLY_A1B2.yaml"   # then edit
+cp profiles/MILLY_SAMPLE.yaml profiles/MILLY_ABCD.yaml
+export MOTOMIND_CONFIG_DIR="$PWD/profiles"
 ```
 
-Without `MOTOMIND_CONFIG_DIR`, the SDK looks in the installed package's
-`profiles/` dir. See `SDK_guide_user.md` §2 (profiles) and §10 (safety).
+`MILLY_ABCD.yaml`에서 필요한 게인·속도만 변경하고 프로그램을 재시작합니다.
+새 터미널에도 위 export가 필요합니다. ROS는 `source scripts/ros_env.sh`가 설정합니다.
+
+- 생략한 값은 SDK 기본값을 사용합니다.
+- `MILLY_DEFAULT.yaml`은 참고 사본입니다. 이 파일을 수정해도 내장 기본값은 바뀌지 않습니다.
+- motor ID·방향·관절 한계는 사용자 설정 대상이 아닙니다.
+
+[함수별 사용법](../SDK_python_guide.md) · [기본 FLOAT 설정](../milly_description/README.md)

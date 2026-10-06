@@ -1,5 +1,17 @@
 __pycache__/
 *.pyc
 .venv/
+.venv_ros/
+/build/
+/install/
+/log/
+.pytest_cache/
 .DS_Store
 # dist/*.whl IS tracked — it is the deliverable.
+
+# Local export ownership marker; never distribute or commit.
+.milly-sdk-examples-generated
+.milly-sdk-ros-generated
+
+# Local release review notes.
+/RELEASE_REVIEW.md

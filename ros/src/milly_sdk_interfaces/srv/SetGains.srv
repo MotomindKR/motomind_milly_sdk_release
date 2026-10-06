@@ -1,0 +1,7 @@
+# arm: exactly six kp/kd values; gripper: one each. Only accepted while Idle.
+string group
+float64[] kp
+float64[] kd
+---
+bool success
+string message

@@ -2,12 +2,21 @@
 
 * [Milly SDK](README.md)
 
-## Get started
+## 시작하기
 
-* [Installation](INSTALL.md)
-* [Examples](examples/README.md)
+* [설치 / 지원 환경](INSTALL.md)
+* [예제 선택](examples/README.md)
 
-## SDK reference
+## Python SDK
 
-* [User guide (한국어)](SDK_guide_user.md)
-* [Robot profiles](profiles/README.md)
+* [Python 가이드](SDK_python_guide.md)
+* [Python 예제](examples/python/README.md)
+* [로봇 프로파일](profiles/README.md)
+
+## ROS2 SDK — Humble
+
+* [ROS 명령어](SDK_ROS2_guide.md)
+
+## 로봇 모델
+
+* [로봇 모델 / FLOAT 기본값](milly_description/README.md)
