@@ -1,0 +1,4 @@
+# ON with factory settings; OFF uses the shutdown service.
+---
+bool success
+string message

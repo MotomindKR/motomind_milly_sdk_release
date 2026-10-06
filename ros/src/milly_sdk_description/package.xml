@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>milly_sdk_description</name><version>1.0.0</version>
+  <description>Milly model assets, feedback visualization and passive position check</description>
+  <maintainer email="support@motomind.ai">Motomind</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>rviz2</exec_depend>
+  <exec_depend>milly_sdk_ros</exec_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

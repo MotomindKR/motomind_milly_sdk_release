@@ -9,15 +9,13 @@
 # An empty file is valid: it registers the robot with the shipped defaults.
 
 # motion:                              # gains for planned moves (base -> wrist)
-#   kp: [15, 15, 15, 15, 15, 15]       # 0 .. 100
-#   kd: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0] # 0 .. 10
+#   kp: [15, 15, 15, 15, 15, 15]       # joint_1..3: 0..200; joint_4..6: 0..100
+#   kd: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0] # joint_1..3: 0..20; joint_4..6: 0..10
 #   max_vel: 0.5                       # rad/s, (0, 2]
 
 # gripper:                             # gripper hold (impedance) gains
-#   kp: 5.0                            # 0 .. 10
-#   kd: 0.5                            # 0 .. 1
-
-# STM button actions are disabled in this SDK release. Do not add button.enabled: true.
+#   kp: 5.0                            # 0 .. 50
+#   kd: 0.5                            # 0 .. 5
 
 # safety:                              # per-plugin overrides (see SDK_guide §10)
 #   command_update_timeout: {timeout_ms: 100}

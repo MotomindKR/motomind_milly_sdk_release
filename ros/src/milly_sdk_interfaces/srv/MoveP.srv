@@ -1,0 +1,9 @@
+# Base-frame flange [x,y,z,roll,pitch,yaw], m/rad; PTP, NOT a Cartesian line.
+float64[6] pose
+float64[] max_vel
+float64[] kp
+float64[] kd
+---
+bool success
+string message
+float64 duration_s

@@ -1,0 +1,10 @@
+std_msgs/Header header
+string product_id
+string manager_state
+bool connected
+bool moving
+bool feedback_valid
+uint8[] missing_motor_ids
+uint8[] stale_motor_ids
+string fault_reason
+string last_error

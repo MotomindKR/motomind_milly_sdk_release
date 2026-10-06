@@ -1,0 +1,1 @@
+# Run colcon with --base-paths ros/src; do not discover these packages in the legacy workspace.

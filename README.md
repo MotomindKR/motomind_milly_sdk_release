@@ -1,111 +1,28 @@
 # Motomind Milly SDK
 
-Python SDK for the **Milly** 6-DOF robot arm (+ gripper), **developed in-house by Motomind(HW/SW)**.
+[GitBook 문서](https://motomind.gitbook.io/motomind-dev)
 
-Discover a robot by its engraved product ID, then move it, hold it, gravity-compensate (drag/teach), and drive the gripper — all through one Python
-API over a frozen, safety-checked C++ core.
+Milly 6축 팔과 그리퍼를 Python 또는 ROS2로 제어합니다.
+모든 명령은 **release 루트**에서 실행하며, `MILLY_ABCD`는 실제 제품 ID로 바꾸세요.
 
-> **MIT licensed** — see [LICENSE](LICENSE). Free to use, modify, and redistribute.
+## 지원 환경
 
-## Gitbook URL
-https://motomind.gitbook.io/motomind-dev
+| 사용 방식 | OS / CPU | Python | 상태 |
+| --- | --- | --- | --- |
+| Python SDK | Linux x86_64 · Ubuntu 22.04 검증 | 3.10 / 3.11 / 3.12 | 지원 |
+| ROS2 Humble | Ubuntu 22.04 / x86_64 | 3.10 | 지원 |
+| ROS2 Jazzy | Ubuntu 24.04 / x86_64 | 3.12 | 지원 예정 |
 
-## Install
+## 시작하기
 
-See [INSTALL.md](INSTALL.md) (Linux 22.04+ (x86_64); Windows not yet). Wheels are per Python version (3.10 / 3.11 / 3.12):
+| 원하는 작업 | 안내 |
+| --- | --- |
+| 설치·재설치 | [설치](INSTALL.md) |
+| Python 예제 실행 | [전체 실행 명령](examples/python/README.md) |
+| Python 코드 작성 | [함수별 사용법](SDK_python_guide.md) |
+| ROS 드라이버 실행·제어 | [ROS 명령어](SDK_ROS2_guide.md) |
+| RViz로 관절 확인 | [모델 확인](SDK_ROS2_guide.md) |
+| 제품별 게인·속도 변경 | [프로파일](profiles/README.md) |
 
-## CAN interface setup (Linux)
-
-Before robot discovery or control, configure the `can0` USB-CAN interface with
-the supplied script. It sets the queue length and Milly's required 1 Mbps
-bitrate, then brings the interface up.
-
-```bash
-bash scripts/set_can_interface.sh
-```
-
-The script uses `sudo` and briefly takes `can0` down, so never run it while the
-robot is being controlled.
-
-## Milly joint limits
-
-These are fixed canonical limits; the per-robot tuning file cannot change them.
-`position` is the MIT command range (the SDK clamps a direct `move_mit` command
-to it). `safe position` is the wider measured-position safety envelope: leaving
-it faults the arm and starts the damping latch.
-
-| Joint (motor ID) | Position [rad] | Safe position [rad] | MIT kp | MIT kd |
-| --- | ---: | ---: | ---: | ---: |
-| joint_1 (1) | -2.62 .. 2.62 | -2.72 .. 2.72 | 0 .. 200 | 0 .. 20 |
-| joint_2 (2) | 0.00 .. 3.14 | -0.10 .. 3.24 | 0 .. 200 | 0 .. 20 |
-| joint_3 (3) | 0.00 .. 2.97 | -0.10 .. 3.07 | 0 .. 200 | 0 .. 20 |
-| joint_4 (4) | -2.00 .. 2.00 | -2.15 .. 2.15 | 0 .. 100 | 0 .. 10 |
-| joint_5 (5) | -1.72 .. 1.77 | -1.87 .. 1.92 | 0 .. 100 | 0 .. 10 |
-| joint_6 (6) | -1.50 .. 1.50 | -1.60 .. 1.60 | 0 .. 100 | 0 .. 10 |
-| gripper (7) | -2.30 .. 0.00 | -2.40 .. 0.10 | 0 .. 50 | 0 .. 5 |
-
-All motors also have velocity limits of -20 .. 20 rad/s and torque limits of
--30 .. 30 Nm. User-editable profile gains use these same canonical, per-joint
-limits; the `motion` arrays are ordered joint_1 through joint_6 (base → wrist).
-
-## Self-collision preflight
-
-`move_j` and `move_p` check the entire planned joint path against the exact
-collision meshes before sending a command. A newly predicted self-collision
-raises an error and leaves the current supervisor mode unchanged. The bundled
-`milly_description/` directory is found automatically when running from the
-release folder or one of its subdirectories. For another location, set
-`MOTOMIND_MILLY_DESCRIPTION_DIR` to the `milly_description` directory.
-
-## Quick start
-
-```python
-import time
-import motomind_milly as mm
-from motomind_milly.monitor import MotorMonitor
-
-mm.enable_logging()
-
-arm = mm.create_arm("MILLY_ABCD")   # discover + verify + connect (by product ID)
-arm.set_max_vel(0.3)
-# Start the GUI before enable(): it uses the same Arm/manager (no second CAN owner).
-MotorMonitor(arm.manager, arm._config, poll_ms=250).start()
-time.sleep(1.0)
-arm.enable()                         # motors on, holds its pose (supervisor auto-starts)
-
-try:
-    arm.move_j([0.0, 0.0, 0.0, 0.0, 0.0, 0.0], max_vel=0.2)  # joint move (rad)
-    grip = arm.init_effector()        # gripper
-    grip.open()
-    time.sleep(0.5) 
-    grip.close()
-    print("motion complete; press Ctrl-C to shut down safely")
-    while True:
-        time.sleep(0.2)
-except KeyboardInterrupt:
-    print("shutting down with damping latch")
-finally:
-    arm.shutdown()                    # safe exit (damping latch — does NOT drop)
-```
-
-- Find connected robots: `motomind-milly-robots`
-- The embedded GUI shows motor state and provides an E-STOP; closing its window
-  only closes the GUI. End the program with `arm.shutdown()`.
-
-## Docs & examples
-
-- **[SDK_guide_user.md](SDK_guide_user.md)** — full API guide (motion, gravity
-  comp, gripper, safety, button, profiles).
-- **[examples/](examples/)** — runnable: `discover_robots.py` (find your robot),
-  `motor_state_check.py`, `move_j_test.py`, `move_p_test.py`, `move_mit_test.py`,
-  `gravity_float.py` (drag/teach), `gripper_test.py`, `button_test.py`.
-
-## Platforms
-
-Linux (SocketCAN) is supported today. Windows (gs_usb / USB-CAN) is in progress.
-
-## Contact
-
-For further questions, feel free to contact us.
-- https://www.motomind.co.kr/ko
-- contact@motomind.co.kr
+같은 로봇에는 제어 프로그램 하나만 실행하세요.
+**같은 로봇에 native Python SDK 드라이버와 ROS2 Humble SDK 드라이버를 동시에 실행하지 마세요.**

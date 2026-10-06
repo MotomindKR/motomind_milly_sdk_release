@@ -1,0 +1,10 @@
+# Six arm angles, base to wrist. Gripper is a separate service.
+float64[6] positions
+# Optional scalars: [] uses the SDK default; [value] overrides.
+float64[] max_vel
+float64[] kp
+float64[] kd
+---
+bool success
+string message
+float64 duration_s

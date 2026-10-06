@@ -1,0 +1,18 @@
+---
+bool success
+string message
+string product_id
+string sdk_version
+string can_interface
+string base_frame
+string flange_frame
+uint8[] motor_ids
+string[] joint_names
+float64[] position_min
+float64[] position_max
+float64[] kp_max
+float64[] kd_max
+float64[] default_kp
+float64[] default_kd
+float64 max_vel
+float64 supervisor_rate_hz

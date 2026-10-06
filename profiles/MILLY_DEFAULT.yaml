@@ -36,13 +36,6 @@ gripper:
   kp: 5.0    # 0 .. 50   (stiffness of the position hold)
   kd: 0.5    # 0 .. 5    (damping)
 
-# STM button actions are disabled for this release. Keep this explicit false
-# marker in every merged robot profile; setting it true is rejected at load time.
-button:
-  enabled: false
-  poll_ms: 200
-  on_toggle: damping_latch
-
 # --------------------------------------------------------------------------
 # Safety overrides (optional). Only the plugins/keys listed below can be
 # changed; safe_position, motor_fault, limit values and actions are fixed in

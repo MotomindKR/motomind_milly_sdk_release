@@ -1,0 +1,95 @@
+{
+  "coordinates": "motor_raw",
+  "calibration_status": "validated",
+  "axis_corrections": {
+    "joint_3": {
+      "source_axis": [
+        -3.001013150776784e-23,
+        0.000857,
+        -1.0
+      ],
+      "sdk_axis": [
+        3.001013150776784e-23,
+        -0.000857,
+        1.0
+      ],
+      "reason": "User-confirmed CAD axis reversal, 2026-09-16; motor direction stays +1"
+    }
+  },
+  "source_urdf_sha256": "6db44260e029c21c4a0207800f569f1d1078fec5d488ad4206acc90c2c5718ef",
+  "sdk_urdf_sha256": "91c36b3eac03e85a3e864d3fc53b02f2038f1dc5a9ca79e2c6b60f23b62611a1",
+  "mesh_sha256": {
+    "Gripper_Hand_L.stl": "1e384c387c2017beb3046040a396f1727ade1c9a553fe270f9bfc37fc07931a9",
+    "Gripper_Hand_R.stl": "0ce1061cdb6b52a668e1fb20550b898b13fa28cf1e953e84733da2155212cf76",
+    "J1.stl": "c7f624c9f150afd8197deb775ed7154f647d95a4e4875811e159a7c3426d616f",
+    "J2.stl": "50d56689bc64a14c4e16d143f310525660abab1531580a250dbe1728cc21728a",
+    "J3.stl": "69c64e034ea9a33d8263b434dceabd780212651504521747358308f04aa0c144",
+    "J4.stl": "65feb706f847badedff60b050704d90ef943729f6e6fd98e0ff2fc5b4691eecb",
+    "J5.stl": "cdc8d33eeb37d35522f96eb2d78b97bf6dc0b3ed1d536eb4e7d52447ddff0b2a",
+    "J6.stl": "41ba3e9017a3891961473f4f0db6388bc19036145f5ddffaf5984f5bd834c1c0",
+    "J7.stl": "0dca3663ecc12845540702e0e1250fbb49f17e4940794e6ca39a1447d7fd0d33"
+  },
+  "limit_only_revision": {
+    "kind": "joint_position_limits_only",
+    "date": "2026-10-02",
+    "previous_urdf_sha256": "fab1fdba0043de12c9db735a6ee46f716569fdaf882940f9cd0413b354152145",
+    "new_urdf_sha256": "91c36b3eac03e85a3e864d3fc53b02f2038f1dc5a9ca79e2c6b60f23b62611a1",
+    "previous_limits": {
+      "joint_1": {
+        "lower": "-2.62",
+        "upper": "2.62"
+      },
+      "joint_2": {
+        "lower": "-3.14",
+        "upper": "0.0"
+      },
+      "joint_3": {
+        "lower": "-2.97",
+        "upper": "0.0"
+      },
+      "joint_4": {
+        "lower": "-2.0",
+        "upper": "2.0"
+      },
+      "joint_5": {
+        "lower": "-1.77",
+        "upper": "1.72"
+      },
+      "joint_6": {
+        "lower": "-1.5",
+        "upper": "1.5"
+      }
+    },
+    "position_limits": {
+      "joint_1": [
+        -2.8,
+        2.8
+      ],
+      "joint_2": [
+        -3.2,
+        0.0
+      ],
+      "joint_3": [
+        -2.75,
+        0.0
+      ],
+      "joint_4": [
+        -2.42,
+        2.42
+      ],
+      "joint_5": [
+        -1.84,
+        1.7
+      ],
+      "joint_6": [
+        -1.55,
+        1.55
+      ]
+    },
+    "calibration_reused_without_refit": true,
+    "inertia_params_unchanged": true,
+    "validated_poses": 203,
+    "max_gravity_difference_nm": 0.0,
+    "max_fk_difference": 0.0
+  }
+}

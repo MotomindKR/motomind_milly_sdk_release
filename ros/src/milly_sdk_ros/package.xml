@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>milly_sdk_ros</name><version>1.0.0</version>
+  <description>Milly SDK ROS2 adapter distribution</description>
+  <maintainer email="support@motomind.ai">Motomind</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_python</buildtool_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>python3-tk</exec_depend>
+  <exec_depend>rcl_interfaces</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>milly_sdk_interfaces</exec_depend>
+  <export><build_type>ament_python</build_type></export>
+</package>

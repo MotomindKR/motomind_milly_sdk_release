@@ -1,0 +1,10 @@
+# move / open / close. SDK clamps position to the gripper range.
+string operation
+float64 position
+float64[] kp
+float64[] kd
+---
+bool success
+string message
+# Commanded target, NOT confirmation of physical arrival.
+float64 target

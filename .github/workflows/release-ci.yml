@@ -1,0 +1,102 @@
+name: Release CI
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+concurrency:
+  group: release-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  bundle:
+    name: Bundle integrity
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python -m pip install pyyaml
+      - run: python scripts/ci/verify_release.py
+  wheels:
+    name: Wheel Python ${{ matrix.python }}
+    needs: bundle
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install only release wheels and their declared dependencies
+        run: python scripts/ci/install_wheels.py
+      - run: python -m pip check
+      - run: python scripts/ci/smoke_wheel.py
+  ros:
+    name: ROS2 Humble
+    needs: bundle
+    runs-on: ubuntu-22.04
+    container: ros:humble-ros-base-jammy
+    env:
+      PYTHONNOUSERSITE: '1'
+      ROS_LOCALHOST_ONLY: '1'
+      ROS_DOMAIN_ID: '173'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Install Git LFS before checkout
+        run: |
+          apt-get update
+          apt-get install -y git-lfs
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          persist-credentials: false
+      - name: Install SDK wheels and ROS build dependencies
+        run: |
+          apt-get update
+          apt-get install -y python3-pip python3-venv python3-tk python3-yaml python3-cairo python3-colcon-common-extensions build-essential cmake libusb-1.0-0 ros-humble-robot-state-publisher ros-humble-rviz2
+          python3 -m venv --system-site-packages .venv_ros
+          .venv_ros/bin/python -m pip install 'pytest>=7,<9'
+          .venv_ros/bin/python scripts/ci/install_wheels.py
+          .venv_ros/bin/python -m pip check
+      - name: Build ROS sources against the released SDK
+        run: |
+          source /opt/ros/humble/setup.bash
+          .venv_ros/bin/python -m colcon build --base-paths ros/src --cmake-args \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DPython3_EXECUTABLE="$PWD/.venv_ros/bin/python" \
+            -DPYTHON_EXECUTABLE="$PWD/.venv_ros/bin/python"
+      - name: Test installed services, topics and lifecycle without CAN
+        run: |
+          source scripts/ros_env.sh
+          export PYTHONPATH=".github/tests/ros:$PYTHONPATH"
+          python -m pytest -q .github/tests/ros --junitxml=ros-test-results.xml
+          python scripts/check_ros_install.py
+          bash scripts/setup_ros_humble.sh --dry-run
+  gate:
+    name: Release gate
+    if: always()
+    needs: [bundle, wheels, ros]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Require every validation job to pass
+        env:
+          BUNDLE: ${{ needs.bundle.result }}
+          WHEELS: ${{ needs.wheels.result }}
+          ROS: ${{ needs.ros.result }}
+        run: test "$BUNDLE" = success && test "$WHEELS" = success && test "$ROS" = success
