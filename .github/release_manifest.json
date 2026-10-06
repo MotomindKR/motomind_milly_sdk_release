@@ -9,7 +9,7 @@
     ".github/tests/ros/test_position_monitor.py": "b3abb5ced39c29967f7cf9e40c789835a4e89ea5521806489e084d8fe4d3bbf7",
     ".github/tests/ros/test_ros_node.py": "52f477dca8f0a2b2f9d32c97af046b5044ef45e1eca086042f9b54f8d635d341",
     ".github/tests/ros/test_rviz_config.py": "73e938b63f1dc67dcbfead0b823f99ef515334336df9b92464941d2a6583059e",
-    ".github/workflows/release-ci.yml": "fdffd3aacc755da7c85719c5bee17d18cf6de02f7b1064dfcb4413a89438fc2c",
+    ".github/workflows/release-ci.yml": "4e96b4779c0dff54b2b380dac4cfe78b6cb71ed9c152406b7e051327c1d1ee19",
     ".github/workflows/release-publish.yml": "32b4eb6d4d6f05af5756e6eba2dc2401b4c5d62724716f2e6a571fb7ca0aba96",
     ".gitignore": "1ca325ed82ee2228c7b6761644f438cdf15815afd2cdd2e98dc081271d2f084f",
     "INSTALL.md": "33c33f868d2f4c67e11e1420d8937cb49c981ded1f0d656b221420f1ca96e25e",
