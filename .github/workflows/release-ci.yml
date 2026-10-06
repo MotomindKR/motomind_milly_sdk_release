@@ -69,7 +69,7 @@ jobs:
       - name: Install SDK wheels and ROS build dependencies
         run: |
           apt-get update
-          apt-get install -y python3-pip python3-venv python3-tk python3-yaml python3-colcon-common-extensions build-essential cmake libusb-1.0-0 ros-humble-robot-state-publisher ros-humble-rviz2
+          apt-get install -y python3-pip python3-venv python3-tk python3-yaml python3-cairo python3-colcon-common-extensions build-essential cmake libusb-1.0-0 ros-humble-robot-state-publisher ros-humble-rviz2
           python3 -m venv --system-site-packages .venv_ros
           .venv_ros/bin/python -m pip install 'pytest>=7,<9'
           .venv_ros/bin/python scripts/ci/install_wheels.py

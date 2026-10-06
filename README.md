@@ -1,5 +1,7 @@
 # Motomind Milly SDK
 
+[GitBook 문서](https://motomind.gitbook.io/motomind-dev)
+
 Milly 6축 팔과 그리퍼를 Python 또는 ROS2로 제어합니다.
 모든 명령은 **release 루트**에서 실행하며, `MILLY_ABCD`는 실제 제품 ID로 바꾸세요.
 

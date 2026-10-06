@@ -9,12 +9,12 @@
     ".github/tests/ros/test_position_monitor.py": "b3abb5ced39c29967f7cf9e40c789835a4e89ea5521806489e084d8fe4d3bbf7",
     ".github/tests/ros/test_ros_node.py": "52f477dca8f0a2b2f9d32c97af046b5044ef45e1eca086042f9b54f8d635d341",
     ".github/tests/ros/test_rviz_config.py": "73e938b63f1dc67dcbfead0b823f99ef515334336df9b92464941d2a6583059e",
-    ".github/workflows/release-ci.yml": "4e96b4779c0dff54b2b380dac4cfe78b6cb71ed9c152406b7e051327c1d1ee19",
+    ".github/workflows/release-ci.yml": "d6b1d63a023d3230dd30dda4f828e41d385fd71472aae4a2bd30d1d3ff67d789",
     ".github/workflows/release-publish.yml": "32b4eb6d4d6f05af5756e6eba2dc2401b4c5d62724716f2e6a571fb7ca0aba96",
     ".gitignore": "1ca325ed82ee2228c7b6761644f438cdf15815afd2cdd2e98dc081271d2f084f",
     "INSTALL.md": "33c33f868d2f4c67e11e1420d8937cb49c981ded1f0d656b221420f1ca96e25e",
     "LICENSE": "e4ad4d622aada58b2601bf01b52e5f70af244f24af18b2aa02032797b9f7b7cb",
-    "README.md": "e0782fd27af8fb39755250e6f06e813d3b3d8b62bd634002ad1b13c9cdd71dd3",
+    "README.md": "205ccec3062d2da413a43909ee59c91c75c1822b224b6a5aa03dd14ea79545b3",
     "SDK_ROS2_guide.md": "45fae7a8bfb6927ccc5103179f74e72db1b7f773463dea42f6067bd81e6405f7",
     "SDK_python_guide.md": "fb6112bbec43b7ecabb979e6b2a64b52bb6fd9737514b2e4399ac7609cbf1409",
     "SUMMARY.md": "3dad2ddb8fa78b645af030b3dcd1459657cf579935fa8d634450785a636f0042",
@@ -91,7 +91,7 @@
     "scripts/ci/verify_release.py": "b18a108576ee51646e3216194289dbd972af476fd09096e7e71d0a393123a99d",
     "scripts/ros_env.sh": "6f35856afa3d9748c2b2663de4e92c84690d92e6ffdbaaa5982072162ece1422",
     "scripts/set_can_interface.sh": "ac7778741a924838a6c07c426d864a711a6e2de22bac852b2a9d9242d2861171",
-    "scripts/setup_ros_humble.sh": "6734af0bb401353b1db7449e86f352c3cb86c6e415c8d2579313c49629dbbeba"
+    "scripts/setup_ros_humble.sh": "2e0f6ec50e3e559ae31f19e12fc83ceaf866a06dda684274a07597ddecd1780b"
   },
   "profile_sha256": {
     "MILLY_DEFAULT.yaml": "86f367484d7e7612f80d47df0d8fd8434791fa667854b99258b70725eff7f314",

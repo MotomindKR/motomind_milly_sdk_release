@@ -19,7 +19,7 @@ run() {
   if "$DRY_RUN"; then printf '[dry-run]'; printf ' %q' "$@"; printf '\n'; else "$@"; fi
 }
 [[ -f "$ROOT/ros/src/milly_sdk_ros/package.xml" ]] || { echo 'ROS sources missing; use the complete release bundle.' >&2; exit 1; }
-run sudo apt-get install -y build-essential cmake python3-venv python3-pip python3-yaml python3-tk \
+run sudo apt-get install -y build-essential cmake python3-venv python3-pip python3-yaml python3-tk python3-cairo \
   python3-colcon-common-extensions libusb-1.0-0 ros-humble-ros-base \
   ros-humble-robot-state-publisher ros-humble-rviz2
 run /usr/bin/python3 "$ROOT/scripts/ci/verify_release.py"
