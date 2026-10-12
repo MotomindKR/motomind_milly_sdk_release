@@ -26,7 +26,7 @@
     "dist/linux_x86_64/python3.12/motomind_robot_model-1.0.0-cp312-cp312-linux_x86_64.whl": "a0d0bc5f1adc1edc4cefa7bc39f73fcbdfd8c637ba9ad946ec925295012b006e",
     "dist/teaching/motomind_teaching_sdk-0.1.0-py3-none-any.whl": "580ce3e5b1998a9f353d23400a65b3a5706444001f10cb6f367b2a62d2dc68f3",
     "examples/README.md": "fdadcd99947d4fec44e0dfcdf261957d5ff32700602f3c24b02a1d692bf7adc5",
-    "examples/python/README.md": "cc21433705805d94ead73928f88815a50c185e7faaf3d8c2e9f5b78432d0deb0",
+    "examples/python/README.md": "ab5423733892cb52eebf5077d1e2bdf382dbc19885957f49d17156f2c7468af0",
     "examples/python/_teaching.py": "6c7adf3489f4737ddd2f35c327c7c36aa5c568eb29269eb425ca4dd08db797da",
     "examples/python/configs/dxl_right_example.json": "245bf3a8d7ac91d4b8425758b087352cff9d112a5ce1af544ab6e5078eb40411",
     "examples/python/discover_robots.py": "3298370e9dc8c0b261cd20c0b0f454d06e6a5650470e896ef08ff3a0114640aa",

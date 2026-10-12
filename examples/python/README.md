@@ -70,15 +70,25 @@ sudo usermod -aG dialout "$USER"
 teaching-check-port
 ```
 
-USB 응답이 느리다면 프로그램을 종료하고 어댑터의 지연을 확인하세요.
-`latency_timer` 파일이 있는 어댑터는 [ROBOTIS 안내](https://emanual.robotis.com/docs/en/software/dynamixel/dynamixel_wizard2/#usb-latency-setting)에 따라 1 ms로 설정할 수 있습니다.
+로그아웃 없이 현재 연결된 장치를 바로 사용하려면 임시로 권한을 설정하세요.
 
 ```bash
-cat /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
-echo 1 | sudo tee /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
+sudo chmod 777 /dev/ttyUSB0
+teaching-check-port
 ```
 
-USB를 다시 연결하면 재설정이 필요할 수 있습니다.
+이 임시 권한은 USB 재연결 시 초기화될 수 있습니다. `dialout` 설정은 다음 로그인부터 적용됩니다.
+
+**필수 USB 지연 설정:** 예제 실행 전에 `latency_timer`를 **1 ms**로 설정하세요.
+교시장치 프로그램을 종료한 상태에서 다음 명령을 실행합니다.
+
+```bash
+echo 1 | sudo tee /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
+cat /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
+# 출력이 1인지 확인
+```
+
+USB를 다시 연결한 뒤에도 값을 확인하고, 1이 아니면 다시 설정하세요.
 
 기본 포트는 `/dev/ttyUSB0`입니다. 두 예제는 `configs/dxl_right_example.json`을 같은 폴더에서 읽습니다.
 배열은 1~6축, 그리퍼 순서(ID 40~46)이며 사용자 설정은 세 항목입니다.
