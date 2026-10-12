@@ -17,6 +17,15 @@ python -c "import motomind_milly as mm; print(mm.__version__)"
 새 터미널에서는 `source .venv/bin/activate`를 실행합니다.
 동일 버전 재설치도 `python scripts/ci/install_wheels.py`로 진행합니다.
 
+교시장치도 사용하면 독립 teaching wheel을 함께 설치합니다:
+
+```bash
+python scripts/ci/install_wheels.py --with-teaching
+```
+
+교시장치만 사용하는 경우에는 Milly 없이 `python -m pip install dist/teaching/*.whl`만 실행하세요.
+[교시장치 예제와 USB 권한 설정](examples/python/README.md)을 따릅니다.
+
 ## ROS2 Humble
 
 Ubuntu 22.04 / x86_64 / ROS2 Humble 환경에서 실행합니다.

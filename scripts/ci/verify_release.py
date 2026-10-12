@@ -94,14 +94,48 @@ def inspect(root, version):
     assert len(versions) == len(models) == len(profile_hashes) == len(calibration_hashes) == 1
     assert versions == {version}, 'SDK metadata version differs from requested release'
     assert re.fullmatch(r'\d+\.\d+\.\d+', version)
+    teaching = inspect_teaching(root)
+    if teaching:
+        wheel, _ = teaching
+        artifacts[wheel.relative_to(root).as_posix()] = sha(wheel.read_bytes())
     packages = {}
     for path in sorted((root/'ros/src').glob('*/package.xml')):
         doc = ET.parse(path)
         packages[doc.findtext('name')] = doc.findtext('version')
     assert set(packages) == {'milly_sdk_interfaces', 'milly_sdk_ros', 'milly_sdk_description', 'milly_sdk_bringup'}
-    return {'sdk_version': version, 'robot_model_version': models.pop(), 'ros_packages': packages,
+    result = {'sdk_version': version, 'robot_model_version': models.pop(), 'ros_packages': packages,
             'urdf_sha256': sha(urdf), 'calibration_sha256': calibration_hashes.pop(),
             'profile_sha256': dict(profile_hashes.pop()), 'wheels': artifacts}
+    if teaching:
+        result['teaching_sdk_version'] = teaching[1]
+    return result
+
+
+def inspect_teaching(root):
+    """Keep the optional pure-Python teaching package independent of Milly/ROS."""
+    folder = root/'dist/teaching'
+    required = (root/'examples/python/milly_teleop.py').exists()
+    if not folder.exists():
+        assert not required, 'teaching examples require the independent teaching wheel'
+        return None  # older release bundles have no teaching component
+    wheels = list(folder.glob('*.whl'))
+    assert len(wheels) == 1, 'expected one teaching wheel'
+    wheel = wheels[0]
+    assert not wheel.is_symlink(), 'symlinked teaching wheel'
+    with ZipFile(wheel) as archive:
+        names = archive.namelist()
+        metas = [n for n in names if n.endswith('.dist-info/METADATA')]
+        assert len(metas) == 1, 'teaching wheel metadata missing'
+        info = BytesParser().parsebytes(archive.read(metas[0]))
+        assert info['Name'] == 'motomind-teaching-sdk', 'unexpected teaching package'
+        assert re.fullmatch(r'\d+\.\d+\.\d+', info['Version']), 'invalid teaching version'
+        assert wheel.name == f'motomind_teaching_sdk-{info["Version"]}-py3-none-any.whl', 'teaching wheel must be portable'
+        headers = [n for n in names if n.endswith('.dist-info/WHEEL')]
+        assert len(headers) == 1 and b'Tag: py3-none-any' in archive.read(headers[0]), 'invalid teaching wheel tag'
+        assert {'motomind_teaching/device.py', 'motomind_teaching/feedback.py'} <= set(names), 'teaching API missing'
+        assert not any(n.startswith(('motomind_milly/', 'milly_sdk_ros/')) for n in names), 'teaching package couples to Milly/ROS'
+        assert not any(re.search(r'(?i)milly|robot.learning|rclpy', d) for d in info.get_all('Requires-Dist', [])), 'teaching dependencies couple to robot control'
+    return wheel, info['Version']
 
 
 def verify_inventory(root, inventory):

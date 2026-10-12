@@ -19,6 +19,7 @@ Milly 6축 팔과 그리퍼를 Python 또는 ROS2로 제어합니다.
 | --- | --- |
 | 설치·재설치 | [설치](INSTALL.md) |
 | Python 예제 실행 | [전체 실행 명령](examples/python/README.md) |
+| 교시장치·Python teleop | [DXL-only / Milly teleop 예제](examples/python/README.md) — teaching wheel 선택 설치 |
 | Python 코드 작성 | [함수별 사용법](SDK_python_guide.md) |
 | ROS 드라이버 실행·제어 | [ROS 명령어](SDK_ROS2_guide.md) |
 | RViz로 관절 확인 | [모델 확인](SDK_ROS2_guide.md) |

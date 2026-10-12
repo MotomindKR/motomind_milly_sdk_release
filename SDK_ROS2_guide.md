@@ -228,3 +228,25 @@ source scripts/ros_env.sh
 | 로봇 검색 실패 | 전원·CAN·bitrate·제품 ID |
 | MISSING / STALE | status의 수신 경과시간 |
 | RViz transform 오류 | Fixed Frame=`제품ID/base_link`, TF Prefix=`제품ID` |
+
+## 9. 교시장치 RViz 미리보기 (선택)
+
+교시장치의 위치로 가상 Milly를 표시합니다. 실제 Milly/CAN에 연결하지 않고 DXL 토크도 켜지 않습니다.
+ROS 설치 후 release 루트에서 teaching wheel을 추가 설치하세요:
+
+```bash
+source scripts/ros_env.sh
+python -m pip install dist/teaching/*.whl
+
+# 먼저 무하드 미리보기
+ros2 launch milly_sdk_description teaching_preview.launch.py \
+  profile:="$PWD/examples/python/configs/dxl_right_example.json" fake:=true
+
+# 위 예제를 종료한 뒤 실제 교시장치 위치만 읽기 (/dev/ttyUSB0)
+ros2 launch milly_sdk_description teaching_preview.launch.py \
+  profile:="$PWD/examples/python/configs/dxl_right_example.json"
+```
+
+USB 권한은 [교시장치 예제 안내](examples/python/README.md)를 따릅니다.
+통신이 끊기면 위치 출력을 중단하고 상태에 오류를 표시하며 자동 재연결하지 않습니다.
+다른 DXL 예제를 실행하기 전에 미리보기를 Ctrl+C로 종료하세요.

@@ -126,3 +126,20 @@ enable 시 잠시 HOLD 힘이 들어가므로 팔을 지지하세요.
 
 `create_arm()` → `enable()`이 제어루프를 시작합니다. 루프를 직접 시작할 필요는 없습니다.
 게인·속도 설정은 [프로파일](profiles/README.md)을 사용하세요.
+
+## 9. 교시장치 SDK와 teleop
+
+`motomind-teaching-sdk`는 Milly·ROS 의존성이 없는 별도 wheel입니다.
+교시장치 위치는 `TeachingDevice.read_positions()`로 읽으며 단위는 rad, 순서는 JSON의 IDs입니다.
+offset·gain·범위를 적용하고, 읽기 실패 시 예외를 내며 이전 위치를 다시 반환하지 않습니다.
+
+```python
+from motomind_teaching import TeachingDevice
+
+with TeachingDevice.from_profile('/dev/ttyUSB0', 'examples/python/configs/dxl_right_example.json') as device:
+    print(device.read_positions())  # 위치 읽기만 하며 토크를 켜지 않음
+```
+
+설정은 `torque_enable`, `current_limit`(0~800 mA), `p_gain`(0~100)입니다.
+토크·시작 보간·종료 처리는 [DXL-only / Milly teleop 예제](examples/python/README.md)를 사용하세요.
+직접 제어 코드를 작성할 때도 교시장치 읽기 예외를 받아 추종 로봇의 정지 함수를 호출해야 합니다.

@@ -1,0 +1,111 @@
+{
+  "note": "Right teaching-device example: confirmed XL330 models; pi-centered output in current SDK coordinates. Gain/current presets still require physical evaluation.",
+  "ids": [
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "p_gain": [
+    0,
+    0,
+    30,
+    40,
+    0,
+    0,
+    100
+  ],
+  "current_limit": [
+    0,
+    0,
+    800,
+    800,
+    0,
+    0,
+    800
+  ],
+  "torque_enable": [
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    true
+  ],
+  "teleop_feedback": {
+    "source": "platform/python/robot_learning_interface/src/robot_learning_interface/configs/presets/milly_single_teleop_default.py (right joint_limit policy; coordinates and P gains adjusted for this teaching device)",
+    "coordinate_source": "position_mapping",
+    "p_gain_over_limit_multiplier": 5
+  },
+  "models": [
+    "XL330-M288-T",
+    "XL330-M288-T",
+    "XL330-M288-T",
+    "XL330-M288-T",
+    "XL330-M288-T",
+    "XL330-M288-T",
+    "XL330-M077-T"
+  ],
+  "joint_names": [
+    "joint_1",
+    "joint_2",
+    "joint_3",
+    "joint_4",
+    "joint_5",
+    "joint_6",
+    "gripper"
+  ],
+  "position_offset_rad": [
+    3.141592653589793,
+    3.141592653589793,
+    3.141592653589793,
+    3.141592653589793,
+    3.141592653589793,
+    3.141592653589793,
+    3.141592653589793
+  ],
+  "position_gain": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    4
+  ],
+  "position_limits_rad": [
+    [
+      -2.8,
+      2.8
+    ],
+    [
+      -3.2,
+      0.0
+    ],
+    [
+      -2.75,
+      0.0
+    ],
+    [
+      -2.42,
+      2.42
+    ],
+    [
+      -1.84,
+      1.7
+    ],
+    [
+      -1.55,
+      1.55
+    ],
+    [
+      0.0,
+      2.11
+    ]
+  ],
+  "position_limits_source": "platform/python/motomind_milly_sdk/src/motomind_milly/profiles/milly_canonical.yaml"
+}
