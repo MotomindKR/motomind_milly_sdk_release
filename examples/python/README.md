@@ -25,7 +25,7 @@ teaching-check-port
 ```
 
 기본 포트는 `/dev/ttyUSB0`입니다. 두 예제는 `configs/dxl_right_example.json`을 같은 폴더에서 읽습니다.
-배열은 ID 40~46 순서이며 사용자 설정은 세 항목입니다.
+배열은 1~6축, 그리퍼 순서(ID 40~46)이며 사용자 설정은 세 항목입니다.
 
 | JSON 항목 | 범위 |
 | --- | --- |
@@ -33,7 +33,7 @@ teaching-check-port
 | `current_limit` | 정수 0~800 mA |
 | `p_gain` | 정수 0~100 |
 
-기본 설정은 42·43·46만 토크 ON합니다. 그리퍼 출력 gain은 +4, 목표는 1.055 rad입니다.
+기본 설정은 3·4축과 그리퍼만 토크 ON합니다.
 `--profile my_teaching.json`으로 수정한 JSON을 지정할 수 있습니다.
 
 ```bash
@@ -47,7 +47,7 @@ python examples/python/dxl_only.py
 python examples/python/milly_teleop.py --product-id MILLY_ABCD
 ```
 
-DXL 위치에는 전 축 π offset과 `[1,1,1,1,1,1,4]` gain을 적용합니다.
+위치 변환과 관절별 출력 범위는 SDK 내부에서 관리하며 JSON에서 수정하지 않습니다.
 Milly는 Python SDK `move_mit()`로 제어합니다. 팔 6축 KP는 `[30,30,30,15,15,5]`,
 KD는 `[1.5,1.5,1.5,1.0,1.0,0.5]`, 그리퍼 KP/KD는 `5.0/0.5`입니다.
 이는 교시장치 JSON의 `p_gain`과 별개입니다. `motion.max_vel: 0.5`는 계획 이동용이며

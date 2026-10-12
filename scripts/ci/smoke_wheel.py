@@ -90,3 +90,27 @@ finally:
     assert arm.shutdown().ok
     arm.disconnect()
 print(f'Installed SDK {mm.__version__}: imports, factory fit, motion without collision geometry, watchdog and FakeCanBus lifecycle OK')
+
+if 'teaching_sdk_version' in manifest:
+    from motomind_teaching import TeachingDevice, ReadError
+    from motomind_teaching.testing import FakeTransport
+    assert version('motomind-teaching-sdk') == manifest['teaching_sdk_version']
+    settings = root / 'examples/python/configs/dxl_right_example.json'
+    assert set(json.loads(settings.read_text())) == {'torque_enable', 'current_limit', 'p_gain'}
+    fake = FakeTransport(range(40, 47), model={**{mid: 1200 for mid in range(40, 46)}, 46: 1190})
+    device = TeachingDevice.from_profile('fake', settings, transport=fake)
+    assert not hasattr(device, 'read_raw_positions'), 'raw position reading must remain internal'
+    with device:
+        assert device.read_positions() == (0.,) * 7
+        for ticks, endpoint in ((-100000, 0), (100000, 1)):
+            fake.positions_raw = [ticks] * 7
+            assert device.read_positions() == tuple(expected_positions[i][endpoint] for i in range(1, 8))
+        fake.missing_ids.add(43)
+        try:
+            device.read_positions()
+        except ReadError:
+            pass
+        else:
+            raise AssertionError('missing teaching sample must not produce a position output')
+    assert not fake.writes, 'position reading must not apply torque settings'
+    print('Installed teaching SDK: minimal user settings, fixed clamp, private raw reads and input-loss rejection OK')

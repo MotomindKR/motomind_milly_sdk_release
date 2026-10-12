@@ -130,8 +130,9 @@ enable 시 잠시 HOLD 힘이 들어가므로 팔을 지지하세요.
 ## 9. 교시장치 SDK와 teleop
 
 `motomind-teaching-sdk`는 Milly·ROS 의존성이 없는 별도 wheel입니다.
-교시장치 위치는 `TeachingDevice.read_positions()`로 읽으며 단위는 rad, 순서는 JSON의 IDs입니다.
-offset·gain·범위를 적용하고, 읽기 실패 시 예외를 내며 이전 위치를 다시 반환하지 않습니다.
+교시장치 위치는 `TeachingDevice.read_positions()`로 읽으며 단위는 rad, 순서는 1~6축, 그리퍼입니다.
+SDK의 고정 변환과 관절별 범위를 적용합니다. 범위 밖 위치는 최솟값/최댓값으로 제한하며,
+읽기 실패 시 예외를 내고 이전 위치를 다시 반환하지 않습니다.
 
 ```python
 from motomind_teaching import TeachingDevice
@@ -140,6 +141,13 @@ with TeachingDevice.from_profile('/dev/ttyUSB0', 'examples/python/configs/dxl_ri
     print(device.read_positions())  # 위치 읽기만 하며 토크를 켜지 않음
 ```
 
-설정은 `torque_enable`, `current_limit`(0~800 mA), `p_gain`(0~100)입니다.
+JSON에서 수정할 수 있는 설정은 다음 세 가지뿐이며 각 배열은 1~6축, 그리퍼 순서입니다.
+
+- `torque_enable`: 각 축의 토크 사용 여부 (`true` / `false`)
+- `current_limit`: 각 축의 전류 상한 (정수, 0~800 mA)
+- `p_gain`: 각 축의 위치 게인 (정수, 0~100)
+
+장치 ID·모델·좌표 변환·위치 범위·힘 피드백 규칙은 SDK 내부에서 관리합니다.
+출력값 제한은 DXL 자체의 물리적 이동을 막는 기능은 아닙니다.
 토크·시작 보간·종료 처리는 [DXL-only / Milly teleop 예제](examples/python/README.md)를 사용하세요.
 직접 제어 코드를 작성할 때도 교시장치 읽기 예외를 받아 추종 로봇의 정지 함수를 호출해야 합니다.

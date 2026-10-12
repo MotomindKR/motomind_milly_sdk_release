@@ -1,7 +1,5 @@
 """Read-only teaching input -> RViz. No Milly connection or DXL control writes."""
-import json
 import math
-from pathlib import Path
 
 import rclpy
 from rclpy.node import Node
@@ -20,11 +18,12 @@ PREFIX = "MILLY_PREVIEW"
 def make_device(port, profile, *, fake, read_timeout_s):
     # Optional dependency: regular Milly ROS nodes do not need the teaching SDK.
     from motomind_teaching import TeachingDevice
+    from motomind_teaching._profiles import load_profile
     transport = None
     if fake:
         from motomind_teaching.device import MODELS
         from motomind_teaching.testing import FakeTransport
-        data = json.loads(Path(profile).read_text())
+        data = load_profile(profile)
         model_ids = {name: number for number, name in MODELS.items()}
         transport = FakeTransport(data["ids"], model={
             mid: model_ids[model] for mid, model in zip(data["ids"], data["models"])})
@@ -53,7 +52,8 @@ class TeachingPreview(Node):
                 raise ValueError("read_timeout_s must be finite and positive")
             if not profile:
                 raise ValueError("profile is required (mapped teaching JSON)")
-            data = json.loads(Path(profile).read_text())
+            from motomind_teaching._profiles import load_profile
+            data = load_profile(profile)
             if tuple(data.get("joint_names", [])) != JOINTS:
                 raise ValueError("profile joint_names must be joint_1..joint_6, gripper in that order")
             if fake and port:

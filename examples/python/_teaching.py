@@ -1,7 +1,6 @@
 """Shared teaching example setup; no Milly, ROS, or CAN imports."""
 import argparse
 from contextlib import contextmanager
-import json
 import math
 from pathlib import Path
 import select
@@ -11,6 +10,7 @@ import time
 
 from motomind_teaching import TeachingDevice
 from motomind_teaching.feedback import TeachingFeedback
+from motomind_teaching._profiles import load_profile
 
 
 def positive(value):
@@ -40,7 +40,7 @@ def parser(description):
 def setup(args, *, fake=False):
     if not 0 < args.rate_hz <= 100:
         raise ValueError('rate-hz must be in (0, 100]')
-    profile = json.loads(args.profile.read_text())
+    profile = load_profile(args.profile)
     transport = None
     if fake:
         from motomind_teaching.device import MODELS
