@@ -70,6 +70,16 @@ sudo usermod -aG dialout "$USER"
 teaching-check-port
 ```
 
+USB 응답이 느리다면 프로그램을 종료하고 어댑터의 지연을 확인하세요.
+`latency_timer` 파일이 있는 어댑터는 [ROBOTIS 안내](https://emanual.robotis.com/docs/en/software/dynamixel/dynamixel_wizard2/#usb-latency-setting)에 따라 1 ms로 설정할 수 있습니다.
+
+```bash
+cat /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
+echo 1 | sudo tee /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
+```
+
+USB를 다시 연결하면 재설정이 필요할 수 있습니다.
+
 기본 포트는 `/dev/ttyUSB0`입니다. 두 예제는 `configs/dxl_right_example.json`을 같은 폴더에서 읽습니다.
 배열은 1~6축, 그리퍼 순서(ID 40~46)이며 사용자 설정은 세 항목입니다.
 
@@ -95,6 +105,10 @@ Milly는 Python SDK `move_mit()`로 제어합니다. 팔 6축 KP는 `[30,30,30,1
 KD는 `[1.5,1.5,1.5,1.0,1.0,0.5]`, 그리퍼 KP/KD는 `5.0/0.5`입니다.
 이는 교시장치 JSON의 `p_gain`과 별개입니다. `motion.max_vel: 0.5`는 계획 이동용이며
 MIT teleop의 속도 제한으로 적용되지 않습니다.
+추종 기본 주기는 30 Hz이며 `--rate-hz 30`으로 지정할 수 있습니다.
+시작 보간은 실제 경과시간 3초 기준으로 수렴하고 이후 새 위치를 직접 추종합니다.
+통신·OS 지연이 있으면 3초 이후 첫 정상 샘플에서 추종으로 전환합니다.
+실행 중 `Teleop: ... Hz; DXL step ... ms`로 실제 주기와 DXL 처리 시간을 확인하세요.
 시작 전에 두 장치를 비슷한 자세로 맞추고 지지하세요. 보간에는 충돌 검사가 없습니다.
 시작 실측 위치는 SDK 안전 범위 안에서 확인하고 명령 범위 경계로 맞춥니다.
 안전 범위 밖이거나 피드백이 누락되면 이동을 시작하지 않습니다.

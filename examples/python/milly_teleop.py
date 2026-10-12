@@ -84,21 +84,39 @@ def run_teleop(dev, controller, profile, arm_factory, *, rate_hz=30., duration=N
             print('Milly start:', start, 'Teaching target:', target, flush=True)
             print('Interpolating for 3 s, then teleop. Ctrl+C -> shutdown.', flush=True)
             current = start
-            remaining = max(1, math.ceil(WARMUP_SECONDS * rate_hz))
             started = clock()
+            deadline = started + WARMUP_SECONDS
+            last_update = started
+            report_start, report_ticks = None, 0
             while duration is None or clock() - started < duration:
                 tick = clock()
                 target = validate_positions(motors, controller.step())
+                sampled = clock()
                 if not arm.is_ok():
                     raise RuntimeError('Milly fault; stopping teleop')
-                # Same fresh-target interpolation as the validated single teleop tool.
-                current = tuple(a + (b - a) / remaining for a, b in zip(current, target)) if remaining else target
-                remaining = max(0, remaining - 1)
+                # Legacy convergence rule, with remaining TIME instead of iterations.
+                # At/after the deadline, the next fresh sample is followed directly.
+                left = deadline - last_update
+                fraction = min(1., max(0., (sampled - last_update) / left)) if left > 0 else 1.
+                current = tuple(a + (b - a) * fraction for a, b in zip(current, target))
+                last_update = sampled
                 validate_positions(motors, current)  # entire sample before any motor update
                 for motor, position, kp, kd in zip(motors, current, KP, KD):
                     if not arm.move_mit(motor.id, position=position, velocity=0., kp=kp, kd=kd):
                         raise RuntimeError(f'Milly rejected MIT target for {motor.joint_name}')
-                sleep(max(0., 1 / rate_hz - (clock() - tick)))
+                if report_start is None:
+                    report_start = sampled
+                else:
+                    report_ticks += 1
+                if sampled - report_start >= 1.:
+                    phase = 'following' if sampled >= deadline else 'interpolating'
+                    print(f'Teleop: {report_ticks / (sampled - report_start):.1f} Hz '
+                          f'(target {rate_hz:g}); DXL step {(sampled - tick) * 1000:.1f} ms; {phase}', flush=True)
+                    report_start, report_ticks = sampled, 0
+                delay = max(0., 1 / rate_hz - (clock() - tick))
+                if clock() < deadline:
+                    delay = min(delay, deadline - clock())
+                sleep(max(0., delay))
         finally:
             with ignore_signals():
                 if arm is not None:
