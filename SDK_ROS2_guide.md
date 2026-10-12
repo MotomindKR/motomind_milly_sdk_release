@@ -247,6 +247,6 @@ ros2 launch milly_sdk_description teaching_preview.launch.py \
   profile:="$PWD/examples/python/configs/dxl_right_example.json"
 ```
 
-USB 권한은 [교시장치 예제 안내](examples/python/README.md)를 따릅니다.
+USB 권한·필수 지연 설정은 [교시장치 예제 안내](examples/python/README.md)를 따릅니다.
 통신이 끊기면 위치 출력을 중단하고 상태에 오류를 표시하며 자동 재연결하지 않습니다.
 다른 DXL 예제를 실행하기 전에 미리보기를 Ctrl+C로 종료하세요.

@@ -24,7 +24,7 @@ python scripts/ci/install_wheels.py --with-teaching
 ```
 
 교시장치만 사용하는 경우에는 Milly 없이 `python -m pip install dist/teaching/*.whl`만 실행하세요.
-[교시장치 예제와 USB 권한 설정](examples/python/README.md)을 따릅니다.
+[교시장치 예제와 USB 권한·필수 지연 설정](examples/python/README.md)을 따릅니다.
 
 ## ROS2 Humble
 

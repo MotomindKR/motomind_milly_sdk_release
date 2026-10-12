@@ -33,6 +33,9 @@ def verify_compiled_wheel(names, prefix):
 
 
 def inspect(root, version):
+    notes = root/'RELEASE_NOTES.md'
+    if notes.exists():
+        assert notes.read_text().splitlines()[:1] == [f'# Milly SDK {version}'], 'release notes version differs from SDK'
     assert not (root/'ros/tests').exists(), 'development/CI tests must live under .github/tests/ros'
     assert not (root/'examples/ros').exists(), 'ROS examples are development-only'
     assert not (root/'ros/README.md').exists(), 'ROS documentation belongs in SDK_ROS2_guide.md'
@@ -153,12 +156,13 @@ def verify_manifest(root, saved):
     assert not any(Path(name).name in LOCAL_ONLY_NAMES for name in saved['files']), 'local-only marker in release inventory'
     verify_inventory(root, saved['files'])
     required = {
-        *result['wheels'], 'LICENSE', 'INSTALL.md', 'README.md',
+        *result['wheels'], 'LICENSE', 'INSTALL.md', 'README.md', 'RELEASE_NOTES.md',
         'scripts/set_can_interface.sh', 'milly_description/model_manifest.json',
         'milly_description/urdf/MILLY.urdf',
         'SDK_python_guide.md', 'SDK_ROS2_guide.md',
         *(f'ros/src/{name}/package.xml' for name in result['ros_packages']),
         'scripts/setup_ros_humble.sh', 'scripts/ros_env.sh', 'scripts/check_ros_install.py',
+        'scripts/setup_teaching_usb.sh',
         *(f'.github/tests/ros/{name}' for name in (
             'test_backend.py', 'test_ros_node.py', 'test_motor_gui.py',
             'test_position_monitor.py', 'test_rviz_config.py', 'test_launch_layout.py')),
