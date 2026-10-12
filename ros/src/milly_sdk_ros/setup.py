@@ -11,5 +11,6 @@ setup(
         "driver = milly_sdk_ros.node:main",
         "discover = milly_sdk_ros.discover:main",
         "description_monitor = milly_sdk_ros.description_monitor:main",
+        "teaching_preview = milly_sdk_ros.teaching_preview:main",
     ]},
 )

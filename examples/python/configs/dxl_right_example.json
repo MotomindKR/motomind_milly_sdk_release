@@ -1,0 +1,29 @@
+{
+  "torque_enable": [
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    true
+  ],
+  "current_limit": [
+    0,
+    0,
+    800,
+    800,
+    0,
+    0,
+    800
+  ],
+  "p_gain": [
+    0,
+    0,
+    30,
+    40,
+    0,
+    0,
+    100
+  ]
+}

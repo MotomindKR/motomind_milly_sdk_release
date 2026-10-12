@@ -54,4 +54,4 @@ jobs:
           gh release create "v$RELEASE_VERSION" \
             "$RUNNER_TEMP/motomind-milly-sdk-$RELEASE_VERSION-linux-x86_64.tar.gz" \
             "$RUNNER_TEMP/SHA256SUMS" \
-            --target "$GITHUB_SHA" --title "Milly SDK $RELEASE_VERSION" --generate-notes
+            --target "$GITHUB_SHA" --title "Milly SDK $RELEASE_VERSION" --notes-file RELEASE_NOTES.md

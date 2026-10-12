@@ -25,6 +25,10 @@ jobs:
           python-version: '3.10'
       - run: python -m pip install pyyaml
       - run: python scripts/ci/verify_release.py
+      - name: Teaching USB setup without system changes
+        run: |
+          bash -n scripts/setup_teaching_usb.sh
+          bash scripts/setup_teaching_usb.sh --dry-run
   wheels:
     name: Wheel Python ${{ matrix.python }}
     needs: bundle
@@ -42,9 +46,13 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install only release wheels and their declared dependencies
-        run: python scripts/ci/install_wheels.py
+        run: python scripts/ci/install_wheels.py --with-teaching
       - run: python -m pip check
       - run: python scripts/ci/smoke_wheel.py
+      - name: Teaching example without hardware
+        run: |
+          python examples/python/dxl_only.py --fake --auto-start --duration 0.1
+          python examples/python/milly_teleop.py --help
   ros:
     name: ROS2 Humble
     needs: bundle
