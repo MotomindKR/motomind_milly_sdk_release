@@ -162,7 +162,7 @@ def verify_manifest(root, saved):
         'SDK_python_guide.md', 'SDK_ROS2_guide.md',
         *(f'ros/src/{name}/package.xml' for name in result['ros_packages']),
         'scripts/setup_ros_humble.sh', 'scripts/ros_env.sh', 'scripts/check_ros_install.py',
-        'scripts/setup_teaching_usb.sh',
+        'scripts/setup_teaching_usb.sh', 'scripts/clean_ros_metadata.py',
         *(f'.github/tests/ros/{name}' for name in (
             'test_backend.py', 'test_ros_node.py', 'test_motor_gui.py',
             'test_position_monitor.py', 'test_rviz_config.py', 'test_launch_layout.py')),

@@ -41,6 +41,7 @@ source scripts/ros_env.sh
 
 결과: `.venv_ros`에 SDK 설치 → ROS 빌드 → 연결 없이 설치 검사.
 재설치도 같은 명령입니다. 실행 중인 드라이버는 먼저 종료하세요.
+ROS 빌드 후 남은 구버전 패키지 정보를 정리하고 `teaching_preview` 등 실행 항목도 검사합니다.
 새 터미널마다 `source scripts/ros_env.sh`를 실행합니다.
 
 ## CAN 연결

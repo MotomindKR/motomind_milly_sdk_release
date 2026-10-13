@@ -33,6 +33,9 @@ run "$ROOT/.venv_ros/bin/python" "$ROOT/scripts/ci/install_wheels.py"
 run "$ROOT/.venv_ros/bin/python" -m pip check
 # Run colcon with the same interpreter as the installed SDK and generated ROS bindings.
 run bash -c 'source /opt/ros/humble/setup.bash && cd "$1" && exec "$1/.venv_ros/bin/python" -m colcon build --base-paths ros/src --cmake-args -DCMAKE_BUILD_TYPE=Release -DPython3_EXECUTABLE="$1/.venv_ros/bin/python" -DPYTHON_EXECUTABLE="$1/.venv_ros/bin/python"' _ "$ROOT"
+# Colcon can leave old ament_python metadata after a package version update.
+# Clean only after a successful build and confirmed current entry points.
+run "$ROOT/.venv_ros/bin/python" "$ROOT/scripts/clean_ros_metadata.py" --root "$ROOT"
 if ! "$DRY_RUN"; then
   # ROS setup scripts do not support nounset.
   set +u

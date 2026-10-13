@@ -68,7 +68,7 @@ python -m pip install dist/teaching/*.whl
 ls /dev/tty* | grep -E '/dev/tty(USB|ACM)[0-9]+$'
 ```
 
-교시장치 종류에 따라 `/dev/ttyUSB0` 또는 `/dev/ttyACM0` 등으로 표시됩니다.
+교시장치 종류와 연결 순서에 따라 `/dev/ttyUSB0`, `/dev/ttyUSB1`, `/dev/ttyACM0`, `/dev/ttyACM1` 등으로 표시됩니다.
 **아래 명령의 `/dev/ttyUSB0`은 확인된 포트 이름으로 바꾸세요.**
 여러 포트가 보이면 교시장치 USB 연결 전후의 목록을 비교합니다.
 
@@ -113,6 +113,7 @@ cat /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
 ```
 
 **출력이 `1`인 것을 확인한 뒤 예제를 실행하세요.** `16`이면 설정이 적용되지 않은 상태입니다.
+`ttyUSB1`이면 확인 경로도 `/sys/bus/usb-serial/devices/ttyUSB1/latency_timer`로 바꿉니다.
 
 예제의 기본 포트는 `/dev/ttyUSB0`이며, 다른 포트는 `--port`로 지정합니다.
 두 예제는 `configs/dxl_right_example.json`을 같은 폴더에서 읽습니다.

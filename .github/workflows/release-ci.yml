@@ -80,7 +80,7 @@ jobs:
           apt-get install -y python3-pip python3-venv python3-tk python3-yaml python3-cairo python3-colcon-common-extensions build-essential cmake libusb-1.0-0 ros-humble-robot-state-publisher ros-humble-rviz2
           python3 -m venv --system-site-packages .venv_ros
           .venv_ros/bin/python -m pip install 'pytest>=7,<9'
-          .venv_ros/bin/python scripts/ci/install_wheels.py
+          .venv_ros/bin/python scripts/ci/install_wheels.py --with-teaching
           .venv_ros/bin/python -m pip check
       - name: Build ROS sources against the released SDK
         run: |
@@ -89,6 +89,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DPython3_EXECUTABLE="$PWD/.venv_ros/bin/python" \
             -DPYTHON_EXECUTABLE="$PWD/.venv_ros/bin/python"
+          .venv_ros/bin/python scripts/clean_ros_metadata.py
       - name: Test installed services, topics and lifecycle without CAN
         run: |
           source scripts/ros_env.sh
