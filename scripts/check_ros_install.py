@@ -1,6 +1,18 @@
 """Check a Humble installation. No CAN connection or Arm creation."""
 from pathlib import Path
+from importlib.metadata import distribution
 import xml.etree.ElementTree as ET
+
+root = Path(__file__).resolve().parents[1]
+expected = ET.parse(root/'ros/src/milly_sdk_ros/package.xml').findtext('version')
+installed = distribution('milly-sdk-ros')
+entries = {entry.name: entry for entry in installed.entry_points if entry.group == 'console_scripts'}
+required = {'driver', 'discover', 'description_monitor', 'teaching_preview'}
+assert installed.version == expected and required <= entries.keys(), (
+    'ROS executable metadata is stale or incomplete. Run bash scripts/setup_ros_humble.sh, '
+    'then source scripts/ros_env.sh in a fresh terminal.')
+for name in required:
+    assert callable(entries[name].load()), f'ROS executable cannot be loaded: {name}'
 
 from ament_index_python.packages import get_package_share_directory
 from milly_sdk_interfaces.srv import MoveJ, MoveP, Gripper, Fk, FloatMode
@@ -33,4 +45,4 @@ model = RobotModel(str(urdf))
 mm.profile.load_factory_gravity_calibration(model)
 model.frame_id("link_6")
 model.enable_self_collision([str(share.parent)])
-print("Installed interfaces, model, factory calibration and collision meshes: OK (no hardware)")
+print("Installed ROS executables, interfaces, model, factory calibration and collision meshes: OK (no hardware)")

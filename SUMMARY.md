@@ -6,6 +6,7 @@
 
 * [설치 / 지원 환경](INSTALL.md)
 * [예제 선택](examples/README.md)
+* [변경 이력](CHANGELOG.md)
 
 ## Python SDK
 

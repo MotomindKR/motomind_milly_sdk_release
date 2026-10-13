@@ -5,8 +5,12 @@ Python 직접 사용과 ROS 중 필요한 경로를 선택합니다.
 
 ## Python SDK
 
+`X`는 사용할 Python 버전에 맞게 `10`, `11`, `12` 중 하나로 바꾸세요.
+해당 Python이 설치되어 있어야 하며, venv 패키지도 같은 버전으로 설치합니다.
+
 ```bash
-python3.10 -m venv .venv       # 3.11 / 3.12도 사용 가능
+sudo apt install -y python3.X-venv
+python3.X -m venv .venv       # 3.10 / 3.11 / 3.12 사용 가능
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python scripts/ci/install_wheels.py
@@ -37,6 +41,7 @@ source scripts/ros_env.sh
 
 결과: `.venv_ros`에 SDK 설치 → ROS 빌드 → 연결 없이 설치 검사.
 재설치도 같은 명령입니다. 실행 중인 드라이버는 먼저 종료하세요.
+ROS 빌드 후 남은 구버전 패키지 정보를 정리하고 `teaching_preview` 등 실행 항목도 검사합니다.
 새 터미널마다 `source scripts/ros_env.sh`를 실행합니다.
 
 ## CAN 연결

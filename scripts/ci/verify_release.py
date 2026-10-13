@@ -156,13 +156,13 @@ def verify_manifest(root, saved):
     assert not any(Path(name).name in LOCAL_ONLY_NAMES for name in saved['files']), 'local-only marker in release inventory'
     verify_inventory(root, saved['files'])
     required = {
-        *result['wheels'], 'LICENSE', 'INSTALL.md', 'README.md', 'RELEASE_NOTES.md',
+        *result['wheels'], 'LICENSE', 'INSTALL.md', 'README.md', 'RELEASE_NOTES.md', 'CHANGELOG.md',
         'scripts/set_can_interface.sh', 'milly_description/model_manifest.json',
         'milly_description/urdf/MILLY.urdf',
         'SDK_python_guide.md', 'SDK_ROS2_guide.md',
         *(f'ros/src/{name}/package.xml' for name in result['ros_packages']),
         'scripts/setup_ros_humble.sh', 'scripts/ros_env.sh', 'scripts/check_ros_install.py',
-        'scripts/setup_teaching_usb.sh',
+        'scripts/setup_teaching_usb.sh', 'scripts/clean_ros_metadata.py',
         *(f'.github/tests/ros/{name}' for name in (
             'test_backend.py', 'test_ros_node.py', 'test_motor_gui.py',
             'test_position_monitor.py', 'test_rviz_config.py', 'test_launch_layout.py')),

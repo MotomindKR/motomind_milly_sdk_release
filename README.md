@@ -9,7 +9,7 @@ Milly 6축 팔과 그리퍼를 Python 또는 ROS2로 제어합니다.
 
 | 사용 방식 | OS / CPU | Python | 상태 |
 | --- | --- | --- | --- |
-| Python SDK | Linux x86_64 · Ubuntu 22.04 검증 | 3.10 / 3.11 / 3.12 | 지원 |
+| Python SDK | Linux x86_64 · Ubuntu 22.04 / 24.04 | 3.10 / 3.11 / 3.12 | 지원 |
 | ROS2 Humble | Ubuntu 22.04 / x86_64 | 3.10 | 지원 |
 | ROS2 Jazzy | Ubuntu 24.04 / x86_64 | 3.12 | 지원 예정 |
 
@@ -23,6 +23,7 @@ Milly 6축 팔과 그리퍼를 Python 또는 ROS2로 제어합니다.
 | ROS 드라이버 실행·제어 | [ROS 명령어](SDK_ROS2_guide.md) |
 | RViz로 관절 확인 | [모델 확인](SDK_ROS2_guide.md) |
 | 제품별 게인·속도 변경 | [프로파일](profiles/README.md) |
+| 버전별 변경 사항 | [변경 이력](CHANGELOG.md) |
 | 교시장치·Python teleop | [DXL-only / Milly teleop 예제](examples/python/README.md) — teaching wheel 선택 설치 |
 
 같은 로봇에는 제어 프로그램 하나만 실행하세요.
