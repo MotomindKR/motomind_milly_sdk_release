@@ -5,8 +5,12 @@ Python 직접 사용과 ROS 중 필요한 경로를 선택합니다.
 
 ## Python SDK
 
+`X`는 사용할 Python 버전에 맞게 `10`, `11`, `12` 중 하나로 바꾸세요.
+해당 Python이 설치되어 있어야 하며, venv 패키지도 같은 버전으로 설치합니다.
+
 ```bash
-python3.10 -m venv .venv       # 3.11 / 3.12도 사용 가능
+sudo apt install -y python3.X-venv
+python3.X -m venv .venv       # 3.10 / 3.11 / 3.12 사용 가능
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python scripts/ci/install_wheels.py

@@ -242,11 +242,14 @@ python -m pip install dist/teaching/*.whl
 ros2 launch milly_sdk_description teaching_preview.launch.py \
   profile:="$PWD/examples/python/configs/dxl_right_example.json" fake:=true
 
-# 위 예제를 종료한 뒤 실제 교시장치 위치만 읽기 (/dev/ttyUSB0)
+# 위 예제를 종료한 뒤 포트 확인 (교시장치 종류에 따라 ttyUSB 또는 ttyACM)
+ls /dev/tty* | grep -E '/dev/tty(USB|ACM)[0-9]+$'
+
+# 실제 교시장치 위치만 읽기: port를 확인된 /dev/ttyUSB0 또는 /dev/ttyACM0 등으로 변경
 ros2 launch milly_sdk_description teaching_preview.launch.py \
-  profile:="$PWD/examples/python/configs/dxl_right_example.json"
+  profile:="$PWD/examples/python/configs/dxl_right_example.json" port:=/dev/ttyUSB0
 ```
 
-USB 권한·필수 지연 설정은 [교시장치 예제 안내](examples/python/README.md)를 따릅니다.
+USB 권한과 ttyUSB 교시장치의 필수 지연 설정은 [교시장치 예제 안내](examples/python/README.md)를 따릅니다.
 통신이 끊기면 위치 출력을 중단하고 상태에 오류를 표시하며 자동 재연결하지 않습니다.
 다른 DXL 예제를 실행하기 전에 미리보기를 Ctrl+C로 종료하세요.

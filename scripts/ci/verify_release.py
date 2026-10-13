@@ -156,7 +156,7 @@ def verify_manifest(root, saved):
     assert not any(Path(name).name in LOCAL_ONLY_NAMES for name in saved['files']), 'local-only marker in release inventory'
     verify_inventory(root, saved['files'])
     required = {
-        *result['wheels'], 'LICENSE', 'INSTALL.md', 'README.md', 'RELEASE_NOTES.md',
+        *result['wheels'], 'LICENSE', 'INSTALL.md', 'README.md', 'RELEASE_NOTES.md', 'CHANGELOG.md',
         'scripts/set_can_interface.sh', 'milly_description/model_manifest.json',
         'milly_description/urdf/MILLY.urdf',
         'SDK_python_guide.md', 'SDK_ROS2_guide.md',

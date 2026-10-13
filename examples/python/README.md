@@ -62,34 +62,60 @@ Milly teleop은 [Milly 설치](../../INSTALL.md) 후 teaching wheel을 추가로
 python -m pip install dist/teaching/*.whl
 ```
 
+먼저 교시장치를 연결하고 포트 이름을 확인합니다. SDK 설치 없이도 확인할 수 있습니다.
+
+```bash
+ls /dev/tty* | grep -E '/dev/tty(USB|ACM)[0-9]+$'
+```
+
+교시장치 종류에 따라 `/dev/ttyUSB0` 또는 `/dev/ttyACM0` 등으로 표시됩니다.
+**아래 명령의 `/dev/ttyUSB0`은 확인된 포트 이름으로 바꾸세요.**
+여러 포트가 보이면 교시장치 USB 연결 전후의 목록을 비교합니다.
+
 최초 USB 권한 설정:
 
 ```bash
 sudo usermod -aG dialout "$USER"
 # 로그아웃/로그인하고 터미널·VS Code를 다시 실행
-teaching-check-port
+id -nG                      # 현재 터미널의 그룹에 dialout이 있는지 확인
+ls -l /dev/ttyUSB0           # 장치 그룹과 읽기/쓰기 권한 확인
+teaching-check-port --port /dev/ttyUSB0
 ```
+
+`teaching-check-port`는 포트를 열지 않고 권한만 확인합니다.
+재로그인 후에도 실패하면 `id`, `id "$USER"`, `ls -l /dev/ttyUSB0` 결과를 확인하세요.
+계정에 등록된 그룹과 현재 터미널에 적용된 그룹이 다를 수 있습니다.
 
 로그아웃 없이 현재 연결된 장치를 바로 사용하려면 임시로 권한을 설정하세요.
 
 ```bash
 sudo chmod 777 /dev/ttyUSB0
-teaching-check-port
+teaching-check-port --port /dev/ttyUSB0
 ```
 
 이 임시 권한은 USB 재연결 시 초기화될 수 있습니다. `dialout` 설정은 다음 로그인부터 적용됩니다.
 
-**필수 USB 지연 설정:** 예제 실행 전에 `latency_timer`를 **1 ms**로 설정하세요.
-각 Linux PC에서 아래 스크립트를 최초 한 번 실행하세요. 설치 시 sudo 비밀번호를 요청합니다.
+**ttyUSB 교시장치의 필수 USB 지연 설정:** FTDI 어댑터는 예제 실행 전에 `latency_timer`를 **1 ms**로 설정하세요.
+`ttyACM` 교시장치는 이 FTDI 설정을 사용하지 않으므로 아래 지연 설정을 건너뜁니다.
+각 Linux PC에서 아래 순서로 설정하고 확인하세요.
+
+1. 교시장치 프로그램을 종료하고 스크립트를 최초 한 번 실행합니다. 설치 시 sudo 비밀번호를 요청합니다.
 
 ```bash
-bash scripts/setup_teaching_usb.sh
-# 교시장치 프로그램 종료 → USB 분리 후 다시 연결
-cat /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
-# 출력이 1인지 확인
+bash scripts/setup_teaching_usb.sh --port /dev/ttyUSB0
 ```
 
-기본 포트는 `/dev/ttyUSB0`입니다. 두 예제는 `configs/dxl_right_example.json`을 같은 폴더에서 읽습니다.
+2. **교시장치 USB 케이블을 분리한 뒤 다시 연결합니다.** 새 규칙은 재연결 시 적용됩니다.
+3. 재연결한 장치의 값을 확인합니다.
+
+```bash
+cat /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
+```
+
+**출력이 `1`인 것을 확인한 뒤 예제를 실행하세요.** `16`이면 설정이 적용되지 않은 상태입니다.
+
+예제의 기본 포트는 `/dev/ttyUSB0`이며, 다른 포트는 `--port`로 지정합니다.
+두 예제는 `configs/dxl_right_example.json`을 같은 폴더에서 읽습니다.
 배열은 1~6축, 그리퍼 순서(ID 40~46)이며 사용자 설정은 세 항목입니다.
 
 | JSON 항목 | 범위 |
@@ -103,10 +129,10 @@ cat /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
 
 ```bash
 # 1. DXL만: Enter → 선택 축 토크 ON 및 3초 ramp → 위치 출력 → Ctrl+C로 OFF
-python examples/python/dxl_only.py
+python examples/python/dxl_only.py --port /dev/ttyUSB0
 
 # 2. DXL 토크 ON → Enter → Milly HOLD → 3초 보간 → teleop → Ctrl+C shutdown
-python examples/python/milly_teleop.py --product-id MILLY_ABCD
+python examples/python/milly_teleop.py --product-id MILLY_ABCD --port /dev/ttyUSB0
 ```
 
 위치 변환과 관절별 출력 범위는 SDK 내부에서 관리하며 JSON에서 수정하지 않습니다.
