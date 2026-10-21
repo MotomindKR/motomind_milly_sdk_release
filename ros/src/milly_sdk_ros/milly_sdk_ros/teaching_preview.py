@@ -58,7 +58,8 @@ class TeachingPreview(Node):
                 raise ValueError("profile joint_names must be joint_1..joint_6, gripper in that order")
             if fake and port:
                 raise ValueError("fake:=true cannot be combined with a real port")
-            port = port or ("" if fake else "/dev/ttyUSB0")
+            from motomind_teaching.serial_access import DEFAULT_PORT
+            port = port or ("" if fake else DEFAULT_PORT)
             self._factory = lambda: device_factory(port, profile, fake=fake, read_timeout_s=timeout)
             self._source = "FAKE" if fake else "DXL READ ONLY"
             self._gripper = GripperDisplayMap()

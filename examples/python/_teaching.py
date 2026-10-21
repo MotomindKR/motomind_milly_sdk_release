@@ -11,6 +11,7 @@ import time
 from motomind_teaching import TeachingDevice
 from motomind_teaching.feedback import TeachingFeedback
 from motomind_teaching._profiles import load_profile
+from motomind_teaching.serial_access import DEFAULT_PORT
 
 
 def positive(value):
@@ -22,7 +23,7 @@ def positive(value):
 
 def parser(description):
     parser = argparse.ArgumentParser(description=description)
-    parser.add_argument('--port', default='/dev/ttyUSB0')
+    parser.add_argument('--port', default=DEFAULT_PORT)
     nearby = Path(__file__).parent / 'configs/dxl_right_example.json'
     default_profile = nearby
     if not nearby.is_file():
@@ -51,6 +52,10 @@ def setup(args, *, fake=False):
         print('FAKE: no serial device or robot is opened.')
     dev = TeachingDevice.from_profile(args.port, args.profile, transport=transport)
     controller = TeachingFeedback(dev, profile)
+    gripper = profile['joint_names'].index('gripper')
+    print(f"DXL gripper settings: P={controller.p_gain[gripper]}, "
+          f"restoring target={profile['teleop_feedback']['gripper_target_rad']:g} rad, "
+          f"output max={controller.policy.limits[gripper][1]:g} rad", flush=True)
     return dev, controller, profile
 
 

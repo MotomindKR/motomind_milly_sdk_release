@@ -24,9 +24,9 @@ from motomind_teaching._profiles import load_profile
 from milly_sdk_ros.teaching_preview import TeachingPreview, make_device, PREFIX
 
 SDK = next(p for p in Path(__file__).resolve().parents if (p / "ros/src").is_dir())
-ROOT = SDK.parents[2]
 PROFILE = SDK / "examples/python/configs/dxl_right_example.json"
 if not PROFILE.is_file():
+    ROOT = next(p for p in SDK.parents if (p / "configs/teaching_devices/dxl_right_example.json").is_file())
     PROFILE = ROOT / "configs/teaching_devices/dxl_right_example.json"
 
 
@@ -189,7 +189,7 @@ def test_three_key_user_settings_publish_clamped_positions_without_writes(tmp_pa
         rclpy.shutdown()
 
 
-def test_default_real_port_is_ttyusb0_without_opening_it():
+def test_default_real_port_is_ttyacm0_without_opening_it():
     seen = []
     rclpy.init()
     def factory(port, profile, **kwargs):
@@ -199,7 +199,7 @@ def test_default_real_port_is_ttyusb0_without_opening_it():
     node = TeachingPreview(device_factory=factory, parameter_overrides=overrides(fake=False))
     try:
         node.poll()
-        assert seen == ['/dev/ttyUSB0']
+        assert seen == ['/dev/ttyACM0']
         assert not node.fault
         assert node.device._io.writes == []
     finally:
