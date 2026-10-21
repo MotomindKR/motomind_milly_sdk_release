@@ -137,7 +137,7 @@ SDK의 고정 변환과 관절별 범위를 적용합니다. 범위 밖 위치�
 ```python
 from motomind_teaching import TeachingDevice
 
-with TeachingDevice.from_profile('/dev/ttyUSB0', 'examples/python/configs/dxl_right_example.json') as device:
+with TeachingDevice.from_profile('/dev/ttyACM0', 'examples/python/configs/dxl_right_example.json') as device:
     print(device.read_positions())  # 위치 읽기만 하며 토크를 켜지 않음
 ```
 

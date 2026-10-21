@@ -238,16 +238,12 @@ ROS 설치 후 release 루트에서 teaching wheel을 추가 설치하세요:
 source scripts/ros_env.sh
 python -m pip install dist/teaching/*.whl
 
-# 먼저 무하드 미리보기
-ros2 launch milly_sdk_description teaching_preview.launch.py \
-  profile:="$PWD/examples/python/configs/dxl_right_example.json" fake:=true
-
-# 위 예제를 종료한 뒤 포트 확인 (교시장치 종류에 따라 ttyUSB 또는 ttyACM)
+# 포트 확인 (교시장치 종류에 따라 ttyUSB 또는 ttyACM)
 ls /dev/tty* | grep -E '/dev/tty(USB|ACM)[0-9]+$'
 
 # 실제 교시장치 위치만 읽기: port를 확인된 ttyUSB0/1 또는 ttyACM0/1 등으로 변경
 ros2 launch milly_sdk_description teaching_preview.launch.py \
-  profile:="$PWD/examples/python/configs/dxl_right_example.json" port:=/dev/ttyACM1
+  profile:="$PWD/examples/python/configs/dxl_right_example.json" port:=/dev/ttyACM0
 ```
 
 USB 권한과 ttyUSB 교시장치의 필수 지연 설정은 [교시장치 예제 안내](examples/python/README.md)를 따릅니다.

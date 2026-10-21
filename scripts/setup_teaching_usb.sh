@@ -3,14 +3,14 @@
 set -euo pipefail
 
 usage() {
-  echo 'Usage: bash scripts/setup_teaching_usb.sh [--port /dev/ttyUSB0] [--dry-run]'
+  echo 'Usage: bash scripts/setup_teaching_usb.sh [--port /dev/ttyACM0] [--dry-run]'
   echo 'Install the 1 ms USB latency rule for FTDI adapters with USB ID 0403:6014.'
   echo 'ttyACM ports do not use this FTDI setting; no rule is installed for them.'
   echo 'Run once on each Linux host; sudo is requested when installing.'
 }
 
 DRY_RUN=false
-TEACHING_PORT='/dev/ttyUSB0'
+TEACHING_PORT='/dev/ttyACM0'
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run) DRY_RUN=true; shift ;;

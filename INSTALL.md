@@ -30,6 +30,19 @@ python scripts/ci/install_wheels.py --with-teaching
 교시장치만 사용하는 경우에는 Milly 없이 `python -m pip install dist/teaching/*.whl`만 실행하세요.
 [교시장치 예제와 USB 권한·필수 지연 설정](examples/python/README.md)을 따릅니다.
 
+### Milly SDK · 교시장치 SDK 버전 조합
+
+같은 release에 포함된 wheel 조합을 권장합니다. 두 SDK의 버전 번호는 독립적으로 관리합니다.
+
+| Release 버전 | Milly SDK | Teaching SDK |
+| --- | --- | --- |
+| 1.0.3 Release | 1.0.3 | 0.1.2 |
+| 1.0.2 Release | 1.0.2 | 0.1.1 |
+
+Python용 환경과 ROS용 환경에서 교시장치를 함께 사용하면 Teaching SDK도 같은 버전으로 맞추세요.
+재설치하면 별도 업데이트한 패키지도 해당 release에 포함된 버전으로 맞춰집니다.
+교시장치만 사용할 때는 Milly SDK 설치가 필요하지 않습니다.
+
 ## ROS2 Humble
 
 Ubuntu 22.04 / x86_64 / ROS2 Humble 환경에서 실행합니다.

@@ -51,7 +51,7 @@ def setup(context):
 def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument("profile", description="Absolute path to mapped teaching JSON"),
-        DeclareLaunchArgument("port", default_value="", description="DXL serial port; real default /dev/ttyUSB0; omit in fake mode"),
+        DeclareLaunchArgument("port", default_value="", description="DXL serial port; real default /dev/ttyACM0; omit in fake mode"),
         DeclareLaunchArgument("fake", default_value="false", choices=["true", "false"]),
         DeclareLaunchArgument("gui", default_value="true", choices=["true", "false"]),
         DeclareLaunchArgument("rate_hz", default_value="30.0"),
