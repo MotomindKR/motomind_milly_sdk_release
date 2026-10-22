@@ -36,6 +36,7 @@ python scripts/ci/install_wheels.py --with-teaching
 
 | Release 버전 | Milly SDK | Teaching SDK |
 | --- | --- | --- |
+| 1.0.4 Release | 1.0.4 | 0.1.2 |
 | 1.0.3 Release | 1.0.3 | 0.1.2 |
 | 1.0.2 Release | 1.0.2 | 0.1.1 |
 

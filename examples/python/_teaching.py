@@ -24,11 +24,11 @@ def positive(value):
 def parser(description):
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--port', default=DEFAULT_PORT)
-    nearby = Path(__file__).parent / 'configs/dxl_right_example.json'
+    nearby = Path(__file__).parent / 'configs/teleoperation_tool_setting_example.json'
     default_profile = nearby
     if not nearby.is_file():
         for ancestor in Path(__file__).resolve().parents:
-            candidate = ancestor/'configs/teaching_devices/dxl_right_example.json'
+            candidate = ancestor/'configs/teaching_devices/teleoperation_tool_setting_example.json'
             if candidate.is_file():
                 default_profile = candidate
                 break

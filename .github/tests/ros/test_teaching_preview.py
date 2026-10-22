@@ -24,10 +24,10 @@ from motomind_teaching._profiles import load_profile
 from milly_sdk_ros.teaching_preview import TeachingPreview, make_device, PREFIX
 
 SDK = next(p for p in Path(__file__).resolve().parents if (p / "ros/src").is_dir())
-PROFILE = SDK / "examples/python/configs/dxl_right_example.json"
+PROFILE = SDK / "examples/python/configs/teleoperation_tool_setting_example.json"
 if not PROFILE.is_file():
-    ROOT = next(p for p in SDK.parents if (p / "configs/teaching_devices/dxl_right_example.json").is_file())
-    PROFILE = ROOT / "configs/teaching_devices/dxl_right_example.json"
+    ROOT = next(p for p in SDK.parents if (p / "configs/teaching_devices/teleoperation_tool_setting_example.json").is_file())
+    PROFILE = ROOT / "configs/teaching_devices/teleoperation_tool_setting_example.json"
 
 
 def overrides(**kwargs):
