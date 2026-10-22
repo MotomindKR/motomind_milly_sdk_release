@@ -95,7 +95,7 @@ if 'teaching_sdk_version' in manifest:
     from motomind_teaching import TeachingDevice, ReadError
     from motomind_teaching.testing import FakeTransport
     assert version('motomind-teaching-sdk') == manifest['teaching_sdk_version']
-    settings = root / 'examples/python/configs/dxl_right_example.json'
+    settings = root / 'examples/python/configs/teleoperation_tool_setting_example.json'
     assert set(json.loads(settings.read_text())) == {'torque_enable', 'current_limit', 'p_gain'}
     fake = FakeTransport(range(40, 47), model={**{mid: 1200 for mid in range(40, 46)}, 46: 1190})
     device = TeachingDevice.from_profile('fake', settings, transport=fake)

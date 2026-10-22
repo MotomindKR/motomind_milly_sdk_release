@@ -116,7 +116,7 @@ cat /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
 `ttyUSB1`이면 확인 경로도 `/sys/bus/usb-serial/devices/ttyUSB1/latency_timer`로 바꿉니다.
 
 예제의 기본 포트는 `/dev/ttyACM0`이며, 다른 포트는 `--port`로 지정합니다.
-두 예제는 `configs/dxl_right_example.json`을 같은 폴더에서 읽습니다.
+두 예제는 좌우 구분 없이 `configs/teleoperation_tool_setting_example.json`을 같은 폴더에서 읽습니다.
 배열은 1~6축, 그리퍼 순서(ID 40~46)이며 사용자 설정은 세 항목입니다.
 
 | JSON 항목 | 범위 |

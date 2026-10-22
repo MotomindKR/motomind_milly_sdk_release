@@ -243,7 +243,7 @@ ls /dev/tty* | grep -E '/dev/tty(USB|ACM)[0-9]+$'
 
 # 실제 교시장치 위치만 읽기: port를 확인된 ttyUSB0/1 또는 ttyACM0/1 등으로 변경
 ros2 launch milly_sdk_description teaching_preview.launch.py \
-  profile:="$PWD/examples/python/configs/dxl_right_example.json" port:=/dev/ttyACM0
+  profile:="$PWD/examples/python/configs/teleoperation_tool_setting_example.json" port:=/dev/ttyACM0
 ```
 
 USB 권한과 ttyUSB 교시장치의 필수 지연 설정은 [교시장치 예제 안내](examples/python/README.md)를 따릅니다.
