@@ -28,13 +28,13 @@ Python SDK와 ROS2의 공통 기준입니다. [Python 사용법](../SDK_python_g
 ROS에서는 `get_robot_info`로 현재 설정을 확인합니다. FLOAT 값은 아래 별도 표를 따릅니다.
 
 팔 URDF 범위는 위 position 범위와 같습니다. 실측 안전 범위(`safe_position`)는 모든 모터에서
-`[position 최솟값 - 0.05, position 최댓값 + 0.05]` rad입니다. 이 여유는 명령 범위를 넓히지 않습니다.
+`[position 최솟값 - 0.15, position 최댓값 + 0.15]` rad입니다. 이 여유는 직접 MIT 명령 범위를 넓히지 않습니다. `move_j()` 목표 검증에는 이 안전 범위가 적용됩니다.
 
 ## 공통 명령 범위·처리
 
 | 입력 | 범위 / 처리 |
 | --- | --- |
-| 관절 목표 | 위 position 범위의 6개 rad; `move_j` 범위 밖 목표는 거부 |
+| 관절 목표 | 팔 6개의 rad; `move_j`는 `safe_position` 범위 밖 목표를 거부 |
 | Cartesian 목표 | 도달 가능한 IK 해와 관절 범위 필요; `move_p`는 직선 이동이 아닌 관절 PTP |
 | `max_vel` | `0 < 값 <= 2.0` rad/s; 출하 기본 0.5, 제품 프로파일로 변경 가능 |
 | 그리퍼 목표 | 0~2.11 rad; 범위 밖 값은 이 범위로 제한 |

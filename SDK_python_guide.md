@@ -121,7 +121,7 @@ enable 시 잠시 HOLD 힘이 들어가므로 팔을 지지하세요.
 | supervisor / CAN 송신 | 100 Hz |
 | 명령 갱신 timeout | 100 ms |
 | 피드백 timeout | 250 ms |
-| 실측 안전 범위 | 명령 범위 양끝에 0.05 rad 여유 |
+| 실측 안전 범위 | 명령 범위 양끝에 0.15 rad 여유 (1.0.5부터) |
 | 온도 warning / fault | 70 / 90 °C |
 
 `create_arm()` → `enable()`이 제어루프를 시작합니다. 루프를 직접 시작할 필요는 없습니다.

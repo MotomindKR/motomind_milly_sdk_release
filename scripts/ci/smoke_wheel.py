@@ -40,8 +40,8 @@ assert cfg.buses[0].command_rate_hz == 100.0
 for motor in cfg.motors:
     lo, hi = expected_positions[motor.id]
     assert (motor.limits.position_min, motor.limits.position_max) == (lo, hi)
-    assert abs(motor.safety.safe_position_min - (lo - .05)) < 1e-9
-    assert abs(motor.safety.safe_position_max - (hi + .05)) < 1e-9
+    assert abs(motor.safety.safe_position_min - (lo - .15)) < 1e-9
+    assert abs(motor.safety.safe_position_max - (hi + .15)) < 1e-9
 rig = _core.build_fake_rig(cfg.motors)
 arm = mm.Arm(rig.manager, cfg)
 arm._supervisor_auto = True
