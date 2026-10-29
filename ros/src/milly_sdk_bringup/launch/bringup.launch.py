@@ -21,7 +21,8 @@ def setup(context):
     return [
         SetEnvironmentVariable("MOTOMIND_MILLY_DESCRIPTION_DIR", str(description)),
         Node(package="milly_sdk_ros", executable="driver", namespace="milly/" + product,
-             output="screen", parameters=[{
+             # Allow the ten-second shutdown damping ramp before escalation.
+             output="screen", sigterm_timeout="20.0", parameters=[{
                  "product_id": product,
                  "motor_gui": ParameterValue(LaunchConfiguration("motor_gui"), value_type=bool),
                  "urdf_path": str(description / "urdf/MILLY.urdf"),

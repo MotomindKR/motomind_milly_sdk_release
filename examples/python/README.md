@@ -49,6 +49,7 @@ python examples/python/gripper_test.py --product-id MILLY_ABCD
 `--gui=true`: ROS2와 같은 버튼 없는 모터 조회 GUI. 위치·속도·토크·온도·fault·수신 상태를 표시합니다.
 GUI 창을 닫아도 제어는 유지됩니다. 로봇 종료는 예제 터미널에서 Ctrl+C로 진행합니다.
 Enter 입력 전에도 Ctrl+C로 종료할 수 있습니다. `[stop] SDK shutdown completed`와 셸 프롬프트 복귀를 확인한 뒤 다른 예제를 실행하세요. Ctrl+Z는 종료가 아닌 일시 정지입니다.
+1.0.6부터 shutdown은 Fault 후에도 약 10초 동안 `kd`를 0으로 낮춘 뒤 CAN을 정리합니다. 완료될 때까지 팔을 지지하거나 거치하세요. Fault/전자식 정지 자체는 shutdown 전까지 damping latch를 유지합니다.
 `--help`: 추가 옵션.
 검색 외 예제는 실제 모터를 enable합니다. 충돌 검사는 없으며 종료 damping은 자세 고정이 아닙니다.
 무구동 표시는 [ROS description](../../SDK_ROS2_guide.md)을 사용하세요.

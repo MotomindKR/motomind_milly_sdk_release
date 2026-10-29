@@ -102,7 +102,7 @@ ros2 topic hz /milly/MILLY_ABCD/motor_states
 | 서비스 | 타입 | 요청 → 결과 | 예제 명령어 (`MILLY_ABCD`) |
 | --- | --- | --- | --- |
 | `enable` | `std_srvs/srv/Trigger` | `{}` → 현재 자세 제어 시작 | `ros2 service call /milly/MILLY_ABCD/enable std_srvs/srv/Trigger '{}'` |
-| `shutdown` | `std_srvs/srv/Trigger` | `{}` → damping·연결 종료 | `ros2 service call /milly/MILLY_ABCD/shutdown std_srvs/srv/Trigger '{}'` |
+| `shutdown` | `std_srvs/srv/Trigger` | `{}` → Fault 후에도 10초 동안 kd → 0 후 연결 종료 | `ros2 service call /milly/MILLY_ABCD/shutdown std_srvs/srv/Trigger '{}'` |
 | `emergency_stop` | `std_srvs/srv/Trigger` | `{}` → 전자식 정지·명령 차단 | `ros2 service call /milly/MILLY_ABCD/emergency_stop std_srvs/srv/Trigger '{}'` |
 | `disable` | `std_srvs/srv/Trigger` | `{}` → Enabled/Running에서 토크 차단. shutdown 후에는 드라이버 재시작·enable 필요 | `ros2 service call /milly/MILLY_ABCD/disable std_srvs/srv/Trigger '{}'` |
 | `recover` | `std_srvs/srv/Trigger` | `{}` → 원인 해소 후 복구. enable은 별도 | `ros2 service call /milly/MILLY_ABCD/recover std_srvs/srv/Trigger '{}'` |
@@ -161,6 +161,10 @@ ros2 service call /milly/MILLY_ABCD/shutdown std_srvs/srv/Trigger '{}'
 ```
 
 결과: ON은 FLOAT, OFF는 shutdown/damping. FLOAT 중 1축·그리퍼는 `kp=kd=t_ff=0`입니다.
+1.0.6부터 shutdown은 Fault/전자식 정지 후에도 10초 동안 관절별 `kd`를 0으로 낮춘 뒤 CAN을 정리합니다.
+응답이 올 때까지 팔을 지지하거나 거치하세요. `kd=0`은 disable과 다르며 중력·외력에 의한 움직임을 막지 않습니다.
+Fault/전자식 정지 자체는 damping latch를 유지하며, 이후 shutdown에서 감쇠를 해제합니다.
+감쇠 도중 새 Fault가 발생하면 해제를 중단합니다.
 shutdown 후 터미널 A에서 Ctrl+C로 드라이버를 종료하세요. **터미널 A의 Ctrl+C만으로도 shutdown합니다.**
 명령을 보내는 터미널 B의 Ctrl+C나 timeout은 이동 취소가 아닙니다. damping은 기계식 고정이 아닙니다.
 

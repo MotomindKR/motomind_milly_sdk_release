@@ -10,7 +10,8 @@ raw URDF inertials are never used by this public FLOAT path.
   .venv/bin/python examples/python/gravity_float.py --product-id MILLY_ABCD
   .venv/bin/python examples/python/gravity_float.py --product-id MILLY_ABCD --gui=false
 
-Ctrl-C exits via the damping latch — the arm settles, it does NOT drop.
+Ctrl-C normally ramps damping to zero over 10 seconds before closing CAN.
+Support or park the arm throughout shutdown, including after a fault.
 
 This example stays in FLOAT until exit.
 """

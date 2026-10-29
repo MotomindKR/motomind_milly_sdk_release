@@ -4,8 +4,8 @@
 The target is the explicit zero posture ``[0, 0, 0, 0, 0, 0]``. Because
 ``move_mit`` updates one motor at a time, this example updates all six arm
 motors at 30 Hz along one 3-second cosine ramp. The gripper is included and
-also moves to 0 rad (closed). Ctrl-C exits through the canonical damping latch;
-it never torque-disables a loaded arm.
+also moves to 0 rad (closed). Ctrl-C normally ramps damping to zero over
+10 seconds before closing CAN. Support or park the arm throughout shutdown.
 
   .venv/bin/python examples/python/move_mit_test.py --product-id MILLY_ABCD
 """
@@ -43,7 +43,7 @@ def _motors(arm: mm.Arm):
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="MIT warm-start to [0, 0, 0, 0, 0, 0], then damping latch")
+        description="MIT warm-start to [0, 0, 0, 0, 0, 0], then shutdown")
     parser.add_argument("--product-id", required=True,
                         help="robot ID engraved on the arm")
     parser.add_argument("--gui", type=_parse_bool, default=True,

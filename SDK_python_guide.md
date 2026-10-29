@@ -103,15 +103,18 @@ arm.move_mit(1, position=0.0, velocity=0.0,
 
 | 함수 | 동작 |
 | --- | --- |
-| `arm.shutdown()` | 정상 종료: damping 및 연결 정리 |
+| `arm.shutdown()` | Fault 후에도 10초 동안 damping kd → 0 후 연결 정리 |
 | `arm.electronic_emergency_stop()` | 전자식 정지: damping, fault |
 | `arm.disable()` | Enabled/Running에서 토크 차단. 팔 낙하 주의 |
 | `arm.recover()` | 원인 해소 후 Idle로 복구. enable은 별도 |
 | `arm.disconnect()` | 연결만 해제. 무구동 조회 프로그램용 |
 
-종료는 `finally`에서 `shutdown()`을 호출하세요. damping은 기계식 브레이크가 아니며 팔이 내려올 수 있습니다.
-shutdown 후 disable하려면 새 Arm 연결 → 모델 설정 → enable → disable 순서가 필요합니다.
-enable 시 잠시 HOLD 힘이 들어가므로 팔을 지지하세요.
+종료는 `finally`에서 `shutdown()`을 호출하세요. 1.0.6부터 Fault/전자식 정지 후에도 관절별 `kd`를
+10초 동안 선형으로 0까지 낮추고 최종 0 명령을 반복 전송한 뒤 CAN을 정리합니다.
+`kp`, 속도 목표, feedforward 토크는 0으로 유지합니다. 호출이 반환할 때까지 팔을 지지하거나 거치하세요.
+`kd=0`은 모터 disable과 다르며 중력·외력으로 팔이 움직일 수 있습니다.
+Fault/전자식 정지 자체는 damping latch를 유지하며, 이후 `shutdown()`에서 감쇠를 해제합니다.
+감쇠 도중 새 Fault가 발생하면 해제를 중단합니다. shutdown 상태에서 enable/disable은 허용되지 않습니다.
 상태 전환 결과는 `.ok`, `.message`로 확인합니다. fault 원인은 `arm.manager.fault_reason()`입니다.
 
 ## 8. 기본 제어·안전 설정

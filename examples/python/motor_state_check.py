@@ -3,7 +3,8 @@
 
 Tests every motor listed in the config (or a subset via --motor-ids). Default run
 enables the motors: open the CAN bus, enable, print live feedback for a few
-seconds, then shut down (damping latch — the arm settles, it does NOT drop).
+seconds, then shut down (normal damping ramps to zero over 10 seconds).
+Support or park the arm throughout shutdown.
 
 Prereqs (bring up the CAN interface; bitrate must match the motors):
   sudo ip link set can0 up type can bitrate 1000000
@@ -93,10 +94,8 @@ def main() -> int:
         print("\n[interrupt] stopping...")
         return 0
     finally:
-        # SAFE exit: shutdown() runs the yaml exit reaction (damping latch) so the
-        # arm settles gently under damping and does NOT drop. A raw disable() here
-        # would cut torque and let the arm fall (and after shutdown the FSM is in
-        # Shutdown, where disable() is invalid anyway — shutdown() is the exit).
+        # Normal shutdown ramps damping to zero over 10 seconds before closing
+        # CAN, including after a fault. Support or park the arm.
         try:
             if arm.manager.control_loop_running():
                 arm.stop_control_loop()
@@ -111,7 +110,7 @@ def main() -> int:
             arm.disconnect()
         except Exception:
             pass
-        print("[done] damping latch engaged; disconnected.")
+        print("[done] disconnected; inspect shutdown logs for the result.")
 
 
 if __name__ == "__main__":
