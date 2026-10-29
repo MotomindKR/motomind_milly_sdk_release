@@ -4,8 +4,8 @@
 Goes through the SAME user path a program would: create_arm -> enable()
 (auto-starts the supervisor) -> init_effector() -> open/close/move. The
 gripper rides the supervisor's command stream, so it holds its target between
-commands without a dead-man latch. Ctrl-C / q exits via the damping latch
-(shutdown()), NOT a drop.
+commands without a dead-man latch. Ctrl-C / q exits via shutdown(), normally
+ramping damping to zero over 10 seconds. Support or park the arm throughout.
 
 Milly RAW gripper: open = 2.11 rad, close = 0.0 rad (config range).
 
@@ -17,7 +17,7 @@ Keys (press Enter after the letter):
   <number> move to that position [rad] (clamped to range), e.g. 1.2
   k        set hold gains for the next move   (prompts kp kd)
   s        status (target / measured position)
-  q        quit   (Ctrl-C also works — exits via the damping latch)
+  q        quit   (Ctrl-C also works — exits via shutdown)
 """
 
 from __future__ import annotations
@@ -113,8 +113,10 @@ def main() -> int:
         pass
     finally:
         stop.set()
-        arm.shutdown()      # exit reaction: damping latch (does NOT drop)
-        print("\n[done] damping latch engaged (exit reaction)")
+        result = arm.shutdown()
+        if not result.ok:
+            raise RuntimeError(f"SDK shutdown failed: {result.message}")
+        print("\n[done] SDK shutdown completed")
     return 0
 
 

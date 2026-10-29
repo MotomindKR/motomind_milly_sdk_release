@@ -29,6 +29,10 @@ Milly 6축 팔과 그리퍼를 Python 또는 ROS2로 제어합니다.
 같은 로봇에는 제어 프로그램 하나만 실행하세요.
 **같은 로봇에 native Python SDK 드라이버와 ROS2 Humble SDK 드라이버를 동시에 실행하지 마세요.**
 
+1.0.6부터 `shutdown()`은 Fault/전자식 정지 후에도 damping `kd`를 **10초 동안 0까지 낮춘 뒤** CAN을 정리합니다.
+호출이 반환할 때까지 팔을 지지하거나 거치하세요. `kd=0`은 모터 disable과 다르며,
+팔은 중력·외력으로 움직일 수 있습니다. Fault/전자식 정지 자체는 shutdown 호출 전까지 damping latch를 유지합니다.
+
 ## 기본 관절 범위
 
 1.0.5에서는 모든 joint의 기존 `safe_position` 최솟값을 0.1 rad 낮추고 최댓값을 0.1 rad 높였습니다.

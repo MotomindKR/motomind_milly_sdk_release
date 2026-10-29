@@ -33,6 +33,7 @@ def test_bringup_owns_one_driver_and_display_is_optional(monkeypatch):
     actions = launch.setup(context)
     assert [(n['package'], n['executable']) for n in nodes] == [('milly_sdk_ros', 'driver')]
     assert nodes[0]['namespace'] == 'milly/MILLY_TEST'
+    assert float(nodes[0]['sigterm_timeout']) > 10.0  # let normal damping finish
     display, = [a for a in actions if isinstance(a, IncludeLaunchDescription)]
     assert not display.condition.evaluate(context)
     context.launch_configurations['gui'] = 'true'
