@@ -24,8 +24,6 @@ def main() -> int:
     ap.add_argument("--interface", action="append", default=None, metavar="canX",
                     help="probe only this interface (repeatable; default: can0)")
     args = ap.parse_args()
-    mm.enable_logging()
-
     robots = mm.list_robots(args.interface or ["can0"])   # can0 by default; --interface to override
     if not robots:
         print("no robots found — is the bus up (sudo ip link set can0 up type can "

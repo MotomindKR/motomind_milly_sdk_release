@@ -50,8 +50,6 @@ def main() -> int:
                         metavar="{true,false}",
                         help="open the motor-state monitor (default: true)")
     args = parser.parse_args()
-
-    mm.enable_logging()
     arm = mm.create_arm(args.product_id)
     window = None
     enable_attempted = False

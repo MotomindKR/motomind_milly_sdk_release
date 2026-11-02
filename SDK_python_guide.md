@@ -12,7 +12,6 @@
 import motomind_milly as mm
 from motomind_robot_model import RobotModel
 
-mm.enable_logging()
 arm = mm.create_arm("MILLY_ABCD")
 try:
     arm.set_robot_model(RobotModel(mm.milly_urdf()))
@@ -129,6 +128,40 @@ Fault/전자식 정지 자체는 damping latch를 유지하며, 이후 `shutdown
 
 `create_arm()` → `enable()`이 제어루프를 시작합니다. 루프를 직접 시작할 필요는 없습니다.
 게인·속도 설정은 [프로파일](profiles/README.md)을 사용하세요.
+
+### 자동 로그 저장 — 1.1.0부터
+
+SDK는 정상 운영 INFO·경고·오류와 SDK API 예외를 자동으로 `logs/`에 저장합니다.
+release 루트 또는 그 하위에서 실행하면 `<release>/logs/`를 사용합니다.
+그 외 설치 위치에서는 실행 디렉터리와 SDK 설치 위치에서 release를 찾고, 찾지 못하면 현재 디렉터리의 `logs/`를 사용합니다.
+파일 이름은 `2026-10-31_153000_123456_1234_ab12cd34_0000.txt`처럼 날짜·실행 식별자를 포함합니다.
+프로그램 재실행·동시 실행은 파일을 분리하고, 자정이나 파일당 10MB에 도달하면 새 파일을 만듭니다.
+디렉터리 전체 200MB 한도에서 오래된 닫힌 로그부터 정리합니다. 실행 중인 파일은 삭제하지 않습니다.
+
+INFO·WARNING·ERROR는 별도 설정 없이 콘솔과 파일에 자동 출력됩니다.
+`mm.enable_logging()`은 deprecated이며 새 코드에서는 호출하지 마세요.
+기존 호출과 `level` 인자는 호환성을 위해 유지하며, 호출 시 `DeprecationWarning`으로 안내합니다.
+필터 없는 표준 콘솔 `StreamHandler`가 이미 처리하는 메시지는 중복 출력하지 않습니다.
+파일에는 날짜·시간대·밀리초·세션·로봇 ID·CAN·설정 경로/해시·적용 게인·이동 결과·모터별 오류 문맥이 남습니다.
+SDK 밖에서 출력한 임의의 `print()`를 수집하는 기능은 아닙니다. 원인 전달 시 같은 실행의 로그 파일들을 함께 보내주세요.
+
+```python
+print(mm.logging_status())  # 저장 위치, 기록/누락/실패 횟수, 최근 저장 오류
+mm.flush_logs(timeout=1.0)  # 필요 시 제한 시간 내 기록 대기. 로봇 상태를 변경하지 않음
+```
+
+저장 경로는 실행 전에 `MOTOMIND_MILLY_LOG_DIR` 환경 변수로 변경할 수 있습니다.
+저장 실패는 매번 `LOG_SAVE_FAILED`로 알리며 로봇 제어로 예외를 전파하거나 자동 shutdown하지 않습니다.
+모든 파일이 실행 중이어서 공간을 확보하지 못하면 저장 실패로 안내합니다.
+기록은 프로세스당 백그라운드 스레드 하나가 처리하고 정상 프로그램 종료 시 최대 1초 대기합니다.
+강제 종료·정전·저장 장치 장애에서는 일부 기록이 유실될 수 있습니다.
+
+enable 실패 진단은 추가 CAN 요청 없이 캐시에서 모터 ID·관절명·fault 비트·온도·수신 age·mode를 출력합니다.
+미수신 값은 `null`, 오래된 값은 age/fresh로 구분합니다. 최초 원인을 보존하며 실제 실패 순간의 응답과 캐시 시점은 다를 수 있습니다.
+온도 경고는 발생·해소를 표시하고 반복 경고는 요약합니다. 코어 명령 조정·거부는 최신 보고서를 주기적으로 확인하므로
+짧은 개별 이벤트 모두를 보존하는 실시간 이벤트 기록기는 아닙니다.
+이동 중 Fault/제어 중단은 예외와 `MOVE_ABORTED`로 안내합니다.
+`MOVE_COMPLETED`는 명령 계획의 배포 완료이며 실측 위치 정밀도/정착을 보증하지 않습니다.
 
 ## 9. 교시장치 SDK와 teleop
 

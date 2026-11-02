@@ -69,7 +69,6 @@ def main() -> int:
     parser.add_argument("--duration", type=float, default=5.0,
                         help="read-only streaming duration (s)")
     args = parser.parse_args()
-    mm.enable_logging()
     print(f"motomind_milly {mm.__version__}")
 
     arm = mm.create_arm(args.product_id)          # discover + verify + connect (finds the bus)

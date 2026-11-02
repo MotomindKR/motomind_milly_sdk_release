@@ -15,3 +15,6 @@ __pycache__/
 
 # Local release review notes.
 /RELEASE_REVIEW.md
+
+# Runtime SDK diagnostics stay on the host.
+/logs/

@@ -137,7 +137,6 @@ def main():
     try:
         dev, controller, profile = setup(args)
         import motomind_milly as mm
-        mm.enable_logging()
         run_teleop(dev, controller, profile, lambda: mm.create_arm(args.product_id),
                    rate_hz=args.rate_hz, duration=args.duration)
         return 0
