@@ -153,6 +153,7 @@ def verify_inventory(root, inventory):
 
 def verify_manifest(root, saved):
     result = inspect(root, saved['sdk_version'])
+    assert not any(Path(name).parts[0] == 'logs' for name in saved['files']), 'runtime logs in release inventory'
     assert not any(Path(name).name in LOCAL_ONLY_NAMES for name in saved['files']), 'local-only marker in release inventory'
     verify_inventory(root, saved['files'])
     required = {
@@ -192,7 +193,7 @@ def main():
         p.error('a MAJOR.MINOR.PATCH version is required')
     result = inspect(a.root, expected)
     if a.write_manifest:
-        excluded = {'.git', '.venv', '.venv_ci', '.venv_ros', 'build', 'install', 'log', '__pycache__', '.pytest_cache'}
+        excluded = {'.git', '.venv', '.venv_ci', '.venv_ros', 'build', 'install', 'log', 'logs', '__pycache__', '.pytest_cache'}
         result['files'] = {p.relative_to(a.root).as_posix(): sha(p.read_bytes())
             for p in sorted(a.root.rglob('*')) if p.is_file() and p not in (manifest, legacy_manifest)
             and not (set(p.relative_to(a.root).parts) & excluded)

@@ -42,8 +42,6 @@ def main() -> int:
                     metavar="{true,false}",
                     help="open the motor-state monitor (default: true)")
     args = ap.parse_args()
-    mm.enable_logging()
-
     from motomind_robot_model import RobotModel
 
     arm = mm.create_arm(args.product_id)                # discover + verify + connect

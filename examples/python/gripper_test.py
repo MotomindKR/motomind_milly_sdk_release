@@ -36,8 +36,6 @@ def main() -> int:
     ap.add_argument("--joint", default="gripper",
                     help="config joint/name of the effector motor")
     args = ap.parse_args()
-    mm.enable_logging()
-
     # enable() auto-starts the control loop + supervisor, so the gripper's
     # held target is streamed every tick.
     arm = mm.create_arm(args.product_id)   # discover + verify + connect
