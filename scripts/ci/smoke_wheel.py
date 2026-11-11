@@ -113,4 +113,18 @@ if 'teaching_sdk_version' in manifest:
         else:
             raise AssertionError('missing teaching sample must not produce a position output')
     assert not fake.writes, 'position reading must not apply torque settings'
+    from motomind_teaching.feedback import TeachingFeedback
+    tuning = json.loads(settings.read_text())
+    tuning['p_gain'] = [150] * 7
+    assert TeachingFeedback(device, tuning).p_gain == (150,) * 7
+    for axis in range(7):
+        invalid = {**tuning, 'p_gain': [150] * 7}
+        invalid['p_gain'][axis] = 151
+        try:
+            TeachingFeedback(device, invalid)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(f'teaching axis {axis + 1} accepted P gain above 150')
     print('Installed teaching SDK: minimal user settings, fixed clamp, private raw reads and input-loss rejection OK')
+    print('Installed teaching SDK: P gain 150 accepted and 151 rejected on all seven axes')

@@ -7,6 +7,72 @@
 source .venv/bin/activate
 ```
 
+## 그리퍼 USB 카메라 — 실시간 영상
+
+카메라 USB를 PC에 연결한 뒤 실행합니다. Ubuntu/Linux 데스크톱용이며 로봇·CAN·ROS 연결 없이
+카메라만 사용할 수 있습니다. 로봇 제어 예제와 함께 실행할 수도 있습니다.
+
+```bash
+python -m pip install 'opencv-python>=4.8,<5'
+python examples/python/camera_preview.py --list  # 장치 정보만 조회, OpenCV 설치 전에도 가능
+python examples/python/camera_preview.py         # 목록에서 번호 선택 → 영상 창
+```
+
+**납품 카메라는 제조사 `HBVCAM Camera`, 모델 `USB Camera`, USB ID `0bdc:8088`인 항목을 선택하세요.**
+일치하는 항목에는 **`Milly 그리퍼 카메라 후보`**를 표시합니다. 이름이 `USB Camera`인 것만으로
+선택하지 말고 제조사·USB ID도 확인하세요. 현재 확인한 납품 모델 기준이며, 공급 모델 변경 시
+실제 장치 정보를 다시 확인해야 합니다. 카메라와 로봇 제품 ID의 자동 연결은 지원하지 않습니다.
+
+목록 예시 (번호·시리얼은 PC/카메라마다 다릅니다):
+
+```text
+[1] ASUS FHD webcam: ASUS FHD webca
+    제조사: Kingcome | 모델: ASUS FHD webcam
+[3] USB Camera: USB Camera [Milly 그리퍼 카메라 후보 — 납품 모델 USB 정보 일치]
+    장치: /dev/video4 | USB: 0bdc:8088
+    제조사: HBVCAM Camera | 모델: USB Camera | 시리얼: HB202400001
+    by-path (권장): /dev/v4l/by-path/pci-0000:80:14.0-usb-0:9:1.0-video-index0
+```
+
+이 예에서는 `[3]`을 선택합니다. `ASUS FHD webcam`과 `ASUS IR camera`는 노트북 카메라입니다.
+영상 포트만 표시하며 메타데이터 전용 포트는 제외합니다. 한 대만 있어도 자동 선택하지 않습니다.
+번호는 현재 목록에만 유효하며, `/dev/video0`·`/dev/video4` 번호도 USB 연결 순서에 따라 바뀔 수 있습니다.
+
+**확인한 납품 카메라 두 대는 이름·USB ID뿐 아니라 시리얼 `HB202400001`까지 같았습니다.**
+이 경우 `/dev/v4l/by-id/usb-HBVCAM_Camera_USB_Camera_HB202400001-video-index0` 경로 하나가
+어느 카메라를 가리키는지 연결 순서에 따라 바뀔 수 있습니다. 두 대를 연결하면 시리얼 중복을
+표시하고 `--device`에 중복된 `by-id`를 지정하는 실행은 거부합니다.
+
+처음 영상으로 그리퍼 카메라인지 확인한 뒤, 출력된 `다음 실행:` 명령을 복사해 재사용하세요.
+기본 재실행 경로는 **물리 USB 포트를 기준으로 하는 `by-path`**입니다.
+목록에서 확인한 실제 경로를 지정하면 해당 USB 포트의 카메라를 바로 열 수 있습니다:
+
+```bash
+# 아래 전체 경로를 자신의 --list 출력으로 바꾸세요.
+python examples/python/camera_preview.py \
+  --device /dev/v4l/by-path/pci-0000:80:14.0-usb-0:9:1.0-video-index0
+```
+
+`by-path`는 카메라 개체가 아닌 USB 포트를 구분합니다. 각 카메라를 한 대씩 연결해 영상을 확인한 뒤
+좌우 USB 포트를 표시해 두세요. 같은 포트에 연결하면 재연결로 `/dev/videoN` 번호가 바뀌어도
+그 USB 포트 경로를 재사용할 수 있습니다. 카메라를 서로 바꾸거나 허브·포트를 옮기면 영상을 다시 확인합니다.
+`by-path`가 없는 장치는 현재 `/dev/videoN`을 사용하므로 재연결 후 다시 선택하세요.
+다른 모델에서 고유한 시리얼이 제공된다면 `by-id`도 직접 지정할 수 있습니다.
+지정한 장치가 없거나 열리지 않으면 오류로 종료합니다.
+
+종료: 영상 창에서 `q` / `Esc`, 창 닫기 또는 터미널 `Ctrl+C`. 선택 단계에서는 `q`.
+기본 요청은 MJPG 1280×720 / 30 FPS이며 실제 영상 크기와 드라이버 FPS를 출력합니다.
+`--width 640 --height 480 --fps 30`으로 요청 값을 바꾸거나 `--duration 10`으로 자동 종료할 수 있습니다.
+
+문제가 있으면:
+
+- 목록에 없음: USB 연결과 `ls -l /dev/video*`를 확인합니다. `Permission denied`이면 장치 접근 권한을 확인합니다.
+  Ubuntu에서 `video` 그룹 권한이 필요한 경우 `sudo usermod -aG video "$USER"` 후 로그아웃·로그인합니다.
+- 열기/영상 수신 실패: 카메라를 사용하는 브라우저·영상회의 앱·다른 preview를 닫고 USB 연결을 확인합니다.
+- 창이 안 열림: 데스크톱 터미널에서 실행하고 GUI 지원 `opencv-python`을 사용합니다.
+  `opencv-python-headless`와 함께 설치하지 마세요. GUI 없는 SSH 세션에서는 `--list`만 사용할 수 있습니다.
+- 실행 중 USB 분리: 수신 실패 후 종료합니다. 드라이버 수신 대기 때문에 오류 표시가 지연될 수 있습니다.
+
 ## 검색·피드백
 
 ```bash
@@ -124,9 +190,11 @@ cat /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
 | --- | --- |
 | `torque_enable` | 각 축 `true` / `false` |
 | `current_limit` | 정수 0~800 mA |
-| `p_gain` | 정수 팔 0~100, 그리퍼 0~150 |
+| `p_gain` | 정수 0~150 (팔 6축·그리퍼 공통, Teaching SDK 0.1.3부터) |
 
 기본 설정은 3·4축과 그리퍼만 토크 ON합니다.
+기본 P gain은 `[0, 0, 30, 40, 0, 0, 150]`이며 상한 변경으로 기본값이 높아지지는 않습니다.
+팔 축의 출력 범위 초과 시 기존 5배 복원 게인을 적용하므로, 설정값 150에서는 750이 전송됩니다.
 `--profile my_teaching.json`으로 수정한 JSON을 지정할 수 있습니다.
 
 ```bash

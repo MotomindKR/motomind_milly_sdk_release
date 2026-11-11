@@ -53,6 +53,8 @@ jobs:
         run: |
           python examples/python/dxl_only.py --fake --auto-start --duration 0.1
           python examples/python/milly_teleop.py --help
+      - name: Camera example without SDK or OpenCV imports
+        run: python -S examples/python/camera_preview.py --help
   ros:
     name: ROS2 Humble
     needs: bundle
