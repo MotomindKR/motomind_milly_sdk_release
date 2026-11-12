@@ -15,11 +15,23 @@ for name in required:
     assert callable(entries[name].load()), f'ROS executable cannot be loaded: {name}'
 
 from ament_index_python.packages import get_package_share_directory
-from milly_sdk_interfaces.srv import MoveJ, MoveP, Gripper, Fk, FloatMode
-from milly_sdk_interfaces.msg import MitCommand
+from rclpy.type_support import check_for_type_support
+from sensor_msgs.msg import JointState
+from std_srvs.srv import Trigger
+from visualization_msgs.msg import Marker
+from milly_sdk_interfaces.srv import (MoveJ, MoveP, Gripper, Fk, FloatMode,
+                                      SetMaxVel, SetGains, GetRobotInfo)
+from milly_sdk_interfaces.msg import MitCommand, MotorState, MotorStates, DriverStatus
 from milly_sdk_ros.node import Driver
 import motomind_milly as mm
 from motomind_robot_model import RobotModel
+
+# Importing a generated Python class alone does not load its native ROS type
+# support. Check that too, before a user's first publisher/service is created.
+for interface in (JointState, Marker, Trigger, MoveJ, MoveP, Gripper, Fk,
+                  FloatMode, SetMaxVel, SetGains, GetRobotInfo, MitCommand,
+                  MotorState, MotorStates, DriverStatus):
+    check_for_type_support(interface)
 
 assert FloatMode.Request.get_fields_and_field_types() == {}
 assert MoveJ.Request().max_vel.tolist() == []
@@ -45,4 +57,4 @@ model = RobotModel(str(urdf))
 mm.profile.load_factory_gravity_calibration(model)
 model.frame_id("link_6")
 model.enable_self_collision([str(share.parent)])
-print("Installed ROS executables, interfaces, model, factory calibration and collision meshes: OK (no hardware)")
+print("Installed ROS executables, interface type support, model, factory calibration and collision meshes: OK (no hardware)")

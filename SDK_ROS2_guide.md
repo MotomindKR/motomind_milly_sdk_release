@@ -8,6 +8,11 @@ Ubuntu 22.04 / x86_64 / Humble / Python 3.10 지원. Jazzy는 지원 예정입�
 
 처음 설치하거나 같은 버전을 다시 설치할 때:
 
+ROS Humble이 설치된 Ubuntu 22.04의 새 Bash 터미널에서 진행합니다.
+Humble이 없다면 [공식 Ubuntu 설치 안내](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html)를 먼저 따르세요.
+Python SDK용 venv·Conda는 활성화하지 않습니다. Git으로 받았다면 먼저
+[Git LFS 모델 다운로드](INSTALL.md)를 완료하세요.
+
 ```bash
 bash scripts/setup_ros_humble.sh
 ```
@@ -229,6 +234,8 @@ source scripts/ros_env.sh
 | --- | --- |
 | `ros2` / 패키지를 찾지 못함 | 새 터미널에서 `source scripts/ros_env.sh` |
 | SDK import / ROS 타입 오류 | 드라이버 종료 후 `bash scripts/setup_ros_humble.sh` |
+| `Git LFS model data is missing` / `mesh mismatch` | release 루트에서 `git lfs install` → `git lfs pull` 후 재설치. 일반 ZIP 대신 GitHub Releases의 배포 bundle 사용 |
+| `.venv_ros` / ROS 빌드 누락 | 앞선 설치 오류를 해결하고 `bash scripts/setup_ros_humble.sh`가 완료되는지 확인 |
 | 로봇 검색 실패 | 전원·CAN·bitrate·제품 ID |
 | MISSING / STALE | status의 수신 경과시간 |
 | RViz transform 오류 | Fixed Frame=`제품ID/base_link`, TF Prefix=`제품ID` |

@@ -50,7 +50,12 @@ def inspect(root, version):
     assert model['sdk_urdf_sha256'] == sha(urdf), 'description URDF hash mismatch'
     for name, digest in model['mesh_sha256'].items():
         path = root / 'milly_description/meshes' / name
-        assert sha(path.read_bytes()) == digest, f'mesh mismatch: {name}'
+        data = path.read_bytes()
+        assert not data.startswith(b'version https://git-lfs.github.com/spec/v1'), (
+            f'Git LFS model data is missing: {name}. In the release checkout, run '
+            'git lfs install && git lfs pull, then retry. '
+            'For an archive, use the complete bundle from GitHub Releases.')
+        assert sha(data) == digest, f'mesh mismatch: {name}'
     for mesh in ET.fromstring(urdf).iter('mesh'):
         uri = mesh.attrib['filename']
         assert uri.startswith('package://milly_description/'), uri
@@ -166,7 +171,8 @@ def verify_manifest(root, saved):
         'scripts/setup_teaching_usb.sh', 'scripts/clean_ros_metadata.py',
         *(f'.github/tests/ros/{name}' for name in (
             'test_backend.py', 'test_ros_node.py', 'test_motor_gui.py',
-            'test_position_monitor.py', 'test_rviz_config.py', 'test_launch_layout.py')),
+            'test_position_monitor.py', 'test_rviz_config.py', 'test_launch_layout.py',
+            'test_install_metadata.py', 'test_teaching_preview.py', 'test_ros_environment.py')),
         *(f'scripts/ci/{name}.py' for name in ('verify_release', 'install_wheels', 'smoke_wheel', 'package_release')),
         '.github/workflows/release-ci.yml', '.github/workflows/release-publish.yml',
     }
