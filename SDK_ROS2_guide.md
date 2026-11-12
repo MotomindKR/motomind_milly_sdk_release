@@ -19,6 +19,16 @@ bash scripts/setup_ros_humble.sh
 
 결과: SDK 설치 → ROS 빌드 → 설치 검사. [CAN 설정](INSTALL.md#can-연결)
 
+제품 ID 확인 — CAN 설정 후, 드라이버 실행 전:
+
+```bash
+source scripts/ros_env.sh
+ros2 run milly_sdk_ros discover --interface can0
+```
+
+결과: 연결된 제품 ID와 인터페이스 출력(예: `MILLY_ABCD on can0`).
+**새 터미널마다 `source scripts/ros_env.sh`로 `.venv_ros`와 ROS 환경을 활성화하세요.**
+
 터미널 A — 드라이버:
 
 ```bash
@@ -67,16 +77,22 @@ ros2 param get /milly/MILLY_ABCD/milly_driver publish_rate_hz
 | --- | --- |
 | `move_j.positions` | 1→6축 순서의 rad 6개; 그리퍼 제외 |
 | `move_p.pose` | `[x,y,z,roll,pitch,yaw]`, m/rad |
+| `gravity_compensation` | `bool`, 기본 `false`; move_j/move_p는 6축 전체, MIT는 지정 축 |
 | 선택 scalar | `[]`=기본값, `[값]`=단일 값; 2개 이상은 거부 |
 | `set_gains` | Idle에서 arm은 kp/kd 각각 6개, gripper는 각각 1개; 다음 enable에 적용 |
 
 현재 게인·범위는 `get_robot_info`로 확인하세요. `move_j`·`move_p` 요청의 kp/kd는 현재 적용되지 않습니다.
 
+중력보상은 Python SDK가 실측 자세에 따라 FF 토크를 조절해 위치·추종 오차를 줄입니다.
+MIT는 사용자 `torque_feedforward`에 중력 FF를 더합니다. 이미 중력 토크를 직접 넣는다면 SDK 보상을 끄세요.
+**실시간 제어 중 ON/OFF를 번갈아 사용하지 말고 같은 값을 유지하세요.**
+인터페이스 정의가 추가됐으므로 업데이트 후 ROS 워크스페이스와 외부 클라이언트도 다시 빌드하세요.
+
 ```bash
 ros2 service call /milly/MILLY_ABCD/get_robot_info milly_sdk_interfaces/srv/GetRobotInfo '{}'
 
 # enable 전 Idle에서 실행: 다음 enable부터 적용
-ros2 service call /milly/MILLY_ABCD/set_gains milly_sdk_interfaces/srv/SetGains '{group: arm, kp: [30.0, 30.0, 30.0, 15.0, 15.0, 5.0], kd: [1.5, 1.5, 1.5, 1.0, 1.0, 0.5]}'
+ros2 service call /milly/MILLY_ABCD/set_gains milly_sdk_interfaces/srv/SetGains '{group: arm, kp: [30.0, 30.0, 30.0, 15.0, 20.0, 5.0], kd: [1.5, 1.5, 1.5, 1.0, 2.0, 0.5]}'
 ```
 
 ## 3. Topic — 피드백
@@ -112,8 +128,8 @@ ros2 topic hz /milly/MILLY_ABCD/motor_states
 | `disable` | `std_srvs/srv/Trigger` | `{}` → Enabled/Running에서 토크 차단. shutdown 후에는 드라이버 재시작·enable 필요 | `ros2 service call /milly/MILLY_ABCD/disable std_srvs/srv/Trigger '{}'` |
 | `recover` | `std_srvs/srv/Trigger` | `{}` → 원인 해소 후 복구. enable은 별도 | `ros2 service call /milly/MILLY_ABCD/recover std_srvs/srv/Trigger '{}'` |
 | `hold_mode` | `std_srvs/srv/Trigger` | `{}` → 현재 자세 HOLD | `ros2 service call /milly/MILLY_ABCD/hold_mode std_srvs/srv/Trigger '{}'` |
-| `move_j` | `MoveJ` | `positions`: 6개 rad, `max_vel`: 선택 rad/s → `duration_s` | `ros2 service call /milly/MILLY_ABCD/move_j milly_sdk_interfaces/srv/MoveJ '{positions: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], max_vel: [0.2]}'` |
-| `move_p` | `MoveP` | `pose`: 6개 m/rad, `max_vel`: 선택 rad/s → `duration_s` | `ros2 service call /milly/MILLY_ABCD/move_p milly_sdk_interfaces/srv/MoveP '{pose: [0.000052, -0.109343, 0.238285, 1.570796, 0.0, 0.0], max_vel: [0.2]}'` |
+| `move_j` | `MoveJ` | `positions`: 6개 rad, `max_vel`: 선택 rad/s → `duration_s` | `ros2 service call /milly/MILLY_ABCD/move_j milly_sdk_interfaces/srv/MoveJ '{positions: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0], max_vel: [0.2], gravity_compensation: false}'` |
+| `move_p` | `MoveP` | `pose`: 6개 m/rad, `max_vel`: 선택 rad/s → `duration_s` | `ros2 service call /milly/MILLY_ABCD/move_p milly_sdk_interfaces/srv/MoveP '{pose: [0.000052, -0.109343, 0.238285, 1.570796, 0.0, 0.0], max_vel: [0.2], gravity_compensation: false}'` |
 | `gripper` | `Gripper` | `operation`: open/close/move, `position`: rad, `kp/kd`: 선택 → `target` rad | `ros2 service call /milly/MILLY_ABCD/gripper milly_sdk_interfaces/srv/Gripper '{operation: open}'` |
 | `float_mode` | `FloatMode` | `{}` → FLOAT ON. OFF는 shutdown | `ros2 service call /milly/MILLY_ABCD/float_mode milly_sdk_interfaces/srv/FloatMode '{}'` |
 | `fk` | `Fk` | `joints`: 6개 rad 또는 `[]`(현재값) → `pose` | `ros2 service call /milly/MILLY_ABCD/fk milly_sdk_interfaces/srv/Fk '{joints: []}'` |
@@ -146,7 +162,7 @@ ros2 service call /milly/MILLY_ABCD/gripper milly_sdk_interfaces/srv/Gripper '{o
 Running에서 1축 damping만 지정하는 예입니다. 전체 팔 중력보상이 아닙니다.
 
 ```bash
-ros2 topic pub --once /milly/MILLY_ABCD/move_mit milly_sdk_interfaces/msg/MitCommand '{motor_id: 1, position: 0.0, velocity: 0.0, torque_feedforward: 0.0, kp: [0.0], kd: [0.3]}'
+ros2 topic pub --once /milly/MILLY_ABCD/move_mit milly_sdk_interfaces/msg/MitCommand '{motor_id: 1, position: 0.0, velocity: 0.0, torque_feedforward: 0.0, kp: [0.0], kd: [0.3], gravity_compensation: false}'
 ros2 topic echo /milly/MILLY_ABCD/status --once
 ```
 

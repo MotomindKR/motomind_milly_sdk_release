@@ -175,6 +175,9 @@ class Backend:
                                 self._blocked = False
                     output = Result(True, result.message)
             elif operation in ("move_j", "move_p"):
+                kw.setdefault("gravity_compensation", False)
+                if type(kw["gravity_compensation"]) is not bool:
+                    raise ValueError("gravity_compensation must be bool")
                 key = "positions" if operation == "move_j" else "pose"
                 vector = [finite(x) for x in kw.pop(key)]
                 if len(vector) != 6:
@@ -185,7 +188,11 @@ class Backend:
                 motor_id = kw.pop("motor_id")
                 if not any(m.id == motor_id for m in self.config.motors):
                     raise ValueError("unknown motor_id")
+                gravity = kw.pop("gravity_compensation", False)
+                if type(gravity) is not bool:
+                    raise ValueError("gravity_compensation must be bool")
                 args = {k: finite(v) if v is not None else None for k, v in kw.items()}
+                args["gravity_compensation"] = gravity
                 ok = self.arm.move_mit(motor_id, **args)
                 output = Result(bool(ok), "MIT target accepted" if ok else "MIT rejected")
             elif operation == "gripper":

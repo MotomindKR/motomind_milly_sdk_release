@@ -9,6 +9,9 @@ Milly 6축 팔과 그리퍼를 Python 또는 ROS2로 제어합니다.
 1.1.1부터 [그리퍼 USB 카메라 영상 예제](examples/python/README.md#그리퍼-usb-카메라--실시간-영상)를 제공합니다.
 Teaching SDK 0.1.3에서는 교시장치 7개 축의 P gain 설정 범위를 모두 0~150으로 통일합니다.
 1.1.2에서는 ROS Humble 설치·환경 로딩과 Git LFS 모델 누락 안내를 보완했습니다. [설치 절차](INSTALL.md)를 따르세요.
+Python·ROS 이동 명령에 `gravity_compensation` 옵션을 지원합니다. 기본은 OFF이며,
+자세에 따라 FF 토크를 조절해 중력에 의한 위치·추종 오차를 줄이고 제어 정확도를 높입니다.
+실시간 제어 중 ON/OFF를 번갈아 사용하지 마세요. [Python](SDK_python_guide.md#4-중력보상-on--off) · [ROS](SDK_ROS2_guide.md#2-요청-형식)
 문제 발생 시 같은 실행의 로그 파일들을 전달해주세요. [저장 정책과 상태 확인](SDK_python_guide.md#자동-로그-저장--110부터)
 
 ## 지원 환경

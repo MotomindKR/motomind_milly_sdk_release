@@ -49,6 +49,8 @@ def main() -> int:
     parser.add_argument("--gui", type=_parse_bool, default=True,
                         metavar="{true,false}",
                         help="open the motor-state monitor (default: true)")
+    parser.add_argument("--gravity-compensation", action="store_true", default=False,
+                        help="enable arm-joint gravity compensation; gripper stays OFF (default: OFF)")
     args = parser.parse_args()
     arm = mm.create_arm(args.product_id)
     window = None
@@ -94,6 +96,7 @@ def main() -> int:
                     position=(1.0 - alpha) * initial,
                     velocity=-alpha_dot * initial,
                     torque_feedforward=0.0,
+                    gravity_compensation=(args.gravity_compensation and motor.joint_name != 'gripper'),
                 )
             if elapsed >= WARMUP_SECONDS:
                 break

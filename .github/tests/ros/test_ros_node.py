@@ -10,7 +10,7 @@ from rclpy.qos import qos_profile_sensor_data
 from std_srvs.srv import Trigger
 from sensor_msgs.msg import JointState
 from milly_sdk_interfaces.srv import MoveJ, MoveP, GetRobotInfo
-from milly_sdk_interfaces.msg import DriverStatus
+from milly_sdk_interfaces.msg import DriverStatus, MitCommand
 from milly_sdk_ros.node import Driver
 from test_backend import make_backend
 
@@ -63,6 +63,30 @@ def test_explicit_enable_and_namespace(runtime):
     wait_for(future.done)
     assert future.result().success
     assert arm.mode == "Running"
+
+
+def test_gravity_flags_round_trip_through_services_and_mit_topic(runtime):
+    node, client, b, arm, call = runtime
+    enabled = call("enable", Trigger)
+    wait_for(enabled.done)
+    for operation, kind, vector in (("move_j", MoveJ, "positions"), ("move_p", MoveP, "pose")):
+        request = kind.Request()
+        assert request.gravity_compensation is False
+        setattr(request, vector, [0.]*6)
+        request.gravity_compensation = True
+        future = call(operation, kind, request)
+        wait_for(future.done)
+        assert future.result().success
+        assert arm.calls[-1][1]["gravity_compensation"] is True
+    assert MitCommand().gravity_compensation is False
+    publisher = client.create_publisher(MitCommand, "/milly/MILLY_TEST/move_mit", 1)
+    wait_for(lambda: publisher.get_subscription_count() > 0)
+    publisher.publish(MitCommand(motor_id=3, position=0., torque_feedforward=.2,
+                                 gravity_compensation=True))
+    wait_for(lambda: any(name == "move_mit" for name, _ in arm.calls))
+    command = next(values for name, values in reversed(arm.calls) if name == "move_mit")
+    assert command["gravity_compensation"] is True
+    assert command["torque_feedforward"] == .2
 
 
 def test_move_stop_and_telemetry_are_independent(runtime):

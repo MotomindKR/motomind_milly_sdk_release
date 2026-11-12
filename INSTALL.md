@@ -98,10 +98,12 @@ ROS 빌드 후 남은 구버전 패키지 정보를 정리하고 `teaching_previ
 ## CAN 연결
 
 제어 프로그램이 **종료된 상태**에서 실행하세요. can0을 재설정합니다.
+**Python 제품 검색 전에는 `.venv`를 활성화하세요.**
 
 ```bash
 bash scripts/set_can_interface.sh
 ip -details link show can0
+source .venv/bin/activate
 python examples/python/discover_robots.py
 ```
 

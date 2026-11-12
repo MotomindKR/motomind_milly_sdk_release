@@ -132,6 +132,7 @@ class Driver(Node):
         try:
             kwargs = {vector: list(getattr(req, vector))}
             kwargs.update({name: optional(getattr(req, name)) for name in ("max_vel", "kp", "kd")})
+            kwargs["gravity_compensation"] = req.gravity_compensation
             if kwargs["max_vel"] is not None and not 0 < kwargs["max_vel"] <= 2.0:
                 raise ValueError("max_vel must be within (0, 2.0] rad/s")
             return self._execute(resp, operation, **kwargs)
@@ -143,7 +144,8 @@ class Driver(Node):
             result = self.backend.execute(
                 "move_mit", motor_id=msg.motor_id, position=msg.position,
                 velocity=msg.velocity, torque_feedforward=msg.torque_feedforward,
-                kp=optional(msg.kp), kd=optional(msg.kd))
+                kp=optional(msg.kp), kd=optional(msg.kd),
+                gravity_compensation=msg.gravity_compensation)
             if not result.success:
                 self._warn(result.message)
         except Exception as exc:

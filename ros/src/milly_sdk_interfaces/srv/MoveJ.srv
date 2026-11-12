@@ -4,6 +4,8 @@ float64[6] positions
 float64[] max_vel
 float64[] kp
 float64[] kd
+# All six arm joints; omitted/false preserves the existing behavior.
+bool gravity_compensation false
 ---
 bool success
 string message

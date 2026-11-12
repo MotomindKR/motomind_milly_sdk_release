@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
@@ -12,13 +13,35 @@ from email.parser import BytesParser
 import yaml
 
 LOCAL_ONLY_NAMES = {'.milly-sdk-examples-generated', '.milly-sdk-ros-generated', 'RELEASE_REVIEW.md'}
+LOCAL_BUILD_DIRS = {'.git', '.venv', '.venv_ci', '.venv_ros', 'build', 'install',
+                    'log', 'logs', '__pycache__', '.pytest_cache'}
+TRACKING_NAME = re.compile(
+    r'^(?:tracking_|test_tracking_|setup_tracking_dev(?:[._-]|$)|milly[-_]tracking(?:[._-]|$)'
+    r'|(?:ik_preview|dev_gravity)(?:[._-]|$))',
+    re.IGNORECASE)
 
 
 def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def verify_no_tracking_paths(names):
+    """The private tracking preview must stay outside every release surface."""
+    leaked = sorted(name for name in names
+                    if any(TRACKING_NAME.match(part) for part in name.replace('\\', '/').split('/')))
+    assert not leaked, f'development-only tracking artifacts in release: {leaked}'
+
+
+def verify_no_tracking_tree(root):
+    # Local environments/build outputs are not distributed by the manifest writer.
+    for folder, directories, files in os.walk(root):
+        directories[:] = [name for name in directories if name not in LOCAL_BUILD_DIRS]
+        verify_no_tracking_paths((Path(folder)/name).relative_to(root).as_posix()
+                                 for name in (*directories, *files))
+
+
 def verify_compiled_wheel(names, prefix):
+    verify_no_tracking_paths(names)
     launchers = {'identity', 'monitor', '_isolated_model', '_position_gui_process'}
     allowed = {'__init__.py'} if prefix == 'motomind_milly/' else set()
     if prefix == 'motomind_milly/':
@@ -26,7 +49,7 @@ def verify_compiled_wheel(names, prefix):
     sources = {n[len(prefix):] for n in names if n.startswith(prefix) and n.endswith('.py')}
     assert sources == allowed, f'implementation source leaked or facade missing: {sources}'
     assert not any(n.endswith(('.c', '.cpp', '.h', '.hpp', '.a', '.pyc', '.pyx')) for n in names), 'build source/artifact leaked'
-    modules = ('_core', '_sdk', 'gravity_comp', 'mode_supervisor', 'motion', 'profile',
+    modules = ('_core', '_sdk', 'gravity_comp', '_motion_gravity', 'mode_supervisor', 'motion', 'profile',
                '_worker_rpc', *('_compiled_'+n for n in launchers)) if prefix == 'motomind_milly/' else ('__init__', 'calibration')
     for name in modules:
         assert any(n.startswith(prefix+name+'.') and n.endswith('.so') for n in names), f'missing compiled module: {name}'
@@ -43,6 +66,7 @@ def inspect(root, version):
         assert not (root/'.github/tests/ros'/name).exists(), 'development example tests must not be exported'
     tools = root/'tests/tools'
     assert not tools.exists() and not tools.is_symlink(), 'development-only tests/tools in release'
+    verify_no_tracking_tree(root)
     artifacts, versions, models = {}, set(), set()
     profile_hashes = set()
     urdf = (root / 'milly_description/urdf/MILLY.urdf').read_bytes()
@@ -132,6 +156,7 @@ def inspect_teaching(root):
     assert not wheel.is_symlink(), 'symlinked teaching wheel'
     with ZipFile(wheel) as archive:
         names = archive.namelist()
+        verify_no_tracking_paths(names)
         metas = [n for n in names if n.endswith('.dist-info/METADATA')]
         assert len(metas) == 1, 'teaching wheel metadata missing'
         info = BytesParser().parsebytes(archive.read(metas[0]))
@@ -148,6 +173,7 @@ def inspect_teaching(root):
 
 def verify_inventory(root, inventory):
     assert inventory, 'empty release inventory'
+    verify_no_tracking_paths(inventory)
     for name, digest in inventory.items():
         path = root/name
         assert not Path(name).is_absolute() and '..' not in Path(name).parts, name
@@ -199,7 +225,7 @@ def main():
         p.error('a MAJOR.MINOR.PATCH version is required')
     result = inspect(a.root, expected)
     if a.write_manifest:
-        excluded = {'.git', '.venv', '.venv_ci', '.venv_ros', 'build', 'install', 'log', 'logs', '__pycache__', '.pytest_cache'}
+        excluded = LOCAL_BUILD_DIRS
         result['files'] = {p.relative_to(a.root).as_posix(): sha(p.read_bytes())
             for p in sorted(a.root.rglob('*')) if p.is_file() and p not in (manifest, legacy_manifest)
             and not (set(p.relative_to(a.root).parts) & excluded)

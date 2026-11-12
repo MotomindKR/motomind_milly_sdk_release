@@ -20,7 +20,7 @@ try:
     if not result.ok:
         raise RuntimeError(result.message)
     input("Enter: 6축 zero 이동 ")
-    duration = arm.move_j([0.0] * 6, max_vel=0.2)
+    duration = arm.move_j([0.0] * 6, max_vel=0.2, gravity_compensation=False)
     print(f"궤적 전송 완료: {duration:.2f} s")
     input("Enter: 종료 ")
 finally:
@@ -51,9 +51,9 @@ for s in arm.states():
 
 ```python
 arm.set_max_vel(0.2)              # 이후 기본 속도
-arm.move_j([0.0] * 6)             # 6축 목표, gripper 제외
+arm.move_j([0.0] * 6, gravity_compensation=False)  # 6축 목표, gripper 제외
 pose = arm.fk([0.0] * 6)          # zero 자세의 flange pose, 이동 없음
-arm.move_p(pose, max_vel=0.2)      # IK 후 관절 PTP, 직선 이동 아님
+arm.move_p(pose, max_vel=0.2, gravity_compensation=False)  # IK 후 관절 PTP, 직선 이동 아님
 ```
 
 [관절·속도 범위와 게인 적용 조건](milly_description/README.md)을 확인하세요. 목표 범위 이탈·IK 실패는 예외로 거부합니다.
@@ -61,6 +61,24 @@ arm.move_p(pose, max_vel=0.2)      # IK 후 관절 PTP, 직선 이동 아님
 
 ## 4. 중력보상 ON / OFF
 
+`gravity_compensation`은 자세에 따라 `torque_feedforward`를 조절해 중력에 의한
+위치·추종 오차를 줄이고 제어 정확도를 높입니다. 기본은 `False`(기존 호출 호환)입니다.
+
+```python
+arm.move_j(joints, gravity_compensation=True)  # 팔 1~6축 전체 ON
+arm.move_p(pose, gravity_compensation=True)    # IK 후 같은 보상 적용
+arm.move_mit(3, position=q3, torque_feedforward=0.2,
+             gravity_compensation=True)       # 지정 축만 ON
+```
+
+MIT의 최종 FF는 **사용자 FF + 중력 FF**이며 합산 후 제품/프로토콜 한계로 제한합니다.
+직접 계산한 중력 토크를 사용자 FF에 넣는 경우 SDK 보상은 끄세요.
+보상은 이동 후 HOLD에도 유지됩니다. 다음 호출에서 생략/`False`이면 `move_j`/`move_p`는
+6축 전체, `move_mit`는 지정 축만 해제합니다. 그리퍼는 보상 대상이 아닙니다.
+**실시간 제어 중 ON/OFF를 번갈아 사용하지 말고 같은 값을 유지하세요.**
+전환은 2초 ramp이며, `move_j`/`move_p`는 전환 완료 후 이동하고 MIT는 비동기로 전환합니다.
+
+손으로 팔을 움직이는 FLOAT는 별도 모드입니다.
 팔을 지지한 상태에서 실행하세요. 모델 설정은 enable 전에 완료합니다.
 
 ```python
@@ -91,7 +109,7 @@ print(grip.range)                 # (0.0, 2.11)
 
 ```python
 arm.move_mit(1, position=0.0, velocity=0.0,
-             kp=0.0, kd=0.3, torque_feedforward=0.0)
+             kp=0.0, kd=0.3, torque_feedforward=0.0, gravity_compensation=False)
 ```
 
 결과: 1축 damping만 적용. 생략한 게인은 제품 기본값입니다.

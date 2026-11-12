@@ -3,6 +3,7 @@
 from importlib.metadata import version
 from pathlib import Path
 import json
+import inspect
 import xml.etree.ElementTree as ET
 import time
 import subprocess
@@ -10,6 +11,7 @@ import sys
 
 import motomind_milly as mm
 from motomind_milly import _core, profile
+from motomind_milly import _motion_gravity
 from motomind_robot_model import RobotModel, __version__ as robot_model_version
 
 root = Path(__file__).resolve().parents[2]
@@ -17,6 +19,9 @@ manifest = json.loads((root/'.github/release_manifest.json').read_text())
 assert mm.__version__ == version('motomind-milly-sdk') == manifest['sdk_version']
 assert robot_model_version == version('motomind-robot-model') == manifest['robot_model_version']
 assert mm.MotorState().feedback_age_s == -1.0
+assert _motion_gravity.__file__.endswith('.so')
+for name in ('move_j', 'move_p', 'move_mit'):
+    assert inspect.signature(getattr(mm.Arm, name)).parameters['gravity_compensation'].default is False
 for module in ('identity', 'monitor'):
     subprocess.run([sys.executable, '-m', 'motomind_milly.'+module, '--help'],
                    check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20)
@@ -68,9 +73,9 @@ try:
     cfg.safety.plugins = [p for p in cfg.safety.plugins if p.id == 'command_update_timeout']
     assert len(cfg.safety.plugins) == 1
     _core.apply_safety_config(rig.manager, cfg.safety)
-    arm.move_j([0.0] * 6, max_vel=0.2)
-    arm.move_p(arm.fk([0.0] * 6), max_vel=0.2)
-    assert arm.move_mit(1, kp=0.0, kd=0.3)
+    arm.move_j([0.0] * 6, max_vel=0.2, gravity_compensation=False)
+    arm.move_p(arm.fk([0.0] * 6), max_vel=0.2, gravity_compensation=False)
+    assert arm.move_mit(1, kp=0.0, kd=0.3, gravity_compensation=False)
     time.sleep(.2)
     assert arm._rm.geom_model is None, 'motion APIs must not load collision meshes'
     assert arm.state() == mm.MotorManagerState.Running
