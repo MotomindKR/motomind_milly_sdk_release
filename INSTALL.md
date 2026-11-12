@@ -3,6 +3,18 @@
 [지원 환경](README.md#지원-환경)을 확인하고 release 루트에서 실행하세요.
 Python 직접 사용과 ROS 중 필요한 경로를 선택합니다.
 
+Git으로 받은 경우 모델 파일도 내려받아야 합니다. 최초 1회 실행하세요:
+
+```bash
+sudo apt update
+sudo apt install -y git-lfs
+git lfs install
+git lfs pull
+```
+
+압축 파일은 GitHub Releases의 배포 bundle을 사용하세요.
+GitHub의 **Code → Download ZIP**에는 실제 모델 대신 LFS 포인터가 들어갈 수 있습니다.
+
 ## Python SDK
 
 `X`는 사용할 Python 버전에 맞게 `10`, `11`, `12` 중 하나로 바꾸세요.
@@ -46,6 +58,7 @@ python examples/python/camera_preview.py
 
 | Release 버전 | Milly SDK | Teaching SDK |
 | --- | --- | --- |
+| 1.1.2 Release | 1.1.2 | 0.1.3 |
 | 1.1.1 Release | 1.1.1 | 0.1.3 |
 | 1.1.0 Release | 1.1.0 | 0.1.2 |
 | 1.0.6 Release | 1.0.6 | 0.1.2 |
@@ -61,6 +74,11 @@ Python용 환경과 ROS용 환경에서 교시장치를 함께 사용하면 Teac
 ## ROS2 Humble
 
 Ubuntu 22.04 / x86_64 / ROS2 Humble 환경에서 실행합니다.
+ROS Humble은 먼저 설치되어 있어야 합니다. `/opt/ros/humble/setup.bash`가 없다면
+[ROS Humble 공식 Ubuntu 설치 안내](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html)를 먼저 따르세요.
+이 스크립트는 설치된 Humble 위에 SDK와 Milly ROS 패키지를 구성합니다.
+Python SDK용 `.venv`나 Conda를 활성화하지 않은
+새 Bash 터미널에서 release 루트로 이동한 뒤 실행하세요. 시스템 Python 3.10으로 `.venv_ros`를 만듭니다.
 
 ```bash
 bash scripts/setup_ros_humble.sh
@@ -72,13 +90,20 @@ source scripts/ros_env.sh
 ROS 빌드 후 남은 구버전 패키지 정보를 정리하고 `teaching_preview` 등 실행 항목도 검사합니다.
 새 터미널마다 `source scripts/ros_env.sh`를 실행합니다.
 
+설치가 실패하면 먼저 출력된 오류를 해결하고 설치 명령을 다시 실행하세요.
+`.venv_ros` 또는 ROS 빌드가 누락되었다는 안내는 앞선 설치가 완료되지 않았다는 뜻입니다.
+`Git LFS model data is missing`는 위의 `git lfs pull`로 해결합니다.
+연결 없이 설치 상태를 다시 검사하려면 환경 활성화 후 `python scripts/check_ros_install.py`를 실행하세요.
+
 ## CAN 연결
 
 제어 프로그램이 **종료된 상태**에서 실행하세요. can0을 재설정합니다.
+**Python 제품 검색 전에는 `.venv`를 활성화하세요.**
 
 ```bash
 bash scripts/set_can_interface.sh
 ip -details link show can0
+source .venv/bin/activate
 python examples/python/discover_robots.py
 ```
 

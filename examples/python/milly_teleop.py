@@ -55,6 +55,7 @@ def validate_positions(motors, values, *, feedback=False):
 
 
 def run_teleop(dev, controller, profile, arm_factory, *, rate_hz=30., duration=None,
+               gravity_compensation=False,
                confirm=wait_for_enter, clock=time.monotonic, sleep=time.sleep):
     with session(dev):
         arm = None
@@ -63,6 +64,7 @@ def run_teleop(dev, controller, profile, arm_factory, *, rate_hz=30., duration=N
             arm = arm_factory()
             motors = validate_follower(arm, profile)
             print('Torque axes:', controller.ids)
+            print(f'Milly gravity compensation: {"ON (arm 1–6 only)" if gravity_compensation else "OFF"}; gripper OFF', flush=True)
             print('Support the teaching device: enabling DXL torque with a 3 s ramp.', flush=True)
             controller.enable()
             print('Milly positions before enable (rad):', arm.get_joint_angles(), flush=True)
@@ -102,7 +104,8 @@ def run_teleop(dev, controller, profile, arm_factory, *, rate_hz=30., duration=N
                 last_update = sampled
                 validate_positions(motors, current)  # entire sample before any motor update
                 for motor, position, kp, kd in zip(motors, current, KP, KD):
-                    if not arm.move_mit(motor.id, position=position, velocity=0., kp=kp, kd=kd):
+                    if not arm.move_mit(motor.id, position=position, velocity=0., kp=kp, kd=kd,
+                                        gravity_compensation=(gravity_compensation and motor.joint_name != 'gripper')):
                         raise RuntimeError(f'Milly rejected MIT target for {motor.joint_name}')
                 if report_start is None:
                     report_start = sampled
@@ -133,12 +136,15 @@ def run_teleop(dev, controller, profile, arm_factory, *, rate_hz=30., duration=N
 def main():
     p = parser(__doc__)
     p.add_argument('--product-id', required=True, help='robot ID engraved on the Milly arm')
+    p.add_argument('--gravity-compensation', action='store_true', default=False,
+                   help='enable gravity compensation for arm joints 1–6 only; gripper stays OFF (default: OFF)')
     args = p.parse_args()
     try:
         dev, controller, profile = setup(args)
         import motomind_milly as mm
         run_teleop(dev, controller, profile, lambda: mm.create_arm(args.product_id),
-                   rate_hz=args.rate_hz, duration=args.duration)
+                   rate_hz=args.rate_hz, duration=args.duration,
+                   gravity_compensation=args.gravity_compensation)
         return 0
     except (KeyboardInterrupt, EOFError):
         print('Stopped by operator.')

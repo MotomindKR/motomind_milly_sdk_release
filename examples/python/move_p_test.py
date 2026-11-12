@@ -67,9 +67,9 @@ def main() -> int:
         input("Enter to move; keep clear of the arm... ")
         # 관절각(rad) → flange pose(m/rad)는 FK입니다. 위에서 robot model을 설정한 뒤 사용합니다.
         # target_pose = arm.fk([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])  # [x, y, z, roll, pitch, yaw]
-        # arm.move_p(target_pose)  # ZERO_POSE 대신 사용 가능. 내부 IK로 관절 목표를 구해 PTP 이동
+        # arm.move_p(target_pose, gravity_compensation=False)  # 내부 IK로 관절 목표를 구해 PTP 이동
         # current_pose = arm.get_flange_pose()  # 현재 실측 관절각의 FK 조회; 이동하지 않음
-        arm.move_p(ZERO_POSE)
+        arm.move_p(ZERO_POSE, gravity_compensation=False)
         grip.move(0.0)
         print("zero posture reached; gripper closed. Press Ctrl-C to stop safely.")
         while True:

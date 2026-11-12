@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # Source this file; never starts a node, modifies CAN or enables a motor.
+if [ -z "${BASH_VERSION:-}" ]; then
+  echo 'Open Bash first, then use: source scripts/ros_env.sh' >&2
+  return 2 2>/dev/null || exit 2
+fi
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
   echo 'Use: source scripts/ros_env.sh' >&2
   exit 2
 fi
 _milly_ros_environment() {
-  local root
+  local root status=0 restore_nounset=false
   root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)" || return
   [[ -f /opt/ros/humble/setup.bash ]] || { echo 'ROS2 Humble is missing.' >&2; return 1; }
   [[ -f "$root/.venv_ros/bin/activate" ]] || { echo 'Run bash scripts/setup_ros_humble.sh first.' >&2; return 1; }
@@ -15,9 +19,15 @@ _milly_ros_environment() {
   export MOTOMIND_CONFIG_DIR="$root/profiles"
   export PYTHONNOUSERSITE=1
   # Activation restores the pre-venv PATH; source ROS afterwards, also on repeat calls.
-  source "$root/.venv_ros/bin/activate" || return
-  source /opt/ros/humble/setup.bash || return
-  source "$root/install/local_setup.bash" || return
+  # Humble/colcon setup files read optional unset variables. Preserve the caller's
+  # nounset option even when activation or either setup file fails.
+  [[ $- == *u* ]] && restore_nounset=true
+  set +u
+  source "$root/.venv_ros/bin/activate" &&
+    source /opt/ros/humble/setup.bash &&
+    source "$root/install/local_setup.bash" || status=$?
+  if "$restore_nounset"; then set -u; fi
+  [[ $status -eq 0 ]] || return "$status"
   echo 'Milly ROS2 Humble environment ready (no node started).'
 }
 _milly_ros_environment

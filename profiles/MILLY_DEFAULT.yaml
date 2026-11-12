@@ -20,11 +20,11 @@
 motion:
   # Per-joint position gains for planned moves (move_j / move_p), base -> wrist.
   # Canonical ranges: joint_1..3 = 0..200, joint_4..6 = 0..100.
-  kp: [30, 30, 30, 15, 15, 5]
+  kp: [30, 30, 30, 15, 20, 5]
 
   # Per-joint damping gains, base -> wrist.
   # Canonical ranges: joint_1..3 = 0..20, joint_4..6 = 0..10.
-  kd: [1.5, 1.5, 1.5, 1.0, 1.0, 0.5]
+  kd: [1.5, 1.5, 1.5, 1.0, 2.0, 0.5]
 
   # Default peak joint velocity for planned moves [rad/s]. Range (0, 2].
   max_vel: 0.5

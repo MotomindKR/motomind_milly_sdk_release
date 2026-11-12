@@ -3,6 +3,8 @@ float64[6] pose
 float64[] max_vel
 float64[] kp
 float64[] kd
+# Passed through IK to move_j; applies to all six arm joints.
+bool gravity_compensation false
 ---
 bool success
 string message

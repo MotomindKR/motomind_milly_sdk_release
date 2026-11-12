@@ -76,29 +76,22 @@ jobs:
         with:
           lfs: true
           persist-credentials: false
-      - name: Install SDK wheels and ROS build dependencies
+      - name: Install through the public ROS Humble setup script
         run: |
-          apt-get update
-          apt-get install -y python3-pip python3-venv python3-tk python3-yaml python3-cairo python3-colcon-common-extensions build-essential cmake libusb-1.0-0 ros-humble-robot-state-publisher ros-humble-rviz2
-          python3 -m venv --system-site-packages .venv_ros
+          bash scripts/setup_ros_humble.sh
           .venv_ros/bin/python -m pip install 'pytest>=7,<9'
           .venv_ros/bin/python scripts/ci/install_wheels.py --with-teaching
           .venv_ros/bin/python -m pip check
-      - name: Build ROS sources against the released SDK
-        run: |
-          source /opt/ros/humble/setup.bash
-          .venv_ros/bin/python -m colcon build --base-paths ros/src --cmake-args \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DPython3_EXECUTABLE="$PWD/.venv_ros/bin/python" \
-            -DPYTHON_EXECUTABLE="$PWD/.venv_ros/bin/python"
-          .venv_ros/bin/python scripts/clean_ros_metadata.py
       - name: Test installed services, topics and lifecycle without CAN
         run: |
+          set -euo pipefail
           source scripts/ros_env.sh
           export PYTHONPATH=".github/tests/ros:$PYTHONPATH"
           python -m pytest -q .github/tests/ros --junitxml=ros-test-results.xml
           python scripts/check_ros_install.py
           bash scripts/setup_ros_humble.sh --dry-run
+      - name: Reinstall the same bundle through the public setup script
+        run: bash scripts/setup_ros_humble.sh
   gate:
     name: Release gate
     if: always()

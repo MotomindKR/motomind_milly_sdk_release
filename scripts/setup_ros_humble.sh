@@ -11,15 +11,21 @@ case "${1:-}" in
 esac
 [[ $# -le 1 ]] || exit 2
 [[ "$(uname -m)" == x86_64 ]] || { echo 'Requires x86_64.' >&2; exit 1; }
-[[ -f /opt/ros/humble/setup.bash ]] || { echo 'Install ROS2 Humble on Ubuntu 22.04 first; see SDK_ROS2_guide.md.' >&2; exit 1; }
+[[ "$(. /etc/os-release; echo "$ID:$VERSION_ID")" == ubuntu:22.04 ]] || { echo 'Requires Ubuntu 22.04.' >&2; exit 1; }
+[[ -f /opt/ros/humble/setup.bash ]] || { echo 'Install ROS2 Humble on Ubuntu 22.04 first; see INSTALL.md#ros2-humble for the official installation guide.' >&2; exit 1; }
 /usr/bin/python3 -c 'import sys; assert sys.version_info[:2] == (3, 10), "Requires system Python 3.10"'
-grep -q 'VERSION_ID="22.04"' /etc/os-release || { echo 'Requires Ubuntu 22.04.' >&2; exit 1; }
 export PYTHONNOUSERSITE=1
 run() {
   if "$DRY_RUN"; then printf '[dry-run]'; printf ' %q' "$@"; printf '\n'; else "$@"; fi
 }
 [[ -f "$ROOT/ros/src/milly_sdk_ros/package.xml" ]] || { echo 'ROS sources missing; use the complete release bundle.' >&2; exit 1; }
-run sudo apt-get install -y build-essential cmake python3-venv python3-pip python3-yaml python3-tk python3-cairo \
+APT=(apt-get)
+if [[ $EUID -ne 0 ]]; then
+  command -v sudo >/dev/null || { echo 'sudo is required to install ROS build dependencies.' >&2; exit 1; }
+  APT=(sudo apt-get)
+fi
+run "${APT[@]}" update
+run "${APT[@]}" install -y build-essential cmake python3-venv python3-pip python3-yaml python3-tk python3-cairo python3-cffi \
   python3-colcon-common-extensions libusb-1.0-0 ros-humble-ros-base \
   ros-humble-robot-state-publisher ros-humble-rviz2
 run /usr/bin/python3 "$ROOT/scripts/ci/verify_release.py"
@@ -37,8 +43,6 @@ run bash -c 'source /opt/ros/humble/setup.bash && cd "$1" && exec "$1/.venv_ros/
 # Clean only after a successful build and confirmed current entry points.
 run "$ROOT/.venv_ros/bin/python" "$ROOT/scripts/clean_ros_metadata.py" --root "$ROOT"
 if ! "$DRY_RUN"; then
-  # ROS setup scripts do not support nounset.
-  set +u
   source "$ROOT/scripts/ros_env.sh"
   python "$ROOT/scripts/check_ros_install.py"
   echo 'Installation verified (no CAN). New terminal: source scripts/ros_env.sh'

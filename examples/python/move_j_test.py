@@ -55,7 +55,7 @@ def main() -> int:
         print("move_j target: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] rad")
         print("gripper target: 0.0 rad (closed)")
         input("Enter to move; keep clear of the arm... ")
-        arm.move_j([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+        arm.move_j([0.0, 0.0, 0.0, 0.0, 0.0, 0.0], gravity_compensation=False)
         grip.move(0.0)
         print("zero posture reached; gripper closed. Press Ctrl-C to stop safely.")
         while True:

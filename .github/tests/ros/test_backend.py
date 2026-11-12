@@ -119,6 +119,22 @@ class BackendTest(unittest.TestCase):
         self.assertEqual(b.execute("gripper", action="close").target, 0.)
         self.assertEqual(b.execute("gripper", action="move", position=-9.).target, 0.)
 
+    def test_gravity_flag_is_bool_and_user_ff_is_forwarded(self):
+        b, arm = make_backend()
+        b.execute("enable")
+        for operation, vector in (("move_j", "positions"), ("move_p", "pose")):
+            self.assertTrue(b.execute(operation, **{vector:[0.]*6}, gravity_compensation=True).success)
+            self.assertIs(arm.calls[-1][1]["gravity_compensation"], True)
+            self.assertTrue(b.execute(operation, **{vector:[0.]*6}).success)
+            self.assertIs(arm.calls[-1][1]["gravity_compensation"], False)
+        self.assertTrue(b.execute("move_mit", motor_id=3, position=0., torque_feedforward=.2,
+                                  gravity_compensation=True).success)
+        self.assertIs(arm.calls[-1][1]["gravity_compensation"], True)
+        self.assertEqual(arm.calls[-1][1]["torque_feedforward"], .2)
+        self.assertTrue(b.execute("move_mit", motor_id=3, position=0.).success)
+        self.assertIs(arm.calls[-1][1]["gravity_compensation"], False)
+        self.assertFalse(b.execute("move_mit", motor_id=3, gravity_compensation="off").success)
+
     def test_rejected_ik_and_collision_are_failures(self):
         b, arm = make_backend()
         b.execute("enable")
