@@ -58,6 +58,7 @@ python examples/python/camera_preview.py
 
 | Release 버전 | Milly SDK | Teaching SDK |
 | --- | --- | --- |
+| 1.1.3 Release | 1.1.3 | 0.1.3 |
 | 1.1.2 Release | 1.1.2 | 0.1.3 |
 | 1.1.1 Release | 1.1.1 | 0.1.3 |
 | 1.1.0 Release | 1.1.0 | 0.1.2 |
