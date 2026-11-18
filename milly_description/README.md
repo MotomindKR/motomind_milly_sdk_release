@@ -41,13 +41,33 @@ ROS에서는 `get_robot_info`로 현재 설정을 확인합니다. FLOAT 값은 
 | MIT `motor_id` | 1~7 |
 | MIT `position` / `kp` / `kd` | 위 모터별 범위 |
 | MIT `velocity` | -20~20 rad/s |
-| MIT `torque_feedforward` | -30~30 N·m |
+| MIT `torque_feedforward` (`t_ff`) | 아래 축별 FF 전송 범위 |
 
 MIT 위치·속도·토크·게인은 SDK 한계로 제한됩니다. 다른 안전 조건 위반 시 Fault가 발생할 수 있습니다.
-위 속도·토크 한계와 URDF effort/velocity는 명령·모델 설정값이며 검증된 정격이나 권장 운용값이 아닙니다.
+명령 범위와 URDF effort/velocity는 설정값이며 검증된 정격이나 권장 운용값이 아닙니다.
 
 **현재 `move_j`·`move_p`의 호출별 kp/kd는 supervisor 경로에 적용되지 않습니다.**
 이동 게인은 enable 전에 제품 프로파일(Python) 또는 Idle의 `set_gains`(ROS)로 설정하세요.
+
+## MIT FF 토크 전송 범위
+
+`t_ff`는 API 인자 `torque_feedforward`를 뜻합니다.
+
+| 축 | 모터 | `t_ff` 전송 범위 |
+| --- | --- | ---: |
+| 1축 | RS06 | ±30 N·m |
+| 2축 | RS03 | ±30 N·m |
+| 3축 | RS06 | ±30 N·m |
+| 4축 | RS00 | ±14 N·m |
+| 5축 | RS00 | ±14 N·m |
+| 6축 | RS05 | ±5.5 N·m |
+| 그리퍼 (7번) | RS05 | ±5.5 N·m |
+
+내장 safety의 FF 한계는 전 축 `±30 N·m`이며, 초과하면 경고와 함께 제한합니다.
+CAN 인코딩에서 모터별 프로토콜 범위로 추가 제한하므로 최종 전송 범위는 위 표와 같습니다.
+
+중력보상 사용 시 팔 축의 사용자 FF와 중력 FF를 합산한 값에 이 범위를 적용합니다.
+이는 **FF 항의 제한**이며, 모터 내부의 **PD+FF 총출력 토크 제한**은 아닙니다.
 
 ## 중력보상 기본값
 

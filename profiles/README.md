@@ -15,4 +15,4 @@ export MOTOMIND_CONFIG_DIR="$PWD/profiles"
 - `MILLY_DEFAULT.yaml`은 참고 사본입니다. 이 파일을 수정해도 내장 기본값은 바뀌지 않습니다.
 - motor ID·방향·관절 한계는 사용자 설정 대상이 아닙니다.
 
-[함수별 사용법](../SDK_python_guide.md) · [기본 FLOAT 설정](../milly_description/README.md)
+[함수별 사용법](../SDK_python_guide.md) · [Milly 모델 및 제어 범위](../milly_description/README.md)
