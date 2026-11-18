@@ -2,8 +2,10 @@
 
 [설치](../../INSTALL.md) 후 release 루트에서 실행합니다.
 `MILLY_ABCD`는 실제 제품 ID로 바꾸고, **예제 하나씩** 실행하세요.
+제어 프로그램을 종료한 상태에서 CAN을 설정하고 가상환경을 활성화하세요.
 
 ```bash
+bash scripts/set_can_interface.sh
 source .venv/bin/activate
 ```
 
@@ -99,26 +101,6 @@ teaching-check-port --port /dev/ttyACM0
 ```
 
 이 임시 권한은 USB 재연결 시 초기화될 수 있습니다. `dialout` 설정은 다음 로그인부터 적용됩니다.
-
-**ttyUSB 교시장치를 별도로 사용하는 경우의 필수 USB 지연 설정:** FTDI 어댑터는 예제 실행 전에 `latency_timer`를 **1 ms**로 설정하세요.
-**납품용 `/dev/ttyACM0` 교시장치는 아래 FTDI 지연 설정을 건너뜁니다.**
-각 Linux PC에서 아래 순서로 설정하고 확인하세요.
-
-1. 교시장치 프로그램을 종료하고 스크립트를 최초 한 번 실행합니다. 설치 시 sudo 비밀번호를 요청합니다.
-
-```bash
-bash scripts/setup_teaching_usb.sh --port /dev/ttyUSB0
-```
-
-2. **교시장치 USB 케이블을 분리한 뒤 다시 연결합니다.** 새 규칙은 재연결 시 적용됩니다.
-3. 재연결한 장치의 값을 확인합니다.
-
-```bash
-cat /sys/bus/usb-serial/devices/ttyUSB0/latency_timer
-```
-
-**출력이 `1`인 것을 확인한 뒤 예제를 실행하세요.** `16`이면 설정이 적용되지 않은 상태입니다.
-`ttyUSB1`이면 확인 경로도 `/sys/bus/usb-serial/devices/ttyUSB1/latency_timer`로 바꿉니다.
 
 예제의 기본 포트는 `/dev/ttyACM0`이며, 다른 포트는 `--port`로 지정합니다.
 두 예제는 좌우 구분 없이 `configs/teleoperation_tool_setting_example.json`을 같은 폴더에서 읽습니다.

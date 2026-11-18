@@ -2,18 +2,9 @@
 
 [GitBook 문서](https://motomind.gitbook.io/motomind-dev)
 
-Milly 6축 팔과 그리퍼를 Python 또는 ROS2로 제어합니다.
-모든 명령은 **release 루트**에서 실행하며, `MILLY_ABCD`는 실제 제품 ID로 바꾸세요.
+[Notion 문서](https://app.notion.com/p/MILLY-HW-SDK-41c8d189251b80178424e9e47a27821c?source=copy_link)
 
-1.1.0부터 운영·오류 로그가 콘솔에 자동 출력되고 `logs/`의 날짜별 텍스트 파일에 저장됩니다(전체 200MB 순환 보관).
-1.1.1부터 [그리퍼 USB 카메라 영상 예제](examples/python/README.md#그리퍼-usb-카메라--실시간-영상)를 제공합니다.
-Teaching SDK 0.1.3에서는 교시장치 7개 축의 P gain 설정 범위를 모두 0~150으로 통일합니다.
-1.1.2에서는 ROS Humble 설치·환경 로딩과 Git LFS 모델 누락 안내를 보완했습니다. [설치 절차](INSTALL.md)를 따르세요.
-1.1.3에서는 축별 [MIT FF 전송 범위](milly_description/README.md#mit-ff-토크-전송-범위)와 safety 설정의 차이를 명시했습니다.
-Python·ROS 이동 명령에 `gravity_compensation` 옵션을 지원합니다. 기본은 OFF이며,
-자세에 따라 FF 토크를 조절해 중력에 의한 위치·추종 오차를 줄이고 제어 정확도를 높입니다.
-실시간 제어 중 ON/OFF를 번갈아 사용하지 마세요. [Python](SDK_python_guide.md#4-중력보상-on--off) · [ROS](SDK_ROS2_guide.md#2-요청-형식)
-문제 발생 시 같은 실행의 로그 파일들을 전달해주세요. [저장 정책과 상태 확인](SDK_python_guide.md#자동-로그-저장--110부터)
+Milly 6축 팔과 그리퍼를 Python 또는 ROS2로 제어합니다.
 
 ## 지원 환경
 
@@ -38,26 +29,3 @@ Python·ROS 이동 명령에 `gravity_compensation` 옵션을 지원합니다. �
 
 같은 로봇에는 제어 프로그램 하나만 실행하세요.
 **같은 로봇에 native Python SDK 드라이버와 ROS2 Humble SDK 드라이버를 동시에 실행하지 마세요.**
-
-1.0.6부터 `shutdown()`은 Fault/전자식 정지 후에도 damping `kd`를 **10초 동안 0까지 낮춘 뒤** CAN을 정리합니다.
-호출이 반환할 때까지 팔을 지지하거나 거치하세요. `kd=0`은 모터 disable과 다르며,
-팔은 중력·외력으로 움직일 수 있습니다. Fault/전자식 정지 자체는 shutdown 호출 전까지 damping latch를 유지합니다.
-
-## 기본 관절 범위
-
-1.0.5에서는 모든 joint의 기존 `safe_position` 최솟값을 0.1 rad 낮추고 최댓값을 0.1 rad 높였습니다.
-실측 위치의 안전 범위는 명령 범위 양끝에 각각 **0.15 rad** 여유를 둡니다.
-이 안전 범위를 벗어나면 fault와 damping latch가 걸립니다.
-
-| Joint | MIT 명령 범위 [rad] | 실측 안전 범위 [rad] |
-| --- | --- | --- |
-| joint_1 | -2.80 ~ 2.80 | -2.95 ~ 2.95 |
-| joint_2 | -3.20 ~ 0.00 | -3.35 ~ 0.15 |
-| joint_3 | -2.75 ~ 0.00 | -2.90 ~ 0.15 |
-| joint_4 | -2.42 ~ 2.42 | -2.57 ~ 2.57 |
-| joint_5 | -1.84 ~ 1.70 | -1.99 ~ 1.85 |
-| joint_6 | -1.55 ~ 1.55 | -1.70 ~ 1.70 |
-| gripper | 0.00 ~ 2.11 | -0.15 ~ 2.26 |
-
-`move_mit()`의 위치 명령은 MIT 명령 범위로 제한됩니다. `move_j()`는 `safe_position`을 계획 범위로 사용합니다.
-이 범위는 SDK 내부에서 관리하며 사용자 프로파일로 변경할 수 없습니다.
