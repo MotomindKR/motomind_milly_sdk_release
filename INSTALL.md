@@ -40,7 +40,7 @@ python scripts/ci/install_wheels.py --with-teaching
 ```
 
 교시장치만 사용하는 경우에는 Milly 없이 `python -m pip install dist/teaching/*.whl`만 실행하세요.
-[교시장치 예제와 USB 권한·필수 지연 설정](examples/python/README.md)을 따릅니다.
+[교시장치 예제와 USB 권한 설정](examples/python/README.md)을 따릅니다.
 
 그리퍼 USB 카메라의 영상 창을 사용하면 GUI 지원 OpenCV를 별도로 설치합니다:
 
@@ -58,6 +58,7 @@ python examples/python/camera_preview.py
 
 | Release 버전 | Milly SDK | Teaching SDK |
 | --- | --- | --- |
+| 1.1.4 Release | 1.1.4 | 0.1.3 |
 | 1.1.3 Release | 1.1.3 | 0.1.3 |
 | 1.1.2 Release | 1.1.2 | 0.1.3 |
 | 1.1.1 Release | 1.1.1 | 0.1.3 |
